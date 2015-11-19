@@ -331,13 +331,17 @@ export class ObservableList<T> implements wx.IObservableList<T>, Rx.IDisposable,
         return this.inner.indexOf(item) !== -1;
     }
 
-    public remove(item: T): boolean {
-        let index = this.inner.indexOf(item);
-        if (index === -1)
-            return false;
-
-        this.removeItem(index);
-        return true;
+    public remove(itemOrSelector: T | ((item: T) => boolean)): boolean {
+        const selector =<(item: T) => boolean> ((typeof itemOrSelector === "function") ? itemOrSelector : item => item === itemOrSelector);
+        let itemsRemoved = false;
+        for (let index = 0; index < this.inner.length; index++) {
+            if (selector(this.inner[index])) {
+                itemsRemoved = true;
+                this.removeItem(index);
+                index--;
+            }
+        }
+        return itemsRemoved;
     }
 
     public indexOf(item: T): number {
@@ -796,7 +800,7 @@ class ObservableListProjection<T, TValue> extends ObservableList<TValue> impleme
         throwError(this.readonlyExceptionMessage);
     }
 
-    public remove(item: TValue): boolean {
+    public remove(itemOrSelector: TValue | ((item: TValue) => boolean)): boolean {
         throwError(this.readonlyExceptionMessage);
         return undefined;
     }
