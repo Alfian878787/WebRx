@@ -100,7 +100,7 @@ RxObsConstructor.prototype.continueWith = function() {
     return this.selectMany(_ => obs);
 }
 
-RxObsConstructor.prototype.invokeCommand = <T, TResult>(command: () => wx.ICommand<TResult> | wx.ICommand<TResult>) => {
+function invokeCommand<T, TResult>(command: () => wx.ICommand<TResult> | wx.ICommand<TResult>) {
     // see the ReactiveUI project for the inspiration behind this function:
     // https://github.com/reactiveui/ReactiveUI/blob/master/ReactiveUI/ReactiveCommand.cs#L511
     return (this as Rx.Observable<T>)
@@ -116,6 +116,8 @@ RxObsConstructor.prototype.invokeCommand = <T, TResult>(command: () => wx.IComma
         .switch()
         .subscribe();
 }
+
+RxObsConstructor.prototype.invokeCommand = invokeCommand;
 
 RxObsConstructor.startDeferred = <T>(action: () => T): Rx.Observable<T> => {
     return Rx.Observable.defer(() => {
