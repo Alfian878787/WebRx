@@ -705,7 +705,7 @@ describe("Projected Observable List", () => {
         expect(1).toEqual(disposed.length);
     });
 
-    it("should remove items that satisfy the given selector", () => {
+    it("should remove all items that satisfy the given selector", () => {
         var input = [1, 2, 3, 4];
         var disposed = new Array<number>();
 
@@ -715,7 +715,7 @@ describe("Projected Observable List", () => {
             x.items.forEach(item => disposed.push(item));
         });
 
-        fixture.remove(x => x % 2 == 0);
+        fixture.removeAll(x => x % 2 == 0);
 
         expect(2).toEqual(disposed.length);
         expect(2).toEqual(disposed[0]);

@@ -285,13 +285,13 @@ declare module wx {
         add(item: T): void;
         push(item: T): void;
         clear(): void;
-        remove(itemOrSelector: T | ((item: T) => boolean)): boolean;
+        remove(item: T): boolean;
         insert(index: number, item: T): void;
         removeAt(index: number): void;
         addRange(collection: Array<T>): void;
         insertRange(index: number, collection: Array<T>): void;
         move(oldIndex: any, newIndex: any): void;
-        removeAll(items: Array<T>): void;
+        removeAll(itemsOrSelector: Array<T> | ((item: T) => boolean)): Array<T>;
         removeRange(index: number, count: number): void;
         reset(contents?: Array<T>): void;
 
