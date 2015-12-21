@@ -44,10 +44,12 @@ class App extends Module implements wx.IWebRxApp {
     constructor() {
         super("app");
 
-        if (!isInUnitTest()) {
-            this.history = this.createHistory();
-        } else {
-            this.history = <wx.IHistory> window["createMockHistory"]();
+        if (window) {
+            if (!isInUnitTest()) {
+                this.history = this.createHistory();
+            } else {
+                this.history = <wx.IHistory> window["createMockHistory"]();
+            }
         }
     }
 
@@ -110,7 +112,7 @@ class App extends Module implements wx.IWebRxApp {
     }
 
     public history: wx.IHistory;
-    public title: wx.IObservableProperty<string> = property<string>(document.title);
+    public title: wx.IObservableProperty<string> = property<string>(document != null ? document.title : '');
     public version = version;
 
     ///////////////////////

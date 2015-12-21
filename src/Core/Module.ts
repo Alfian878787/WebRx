@@ -244,8 +244,9 @@ export class Module implements wx.IModule {
                 return observableRequire<string>(options.require).select(x => this.app.templateEngine.parse(x));
             } else if (options.select) {
                 // try both getElementById & querySelector
-                el = document.getElementById(<string> options.select) ||
-                    document.querySelector(<string> options.select);
+                el = document != null ? (
+                    document.getElementById(<string> options.select) ||
+                    document.querySelector(<string> options.select)) : null;
 
                 if (el != null) {
                     // only the nodes inside the specified element will be cloned for use as the component’s template
