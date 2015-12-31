@@ -129,8 +129,6 @@ class App extends Module implements wx.IWebRxApp {
             back: window.history.back.bind(window.history),
             forward: window.history.forward.bind(window.history),
             //go: window.history.go,
-            pushState: window.history.pushState.bind(window.history),
-            replaceState: window.history.replaceState.bind(window.history),
 
             getSearchParameters: (query?:string)=> {
                 query = query || result.location.search.substr(1);
@@ -149,6 +147,14 @@ class App extends Module implements wx.IWebRxApp {
                 return {};
             }
         };
+
+        if (window.history.pushState) {
+            result.pushState = window.history.pushState.bind(window.history);
+        }
+
+        if (window.history.replaceState) {
+            result.replaceState = window.history.pushState.bind(window.history);
+        }
 
         Object.defineProperty(result, "length", {
             get() {
