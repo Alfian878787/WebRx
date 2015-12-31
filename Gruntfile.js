@@ -236,6 +236,10 @@ module.exports = function (grunt) {
     //var webpack = require("webpack");
     var _ = require("lodash");
 
+    conf.webpack["webrxlite"] = _.cloneDeep(conf.webpack.webrx);
+    conf.webpack.webrxlite.entry = './build/src/es5/WebRx.Lite.js';
+    conf.webpack.webrxlite.output.filename = 'web.rx.lite.js';
+
     conf.jasmine["dist"] = _.cloneDeep(conf.jasmine.default);
     conf.jasmine.dist.options.vendor[9] = 'dist/web.rx.min.js';
 
