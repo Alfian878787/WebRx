@@ -286,7 +286,7 @@ module.exports = function (grunt) {
     grunt.registerTask("test-lite", ["trimtrailingspaces", "shell:tsc_src_es5", "madge:src", "webpack:webrxlite", "shell:tsc_specs", "jasmine:lite"]);
     grunt.registerTask("debug", ["trimtrailingspaces", "shell:tsc_src_es5", "madge:src", "webpack:webrx", "shell:tsc_specs", "jasmine:default:build", "connect", "watch"]);
     grunt.registerTask("debug-lite", ["trimtrailingspaces", "shell:tsc_src_es5", "madge:src", "webpack:webrxlite", "shell:tsc_specs", "jasmine:lite:build", "connect", "watch"]);
-    grunt.registerTask("build-dist", ["gen-ver", "trimtrailingspaces", "clean:build", "shell:tsc_src_es5", "shell:tsc_src_es6", "madge:src", "webpack:webrx", "clean:dist", "copy:dist", "uglify:dist", "compress:dist"]);
+    grunt.registerTask("build-dist", ["gen-ver", "trimtrailingspaces", "clean:build", "shell:tsc_src_es5", "shell:tsc_src_es6", "madge:src", "webpack:webrx", "webpack:webrxlite", "clean:dist", "copy:dist", "uglify:dist", "compress:dist"]);
     grunt.registerTask("dist", ["build-dist", "shell:tsc_specs", "jasmine:dist"]);
     grunt.registerTask("xtest", ["gen-ver", "trimtrailingspaces", "shell:tsc_src_es5", "shell:tsc_specs", "jasmine:default:build", "connect", "saucelabs-jasmine"]);
 
