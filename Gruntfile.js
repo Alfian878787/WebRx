@@ -244,6 +244,18 @@ module.exports = function (grunt) {
     conf.jasmine["dist"] = _.cloneDeep(conf.jasmine.default);
     conf.jasmine.dist.options.vendor[9] = 'dist/web.rx.min.js';
 
+    conf.jasmine["lite"] = _.cloneDeep(conf.jasmine.default);
+    conf.jasmine.lite.options.vendor[10] = 'build/web.rx.lite.js';
+    conf.jasmine.lite.options.specs = [
+      'build/test/*.js',
+      'build/test/Collections/**/*.js',
+      'build/test/Core/**/*.js',
+      '!build/test/Core/VirtualChildNodes.js',
+      '!build/test/Core/DomManager.js',
+      '!build/test/Core/ExpressionCompiler.js',
+      '!build/test/Core/HtmlTemplateEngine.js',
+    ];
+
     grunt.initConfig(conf);
 
     grunt.loadNpmTasks('grunt-contrib-jasmine');
