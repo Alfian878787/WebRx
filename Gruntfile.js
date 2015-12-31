@@ -147,7 +147,7 @@ module.exports = function (grunt) {
         copy: {
             dist: {
                 files: [
-                    { expand: true, cwd: 'build/', src: ['web.rx.js*'], dest: 'dist/' },
+                    { expand: true, cwd: 'build/', src: ['web.rx.js*', 'web.rx.lite.js*'], dest: 'dist/' },
                     { expand: true, cwd: 'build/src/es6', src: ['**'], dest: 'dist/es6_modules' },
                     { expand: true, cwd: 'src/', src: ['web.rx.d.ts'], dest: 'dist/' },
                 ],
@@ -165,20 +165,21 @@ module.exports = function (grunt) {
                     archive: 'dist/web.rx.zip'
                 },
                 files: [
-                    { expand: true, cwd: "dist/", src: ['web.rx.js', 'web.rx.js.map', 'web.rx.min.js', 'web.rx.min.js.map', 'web.rx.d.ts', "es6_modules/**"] }
+                    { expand: true, cwd: "dist/", src: ['web.rx.js', 'web.rx.js.map', 'web.rx.min.js', 'web.rx.min.js.map', 'web.rx.lite.js', 'web.rx.lite.js.map', 'web.rx.lite.min.js', 'web.rx.lite.min.js.map', 'web.rx.d.ts', "es6_modules/**"] }
                 ]
             }
         },
         uglify: {
             dist: {
                 files: {
-                    'dist/web.rx.min.js': ['dist/web.rx.js']
+                    'dist/web.rx.min.js': ['dist/web.rx.js'],
+                    'dist/web.rx.lite.min.js': ['dist/web.rx.lite.js']
                 },
                 
                 options: {
                     sourceMap: true,
                     sourceMapIncludeSources: true,
-                    sourceMapIn: "dist/web.rx.js.map"
+                    sourceMapIn: function(path) { return path + '.map'; }
                 }
             }
         },
