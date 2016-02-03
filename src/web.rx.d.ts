@@ -1466,7 +1466,7 @@ declare module wx {
         * @param {any} data The data to be sent to the server
         * @param {wx.IHttpClientOptions} options Configuration options, overriding the instance's current configuration
         **/
-        put<T>(url: string, data: T, options?: wx.IHttpClientOptions): Rx.IPromise<any>;
+        put<T>(url: string, data: any, options?: wx.IHttpClientOptions): Rx.IPromise<T>;
 
         /**
         * Performs a http-post-request
@@ -1475,7 +1475,7 @@ declare module wx {
         * @param {any} data The data to be sent to the server
         * @param {wx.IHttpClientOptions} options Configuration options, overriding the instance's current configuration
         **/
-        post<T>(url: string, data: T, options?: wx.IHttpClientOptions): Rx.IPromise<any>;
+        post<T>(url: string, data: any, options?: wx.IHttpClientOptions): Rx.IPromise<T>;
 
         /**
         * Performs a http-patch-request
@@ -1484,7 +1484,7 @@ declare module wx {
         * @param {any} data The data to be sent to the server
         * @param {wx.IHttpClientOptions} options Configuration options, overriding the instance's current configuration
         **/
-        patch<T>(url: string, data: T, options?: wx.IHttpClientOptions): Rx.IPromise<any>;
+        patch<T>(url: string, data: any, options?: wx.IHttpClientOptions): Rx.IPromise<T>;
 
         /**
         * Performs a http-delete-request
