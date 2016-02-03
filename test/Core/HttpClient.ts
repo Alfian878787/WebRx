@@ -15,9 +15,9 @@ describe("HttpClient", () => {
     });
 
     it("get() with just a request url", (done) => {
-        var client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
-        var requestUrl = '/some/cool/url';
-        var responseData = 42;
+        let client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
+        let requestUrl = '/some/cool/url';
+        let responseData = 42;
 
         client.get(requestUrl).then(response=> {
             expect(response).toEqual(responseData);
@@ -38,9 +38,9 @@ describe("HttpClient", () => {
     });
 
     it("get() with error response", (done) => {
-        var client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
-        var requestUrl = '/some/cool/url';
-        var responseData = 42;
+        let client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
+        let requestUrl = '/some/cool/url';
+        let responseData = 42;
 
         client.get(requestUrl).then(response=> {
             fail("Promise should have signalled failure");
@@ -58,9 +58,9 @@ describe("HttpClient", () => {
     });
 
     it("get() with raw response", (done) => {
-        var client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
-        var requestUrl = '/some/cool/url';
-        var responseData = "bar";
+        let client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
+        let requestUrl = '/some/cool/url';
+        let responseData = "bar";
 
         client.get(requestUrl, null, { raw: true }).then(response=> {
             expect(response).toEqual(responseData);
@@ -80,10 +80,10 @@ describe("HttpClient", () => {
     });
 
     it("get() with params", (done) => {
-        var client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
-        var requestUrl = '/some/cool/url';
-        var requestParams = { 'id': 42 };
-        var responseData = 42;
+        let client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
+        let requestUrl = '/some/cool/url';
+        let requestParams = { 'id': 42 };
+        let responseData = 42;
 
         client.get(requestUrl, requestParams).then(response=> {
             expect(response).toEqual(responseData);
@@ -104,11 +104,11 @@ describe("HttpClient", () => {
     });
 
     it("get() with params and options", (done) => {
-        var client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
-        var requestUrl = '/some/cool/url';
-        var requestParams = { 'id': 42 };
-        var responseData = 42;
-        var options: wx.IHttpClientOptions = {
+        let client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
+        let requestUrl = '/some/cool/url';
+        let requestParams = { 'id': 42 };
+        let responseData = 42;
+        let options: wx.IHttpClientOptions = {
             params: { 'bar': 'baz' },
             headers: { 'foo': 'bar' },
         }
@@ -133,10 +133,10 @@ describe("HttpClient", () => {
     });
 
     it("get() with params and existing query parameters", (done) => {
-        var client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
-        var requestUrl = '/some/cool/url?foo=bar';
-        var requestParams = { 'id': 42 };
-        var responseData = 42;
+        let client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
+        let requestUrl = '/some/cool/url?foo=bar';
+        let requestParams = { 'id': 42 };
+        let responseData = 42;
 
         client.get(requestUrl, requestParams).then(response=> {
             expect(response).toEqual(responseData);
@@ -157,9 +157,9 @@ describe("HttpClient", () => {
     });
 
     it("post()", (done) => {
-        var client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
-        var requestUrl = '/some/cool/url';
-        var requestData = { 'foo': 'bar'};
+        let client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
+        let requestUrl = '/some/cool/url';
+        let requestData = { 'foo': 'bar'};
 
         client.post(requestUrl, requestData).then(response=> {
             done();
@@ -179,9 +179,9 @@ describe("HttpClient", () => {
     });
 
     it("put()", (done) => {
-        var client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
-        var requestUrl = '/some/cool/url';
-        var requestData = { 'foo': 'bar'};
+        let client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
+        let requestUrl = '/some/cool/url';
+        let requestData = { 'foo': 'bar'};
 
         client.put(requestUrl, requestData).then(response=> {
             done();
@@ -201,8 +201,8 @@ describe("HttpClient", () => {
     });
 
     it("delete()", (done) => {
-        var client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
-        var requestUrl = '/some/cool/url';
+        let client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
+        let requestUrl = '/some/cool/url';
 
         client.delete(requestUrl).then(response=> {
             done();
@@ -220,8 +220,8 @@ describe("HttpClient", () => {
     });
 
     it("options()", (done) => {
-        var client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
-        var requestUrl = '/some/cool/url';
+        let client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
+        let requestUrl = '/some/cool/url';
 
         client.options(requestUrl).then(response=> {
             done();
@@ -239,11 +239,11 @@ describe("HttpClient", () => {
     });
 
     it("utilizes locally configured dump() function", () => {
-        var client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
-        var requestUrl = '/some/cool/url';
-        var requestData = { 'foo': 'bar'};
+        let client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
+        let requestUrl = '/some/cool/url';
+        let requestData = { 'foo': 'bar'};
 
-        var options: wx.IHttpClientOptions = {
+        let options: wx.IHttpClientOptions = {
             dump: (data: any)=> {
                 return JSON.stringify(requestData);
             }
@@ -258,11 +258,11 @@ describe("HttpClient", () => {
     });
 
     it("utilizes locally configured load() function", (done) => {
-        var client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
-        var requestUrl = '/some/cool/url';
-        var responseData = 'bar';
+        let client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
+        let requestUrl = '/some/cool/url';
+        let responseData = 'bar';
 
-        var options: wx.IHttpClientOptions = {
+        let options: wx.IHttpClientOptions = {
             load: (data: string)=> {
                 return "foo_" + data;
             }
@@ -288,15 +288,15 @@ describe("HttpClient", () => {
     });
 
     it("utilizes globally configured dump() function", () => {
-        var requestUrl = '/some/cool/url';
-        var requestData = { 'foo': 'bar'};
+        let requestUrl = '/some/cool/url';
+        let requestData = { 'foo': 'bar'};
 
-        var options = wx.getHttpClientDefaultConfig();
+        let options = wx.getHttpClientDefaultConfig();
         options.dump = (data: any)=> {
             return JSON.stringify(requestData);
         };
 
-        var client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
+        let client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
 
         client.post(requestUrl, { 'foo': 'baz'})
 
@@ -305,15 +305,15 @@ describe("HttpClient", () => {
     });
 
     it("utilizes globally configured load() function", (done) => {
-        var requestUrl = '/some/cool/url';
-        var responseData = 'bar';
+        let requestUrl = '/some/cool/url';
+        let responseData = 'bar';
 
-        var options = wx.getHttpClientDefaultConfig();
+        let options = wx.getHttpClientDefaultConfig();
         options.load = (data: string)=> {
             return "foo_" + data;
         };
 
-        var client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
+        let client = wx.injector.get<wx.IHttpClient>(wx.res.httpClient);
 
         client.get(requestUrl).then(response=> {
             expect(response).toEqual("foo_bar");

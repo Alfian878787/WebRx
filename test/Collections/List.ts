@@ -6,28 +6,28 @@
 
 describe("Observable List", () => {
     it("is correctly initialized from default value",() => {
-        var obsList = wx.list<number>([3, 2, 1]);
+        let obsList = wx.list<number>([3, 2, 1]);
         expect(obsList.toArray()).toEqual([3, 2, 1]);
     });
 
     it("length property is not ambiguous", () => {
-        var obsList = wx.list<number>();
+        let obsList = wx.list<number>();
         expect(0).toEqual(obsList.length());
-        var list = obsList.toArray();
+        let list = obsList.toArray();
         expect(0).toEqual(list.length);
     });
 
     it("indexer is not ambiguous",() => {
-        var obsList = wx.list<number>([ 0, 1 ]);
+        let obsList = wx.list<number>([ 0, 1 ]);
         expect(0).toEqual(obsList.get(0));
     });
 
     it("items added and removed test",() => {
-        var fixture = wx.list<number>();
-        var before_added = new Array<number>();
-        var before_removed = new Array<number>();
-        var added = new Array<number>();
-        var removed = new Array<number>();
+        let fixture = wx.list<number>();
+        let before_added = new Array<number>();
+        let before_removed = new Array<number>();
+        let added = new Array<number>();
+        let removed = new Array<number>();
 
         fixture.beforeItemsAdded.subscribe(x=> before_added.push(x.items[0]));
         fixture.beforeItemsRemoved.subscribe(x=> before_removed.push(x.items[0]));
@@ -40,11 +40,11 @@ describe("Observable List", () => {
         fixture.removeAt(1);
         fixture.clear();
 
-        var added_results = [10, 20, 30];
+        let added_results = [10, 20, 30];
         expect(added_results.length).toEqual(added.length);
         expect(added_results).toEqual(added);
 
-        var removed_results = [20];
+        let removed_results = [20];
         expect(removed_results.length).toEqual(removed.length);
         expect(removed_results).toEqual(removed);
 
@@ -56,9 +56,9 @@ describe("Observable List", () => {
     });
 
     it("length changed test",() => {
-        var fixture = wx.list<number>();
-        var before_output = new Array<number>();
-        var output = new Array<number>();
+        let fixture = wx.list<number>();
+        let before_output = new Array<number>();
+        let output = new Array<number>();
 
         fixture.lengthChanging.subscribe(x=> before_output.push(x));
         fixture.lengthChanged.subscribe(x=> output.push(x));
@@ -74,19 +74,19 @@ describe("Observable List", () => {
         fixture.clear();
         expect(fixture.length()).toEqual(0);
 
-        var before_results = [0, 1, 2, 3, 2 ];
+        let before_results = [0, 1, 2, 3, 2 ];
         expect(before_results.length).toEqual(before_output.length);
         expect(before_results).toEqual(before_output);
 
-        var results = [1, 2, 3, 2, 0 ];
+        let results = [1, 2, 3, 2, 0 ];
         expect(results.length).toEqual( output.length);
         expect(results).toEqual(output);
     });
 
     it("length changed test 2",() => {
-        var list = wx.list();
+        let list = wx.list();
 
-        for (var i = 0; i < 100; i++) {
+        for (let i = 0; i < 100; i++) {
             list.add(i);
         }
 
@@ -97,15 +97,15 @@ describe("Observable List", () => {
     });
 
     it("isEmpty test",() => {
-        var fixture = wx.list<number>();
+        let fixture = wx.list<number>();
         expect(fixture.isEmpty()).toBeTruthy();
         fixture.add(1);
         expect(fixture.isEmpty()).toBeFalsy();
     });
 
     it("length changed fires when clearing",() => {
-        var items = wx.list<Object>([new Object()]);
-        var lengthChanged = false;
+        let items = wx.list<Object>([new Object()]);
+        let lengthChanged = false;
         items.lengthChanged.subscribe(_ => { lengthChanged = true; });
 
         items.clear();
@@ -114,37 +114,37 @@ describe("Observable List", () => {
     });
 
     it("when adding range of null error is thrown",() => {
-        var fixture = wx.list<number>();
+        let fixture = wx.list<number>();
 
         expect(() => fixture.addRange(null)).toThrowError();
     });
 
     it("when removing all of null error is thrown",() => {
-        var fixture = wx.list<number>();
+        let fixture = wx.list<number>();
 
         expect(() => fixture.removeAll(null)).toThrowError();
     });
 
     it("when inserting range of null error is thrown",() => {
-        var fixture = wx.list<number>();
+        let fixture = wx.list<number>();
 
         expect(() => fixture.insertRange(1, null)).toThrowError();
     });
 
     it("when inserting range out of range error is thrown",() => {
-        var fixture = wx.list<number>();
+        let fixture = wx.list<number>();
 
         expect(() => fixture.insertRange(1, [1])).toThrowError();
     });
 
     it("change-tracking should fire notifications",() => {
-        var fixture = wx.list<TestFixture>();
+        let fixture = wx.list<TestFixture>();
         fixture.changeTrackingEnabled = true;
-        var before_output = new Array<Tuple<TestFixture, string>>();
-        var output = new Array<Tuple<TestFixture, string>>();
-        var item1 = new TestFixture();
+        let before_output = new Array<Tuple<TestFixture, string>>();
+        let output = new Array<Tuple<TestFixture, string>>();
+        let item1 = new TestFixture();
         item1.IsOnlyOneWord("Foo");
-        var item2 = new TestFixture();
+        let item2 = new TestFixture();
         item2.IsOnlyOneWord("Bar");
 
         fixture.itemChanging.subscribe(x => {
@@ -177,10 +177,10 @@ describe("Observable List", () => {
     });
 
     it("change-tracking should work when adding the same thing more than once",() => {
-        var fixture = wx.list<TestFixture>();
+        let fixture = wx.list<TestFixture>();
         fixture.changeTrackingEnabled = true;
-        var output = new Array<Tuple<TestFixture, string>>();
-        var item1 = new TestFixture();
+        let output = new Array<Tuple<TestFixture, string>>();
+        let item1 = new TestFixture();
         item1.IsOnlyOneWord("Foo");
 
         fixture.itemChanged.subscribe(x => {
@@ -218,14 +218,14 @@ describe("Observable List", () => {
     });
 
     it("change-tracking should stop when an object is replaced and change-notification is suppressed",() => {
-        var fixture = wx.list<TestFixture>();
+        let fixture = wx.list<TestFixture>();
         fixture.changeTrackingEnabled = true;
 
-        var before_output = new Array<Tuple<TestFixture, string>>();
-        var output = new Array<Tuple<TestFixture, string>>();
-        var item1 = new TestFixture();
+        let before_output = new Array<Tuple<TestFixture, string>>();
+        let output = new Array<Tuple<TestFixture, string>>();
+        let item1 = new TestFixture();
         item1.IsOnlyOneWord("Foo");
-        var item2 = new TestFixture();
+        let item2 = new TestFixture();
         item2.IsOnlyOneWord("Bar");
 
         fixture.itemChanging.subscribe(x => {
@@ -258,11 +258,11 @@ describe("Observable List", () => {
     });
 
     it("change-tracking items should be tracked even when suppressed",() => {
-        var input = new TestFixture();
-        var fixture = wx.list<TestFixture>();
+        let input = new TestFixture();
+        let fixture = wx.list<TestFixture>();
         fixture.changeTrackingEnabled = true;
 
-        var changes = new Array<Tuple<TestFixture, string>>();
+        let changes = new Array<Tuple<TestFixture, string>>();
         fixture.itemChanged.subscribe(x => {
             changes.push(new Tuple<TestFixture, string>(x.sender, x.propertyName));
         });
@@ -288,15 +288,15 @@ describe("Observable List", () => {
     });
 
     it("change-tracking should apply on addRange'd items",() => {
-        var fixture = wx.list<TestFixture>([ new TestFixture() ]);
+        let fixture = wx.list<TestFixture>([ new TestFixture() ]);
         fixture.changeTrackingEnabled = true;
 
-        var reset = [];
+        let reset = [];
         fixture.shouldReset.subscribe(x => {
             reset.push(x);
         });
 
-        var itemChanged = new Array<Tuple<TestFixture, string>>();
+        let itemChanged = new Array<Tuple<TestFixture, string>>();
         fixture.itemChanged.subscribe(x => {
             itemChanged.push(new Tuple<TestFixture, string>(x.sender, x.propertyName));
         });
@@ -306,7 +306,7 @@ describe("Observable List", () => {
         expect(1).toEqual(itemChanged.length);
 
         fixture.addRange(Ix.Enumerable.range(0, 15).select(x => {
-            var tf = new TestFixture();
+            let tf = new TestFixture();
             tf.IsOnlyOneWord(x.toString());
             return tf;
         }).toArray());
@@ -324,21 +324,21 @@ describe("Observable List", () => {
     });
 
     it("sort should actually sort",() => {
-        var fixture = wx.list<number>([5, 1, 3, 2, 4]);
+        let fixture = wx.list<number>([5, 1, 3, 2, 4]);
         fixture.sort((a, b) => a - b);
 
         expect([1, 2, 3, 4, 5]).toEqual(fixture.toArray());
     });
 
     it("collections shouldnt share subscriptions",() => {
-        var fixture1 = wx.list<TestFixture>();
+        let fixture1 = wx.list<TestFixture>();
         fixture1.changeTrackingEnabled = true;
-        var fixture2 = wx.list<TestFixture>();
+        let fixture2 = wx.list<TestFixture>();
         fixture2.changeTrackingEnabled = true;
-        var item1 = new TestFixture();
+        let item1 = new TestFixture();
         item1.IsOnlyOneWord("Foo");
-        var output1 = new Array<Tuple<TestFixture, string>>();
-        var output2 = new Array<Tuple<TestFixture, string>>();
+        let output1 = new Array<Tuple<TestFixture, string>>();
+        let output2 = new Array<Tuple<TestFixture, string>>();
 
         fixture1.itemChanged.subscribe(x => {
             output1.push(new Tuple<TestFixture, string>(x.sender, x.propertyName));
@@ -365,9 +365,9 @@ describe("Observable List", () => {
     });
 
     it("get a reset when adding a lot of items",() => {
-        var fixture = wx.list<number>([1]);
+        let fixture = wx.list<number>([1]);
 
-        var reset = [];
+        let reset = [];
         fixture.shouldReset.subscribe(x => {
             reset.push(x);
         });
@@ -378,9 +378,9 @@ describe("Observable List", () => {
     });
 
     it("get a range when adding an array of items",() => {
-        var fixture = wx.list<number>([ 1, 2, 3, 4, 5 ]);
+        let fixture = wx.list<number>([ 1, 2, 3, 4, 5 ]);
 
-        var changed = new Array<boolean>();
+        let changed = new Array<boolean>();
         fixture.listChanged.subscribe(x => {
             changed.push(x);
         });
@@ -393,37 +393,37 @@ describe("Observable List", () => {
 });
 
 describe("Projected Observable List", () => {
-    var stringOrderer = (a, b) => {
+    let stringOrderer = (a, b) => {
         if (a.toString() < b.toString()) return -1;
         if (a.toString() > b.toString()) return 1;
         return 0;
     }
 
-    var stringOrdererAsc = (a, b) => {
+    let stringOrdererAsc = (a, b) => {
         if (a != null && b != null)
             return b.localeCompare(a);
 
         return 0;
     }
 
-    var numberOrderer = (a, b) => {
+    let numberOrderer = (a, b) => {
         return a - b;
     }
 
 
     it("should follow base collection", () => {
-        var input = ["Foo", "Bar", "Baz", "Bamf"];
-        var fixture = wx.list<TestFixture>(input.map(x => {
-            var tf = new TestFixture();
+        let input = ["Foo", "Bar", "Baz", "Bamf"];
+        let fixture = wx.list<TestFixture>(input.map(x => {
+            let tf = new TestFixture();
             tf.IsOnlyOneWord(x);
             return tf;
         }));
 
-        var output = fixture.project(undefined, undefined, (x) => x.IsOnlyOneWord());
+        let output = fixture.project(undefined, undefined, (x) => x.IsOnlyOneWord());
 
         expect(input).toEqual(output.toArray());
 
-        var tf = new TestFixture();
+        let tf = new TestFixture();
         tf.IsOnlyOneWord("Hello");
         fixture.add(tf);
         expect(5).toEqual(output.length());
@@ -445,16 +445,16 @@ describe("Projected Observable List", () => {
 
 
     it("should be filtered", () => {
-        var input = ["Foo", "Bar", "Baz", "Bamf"];
-        var fixture = wx.list<TestFixture>(input.map(x => {
-            var tf = new TestFixture();
+        let input = ["Foo", "Bar", "Baz", "Bamf"];
+        let fixture = wx.list<TestFixture>(input.map(x => {
+            let tf = new TestFixture();
             tf.IsOnlyOneWord(x);
             return tf;
         }));
-        var itemsAdded = new Array<TestFixture>();
-        var itemsRemoved = new Array<TestFixture>();
+        let itemsAdded = new Array<TestFixture>();
+        let itemsRemoved = new Array<TestFixture>();
 
-        var output = fixture.project(x => x.IsOnlyOneWord()[0] === 'F', stringOrderer, x => x);
+        let output = fixture.project(x => x.IsOnlyOneWord()[0] === 'F', stringOrderer, x => x);
         output.itemsAdded.subscribe((x) => itemsAdded.push(x.items[0]));
         output.itemsRemoved.subscribe((x) => itemsRemoved.push(x.items[0]));
 
@@ -462,7 +462,7 @@ describe("Projected Observable List", () => {
         expect(0).toEqual(itemsAdded.length);
         expect(0).toEqual(itemsRemoved.length);
 
-        var tf = new TestFixture();
+        let tf = new TestFixture();
         tf.IsOnlyOneWord("Boof");
         fixture.add(tf);
         expect(1).toEqual(output.length());
@@ -488,10 +488,10 @@ describe("Projected Observable List", () => {
     });
 
     it("should be sorted", () => {
-        var input = ["Foo", "Bar", "Baz"];
-        var fixture = wx.list<string>(input);
+        let input = ["Foo", "Bar", "Baz"];
+        let fixture = wx.list<string>(input);
 
-        var output = fixture.project(undefined, stringOrderer, x => x);
+        let output = fixture.project(undefined, stringOrderer, x => x);
 
         expect(3).toEqual(output.length());
         expect(Ix.Enumerable.fromArray(["Bar", "Baz", "Foo"]).zip(Ix.Enumerable.fromArray(
@@ -519,15 +519,15 @@ describe("Projected Observable List", () => {
     });
 
     it("move notification smoke-test", () => {
-        var initial = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        var source = wx.list<number>(initial);
+        let initial = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        let source = wx.list<number>(initial);
 
-        var derived = source.project(undefined, undefined, x => x);
-        var nestedDerived = derived.project();
-        var derivedSorted = source.project(undefined, numberOrderer);
+        let derived = source.project(undefined, undefined, x => x);
+        let nestedDerived = derived.project();
+        let derivedSorted = source.project(undefined, numberOrderer);
 
-        for (var i = 0; i < initial.length; i++) {
-            for (var j = 0; j < initial.length; j++) {
+        for (let i = 0; i < initial.length; i++) {
+            for (let j = 0; j < initial.length; j++) {
                 source.move(i, j);
 
                 expect(derived.toArray()).toEqual(source.toArray());
@@ -538,12 +538,12 @@ describe("Projected Observable List", () => {
     });
 
     it("should understand nested move signals", () => {
-        var source = wx.list(["a", "b", "c", "d", "e", "f"]);
-        var derived = source.project(undefined, undefined, x => x);
-        var nested = derived.project(x => !!x);
+        let source = wx.list(["a", "b", "c", "d", "e", "f"]);
+        let derived = source.project(undefined, undefined, x => x);
+        let nested = derived.project(x => !!x);
 
-        var reverseNested = nested.project(undefined, stringOrdererAsc, x => x);
-        var sortedNested = reverseNested.project(undefined, stringOrderer, x => x);
+        let reverseNested = nested.project(undefined, stringOrdererAsc, x => x);
+        let sortedNested = reverseNested.project(undefined, stringOrderer, x => x);
 
         source.move(1, 4);
 
@@ -554,23 +554,23 @@ describe("Projected Observable List", () => {
     });
 
     it("should understand move even when sorted", () => {
-        var sanity = ["a", "b", "c", "d", "e", "f"];
-        var source = wx.list(["a", "b", "c", "d", "e", "f"]);
+        let sanity = ["a", "b", "c", "d", "e", "f"];
+        let source = wx.list(["a", "b", "c", "d", "e", "f"]);
 
-        var derived = source.project(x => x !== "c", stringOrderer, x => x);
-        var sourceNotifications = [];
+        let derived = source.project(x => x !== "c", stringOrderer, x => x);
+        let sourceNotifications = [];
 
         source.listChanged.subscribe(x => sourceNotifications.push(x));
 
-        var derivedNotifications = [];
+        let derivedNotifications = [];
         derived.listChanged.subscribe(x => derivedNotifications.push(x));
 
         expect(5).toEqual(derived.length());
         expect(derived.toArray()).toEqual(["a", "b", "d", "e", "f"]);
 
-        for (var i = 0; i < 50; i++) {
-            var from = Math.random() * source.length();
-            var to;
+        for (let i = 0; i < 50; i++) {
+            let from = Math.random() * source.length();
+            let to;
 
             do {
                 to = Math.random() * source.length();
@@ -578,7 +578,7 @@ describe("Projected Observable List", () => {
 
             source.move(from, to);
 
-            var tmp = sanity[from];
+            let tmp = sanity[from];
             sanity.splice(from, 1);
             sanity.splice(to, 0, tmp);
 
@@ -595,15 +595,15 @@ describe("Projected Observable List", () => {
     });
 
     it("should understand dummy move signal", () => {
-        var sanity = ["a", "b", "c", "d", "e", "f"];
-        var source = wx.list(["a", "b", "c", "d", "e", "f"]);
+        let sanity = ["a", "b", "c", "d", "e", "f"];
+        let source = wx.list(["a", "b", "c", "d", "e", "f"]);
 
-        var derived = source.project(undefined, undefined, x => x);
+        let derived = source.project(undefined, undefined, x => x);
 
-        var sourceNotifications = [];
+        let sourceNotifications = [];
         source.listChanged.subscribe(x => sourceNotifications.push(x));
 
-        var derivedNotifications = [];
+        let derivedNotifications = [];
         derived.listChanged.subscribe(x => derivedNotifications.push(x));
 
         source.move(0, 0);
@@ -615,11 +615,11 @@ describe("Projected Observable List", () => {
     });
 
     it("should not signal redundant move signals", () => {
-        var source = wx.list(["a", "b", "c", "d", "e", "f"]);
+        let source = wx.list(["a", "b", "c", "d", "e", "f"]);
 
-        var derived = source.project(x => x == "d" || x == "e");
+        let derived = source.project(x => x == "d" || x == "e");
 
-        var derivedNotifications = [];
+        let derivedNotifications = [];
         derived.listChanged.subscribe(x => derivedNotifications.push(x));
 
         expect("d").toEqual(source.get(3));
@@ -632,9 +632,9 @@ describe("Projected Observable List", () => {
         // This test is here to verify a bug in where newPositionForItem would return an incorrect
         // index for lists only containing a single item (the item to find a new position for)
 
-        var sanity = ["a", "b", "c", "d", "e", "f"];
-        var source = wx.list(["a", "b", "c", "d", "e", "f"]);
-        var derived = source.project(x => x === "d", undefined, x => x);
+        let sanity = ["a", "b", "c", "d", "e", "f"];
+        let source = wx.list(["a", "b", "c", "d", "e", "f"]);
+        let derived = source.project(x => x === "d", undefined, x => x);
 
         expect("d").toEqual(derived.get(0));
         expect("d").toEqual(source.get(3));
@@ -652,13 +652,13 @@ describe("Projected Observable List", () => {
     /// </summary>
 
     it("removal regression-test", () => {
-        var input = ['A', 'B', 'C', 'D'];
-        var source = wx.list<string>(input);
+        let input = ['A', 'B', 'C', 'D'];
+        let source = wx.list<string>(input);
 
         // A derived observable lists that filters away 'A' and 'B'
-        var derived = source.project(x => x >= 'C', undefined, x => x);
+        let derived = source.project(x => x >= 'C', undefined, x => x);
 
-        var changeNotifications = [];
+        let changeNotifications = [];
         derived.listChanged.subscribe(x => changeNotifications.push(x));
 
         expect(0).toEqual(changeNotifications.length);
@@ -675,20 +675,20 @@ describe("Projected Observable List", () => {
     });
 
     it("should handle items removed", () => {
-        var input = ["Foo", "Bar", "Baz", "Bamf"];
-        var disposed = new Array<TestFixture>();
+        let input = ["Foo", "Bar", "Baz", "Bamf"];
+        let disposed = new Array<TestFixture>();
 
-        var fixture = wx.list<TestFixture>(input.map(x => {
-            var tf = new TestFixture();
+        let fixture = wx.list<TestFixture>(input.map(x => {
+            let tf = new TestFixture();
             tf.IsOnlyOneWord(x);
             return tf;
         }));
 
         fixture.itemsRemoved.subscribe(x => disposed.push(x.items[0]));
 
-        var output = fixture.project();
+        let output = fixture.project();
 
-        var tf = new TestFixture();
+        let tf = new TestFixture();
         tf.IsOnlyOneWord("Hello");
         fixture.add(tf);
         expect(5).toEqual(output.length());
@@ -706,8 +706,8 @@ describe("Projected Observable List", () => {
     });
 
     it("addRange smoke-test", () => {
-        var fixture = wx.list<string>();
-        var output = fixture.project(undefined, undefined, x => "Prefix" + x);
+        let fixture = wx.list<string>();
+        let output = fixture.project(undefined, undefined, x => "Prefix" + x);
 
         fixture.add("Bamf");
         expect(1).toEqual(fixture.length());
@@ -733,8 +733,8 @@ describe("Projected Observable List", () => {
     });
 
     it("insertRange smoke-test", () => {
-        var fixture = wx.list<string>();
-        var output = fixture.project(undefined, undefined, x => "Prefix" + x);
+        let fixture = wx.list<string>();
+        let output = fixture.project(undefined, undefined, x => "Prefix" + x);
 
         fixture.add("Bamf");
         expect(1).toEqual(fixture.length());
@@ -760,8 +760,8 @@ describe("Projected Observable List", () => {
     });
 
     it("should order correctly", () => {
-        var collection = wx.list<number>();
-        var orderedCollection = collection.project(undefined, numberOrderer, x => x);
+        let collection = wx.list<number>();
+        let orderedCollection = collection.project(undefined, numberOrderer, x => x);
 
         collection.add(1);
         collection.add(2);
@@ -772,15 +772,15 @@ describe("Projected Observable List", () => {
     });
 
     it("filter-test", () => {
-        var models = wx.list<FakeCollectionModel>(Ix.Enumerable.fromArray([0, 1, 2, 3, 4]).select(x => {
-            var fcm = new FakeCollectionModel();
+        let models = wx.list<FakeCollectionModel>(Ix.Enumerable.fromArray([0, 1, 2, 3, 4]).select(x => {
+            let fcm = new FakeCollectionModel();
             fcm.someNumber(x);
             return fcm;
         }).toArray());
 
         models.changeTrackingEnabled = true;
 
-        var viewModels = models.project(x => !x.isHidden(), undefined, x => new FakeCollectionViewModel(x));
+        let viewModels = models.project(x => !x.isHidden(), undefined, x => new FakeCollectionViewModel(x));
         expect(5).toEqual(viewModels.length());
 
         models.get(0).isHidden(true);
@@ -801,7 +801,7 @@ function pagedTestImpl(fixturePostfix: string, isProjected: boolean, sourceTrans
             let paged = sourceTransformer(source).page(20);
 
             expect(0).toEqual(paged.length());
-            var list = paged.toArray();
+            let list = paged.toArray();
             expect(0).toEqual(list.length);
         });
 
@@ -815,7 +815,7 @@ function pagedTestImpl(fixturePostfix: string, isProjected: boolean, sourceTrans
         it("length changed fires when clearing source",() => {
             let source = wx.list<Object>([new Object()]);
             let items = sourceTransformer(<any> source).page(20);
-            var lengthChanged = false;
+            let lengthChanged = false;
             items.lengthChanged.subscribe(_ => { lengthChanged = true; });
 
             source.clear();
@@ -1231,7 +1231,7 @@ function pagedTestImpl(fixturePostfix: string, isProjected: boolean, sourceTrans
 
             let paged = sourceTransformer(source).page(10, 1);
 
-            var el = <HTMLElement> document.getElementById("foreach-list-scalar");
+            const el = <HTMLElement> document.getElementById("foreach-list-scalar");
             expect(() => wx.applyBindings({ src: paged }, el)).not.toThrowError();
 
             expect($(el).children().map((index, node) => parseInt(node.textContent)).get()).toEqual(paged.toArray());

@@ -7,13 +7,13 @@ describe('Bindings', () => {
         it('Loads a component using simple string options',() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = '<span>foo</span>';
+            const template = '<span>foo</span>';
 
             wx.app.component("test1", {
                 template: template
             });
 
-            var el = <HTMLElement> document.querySelector("#fixture1");
+            const el = <HTMLElement> document.querySelector("#fixture1");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect((<HTMLElement> el.children[0]).innerHTML).toEqual(template);
@@ -22,13 +22,13 @@ describe('Bindings', () => {
         it('Loads a component using object-literal options',() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = '<span>foo</span>';
+            const template = '<span>foo</span>';
 
             wx.app.component("test1", {
                 template: template
             });
 
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture2");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect((<HTMLElement> el.children[0]).innerHTML).toEqual(template);
@@ -37,13 +37,13 @@ describe('Bindings', () => {
         it('Loads a component using its name as tag',() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = "<span data-bind='text: foo'>invalid</span>";
+            const template = "<span data-bind='text: foo'>invalid</span>";
 
             wx.app.component("test1", {
                 template: template
             });
 
-            var el = <HTMLElement> document.querySelector("#fixture3");
+            const el = <HTMLElement> document.querySelector("#fixture3");
             expect(() => wx.applyBindings({ foo: 'bar' }, el)).not.toThrow();
 
             expect(el.children[0].textContent).toEqual('bar');
@@ -56,7 +56,7 @@ describe('Bindings', () => {
                 require: 'templates/AMD/component1'
             });
 
-            var el = <HTMLElement> document.querySelector("#fixture4");
+            const el = <HTMLElement> document.querySelector("#fixture4");
 
             window["vmHook"] = (params) => {
                 expect(params).toBeDefined();
@@ -77,13 +77,13 @@ describe('Bindings', () => {
         it('Loads a template from a string',() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = '<span>foo</span>';
+            const template = '<span>foo</span>';
 
             wx.app.component("test1", {
                 template: template
             });
 
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture2");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect((<HTMLElement> el.children[0]).innerHTML).toEqual(template);
@@ -92,13 +92,13 @@ describe('Bindings', () => {
         it('Loads a template from a node-array',() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = '<span>foo</span>';
+            const template = '<span>foo</span>';
 
             wx.app.component("test1", {
                 template: wx.app.templateEngine.parse(template)
             });
 
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture2");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect((<HTMLElement> el.children[0]).innerHTML).toEqual(template);
@@ -111,7 +111,7 @@ describe('Bindings', () => {
                 template: { select: '#template1' }
             });
 
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture2");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect((<HTMLElement> el.children[0]).innerHTML).toEqual((<HTMLElement> document.querySelector("#template1")).innerHTML);
@@ -124,7 +124,7 @@ describe('Bindings', () => {
                 template: [document.querySelector("#template1").childNodes[0]]
             });
 
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture2");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect((<HTMLElement> el.children[0]).innerHTML).toEqual((<HTMLElement> document.querySelector("#template1")).innerHTML);
@@ -133,14 +133,14 @@ describe('Bindings', () => {
         it('Loads a template through injector',() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = '<span>foo</span>';
+            const template = '<span>foo</span>';
             wx.injector.register("#template1", ()=> wx.app.templateEngine.parse(template));
 
             wx.app.component("test1", {
                 template: { resolve: "#template1" }
             });
 
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture2");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect((<HTMLElement> el.children[0]).innerHTML).toEqual(template);
@@ -149,9 +149,9 @@ describe('Bindings', () => {
         it("Loads a template through an AMD module loader",(done) => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture2");
 
-            var vm = {
+            let vm = {
                 init: function () {
                     expect((<HTMLElement> el.children[0]).innerHTML).toEqual("<span>foo</span>");
                     done();
@@ -172,13 +172,13 @@ describe('Bindings', () => {
         it("When the component isn't supplying a view-model, binding against parent-context works as expected",() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = "<span data-bind='text: foo'>invalid</span>";
+            const template = "<span data-bind='text: foo'>invalid</span>";
 
             wx.app.component("test1", {
                 template: template
             });
 
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture2");
             expect(() => wx.applyBindings({ foo: 'bar' }, el)).not.toThrow();
 
             expect((<HTMLElement> el.children[0]).children[0].textContent).toEqual('bar');
@@ -187,14 +187,14 @@ describe('Bindings', () => {
         it("Loads a view-model from a factory method",() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = "<span data-bind='text: foo'>invalid</span>";
+            const template = "<span data-bind='text: foo'>invalid</span>";
 
             wx.app.component("test1", {
                 template: template,
                 viewModel: (params) => { return { foo: 'bar' }; }
             });
 
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture2");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect((<HTMLElement> el.children[0]).childNodes[0].textContent).toEqual('bar');
@@ -203,7 +203,7 @@ describe('Bindings', () => {
         it("Loads a view-model through injector",() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = "<span data-bind='text: foo'>invalid</span>";
+            const template = "<span data-bind='text: foo'>invalid</span>";
             wx.injector.register("vm1", { foo: 'bar' });
 
             wx.app.component("test1", {
@@ -212,7 +212,7 @@ describe('Bindings', () => {
             });
 
 
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture2");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect((<HTMLElement> el.children[0]).childNodes[0].textContent).toEqual('bar');
@@ -221,7 +221,7 @@ describe('Bindings', () => {
         it("Loads a view-model through injector using inline-annotated-array",() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = "<span data-bind='text: childVm.foo'>invalid</span>";
+            const template = "<span data-bind='text: childVm.foo'>invalid</span>";
             wx.injector.register("vm2", { foo: 'bar' });
 
             wx.app.component("test1", {
@@ -233,24 +233,7 @@ describe('Bindings', () => {
             });
 
 
-            var el = <HTMLElement> document.querySelector("#fixture4");
-            expect(() => wx.applyBindings(undefined, el)).not.toThrow();
-
-            expect((<HTMLElement> el.children[0]).childNodes[0].textContent).toEqual('bar');
-        });
-
-        it("Loads a view-model from an instance",() => {
-            loadFixtures('templates/Bindings/Component.html');
-
-            var template = "<span data-bind='text: foo'>invalid</span>";
-
-            wx.app.component("test1", {
-                template: template,
-                viewModel: { instance: { foo: 'bar' } }
-            });
-
-
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture4");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect((<HTMLElement> el.children[0]).childNodes[0].textContent).toEqual('bar');
@@ -259,7 +242,7 @@ describe('Bindings', () => {
         it("Loads a view-model from an observable returning an object",() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = "<span data-bind='text: foo'>invalid</span>";
+            const template = "<span data-bind='text: foo'>invalid</span>";
 
             wx.app.component("test1", {
                 template: template,
@@ -267,7 +250,7 @@ describe('Bindings', () => {
             });
 
 
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture2");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect((<HTMLElement> el.children[0]).childNodes[0].textContent).toEqual('bar');
@@ -276,7 +259,7 @@ describe('Bindings', () => {
         it("Loads a view-model from an observable returning a constructor",() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = "<span data-bind='text: foo'>invalid</span>";
+            const template = "<span data-bind='text: foo'>invalid</span>";
 
             wx.app.component("test1", {
                 template: template,
@@ -284,7 +267,7 @@ describe('Bindings', () => {
             });
 
 
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture2");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect((<HTMLElement> el.children[0]).childNodes[0].textContent).toEqual('bar');
@@ -293,7 +276,7 @@ describe('Bindings', () => {
         it("Loads a view-model through an AMD module loader - object with postBindingInit",(done) => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = "<span data-bind='text: foo'>invalid</span>";
+            const template = "<span data-bind='text: foo'>invalid</span>";
 
             wx.app.component("test1", {
                 template: template,
@@ -301,8 +284,7 @@ describe('Bindings', () => {
                 postBindingInit: "init"
             });
 
-
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture2");
 
             window["vmHook"] = () => {
                 delete window["vmHook"];
@@ -317,7 +299,7 @@ describe('Bindings', () => {
         it("Loads a view-model through an AMD module loader - constructor function",(done) => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = "<span data-bind='text: foo'>invalid</span>";
+            const template = "<span data-bind='text: foo'>invalid</span>";
 
             wx.app.component("test1", {
                 template: template,
@@ -325,7 +307,7 @@ describe('Bindings', () => {
                 postBindingInit: "init"
             });
 
-            var el = <HTMLElement> document.querySelector("#fixture4");
+            const el = <HTMLElement> document.querySelector("#fixture4");
 
             window["vmHook"] = (params) => {
                 expect(params).toBeDefined();
@@ -346,8 +328,8 @@ describe('Bindings', () => {
         it("Params get passed to view-model constructor",() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = '<span>foo</span>';
-            var fooVal: number;
+            const template = '<span>foo</span>';
+            let fooVal: number;
 
             wx.app.component("test1", {
                 template: template,
@@ -357,7 +339,7 @@ describe('Bindings', () => {
                 }
              });
 
-            var el = <HTMLElement> document.querySelector("#fixture4");
+            const el = <HTMLElement> document.querySelector("#fixture4");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect(fooVal).toEqual(42);
@@ -366,11 +348,11 @@ describe('Bindings', () => {
         it("invokes preBindingInit",() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = '<span>foo</span>';
-            var invoked = false;
-            var __this: any;
-            var elementArg = false;
-            var vm: any;
+            const template = '<span>foo</span>';
+            let invoked = false;
+            let __this: any;
+            let elementArg = false;
+            let vm: any;
 
             vm = {
                 init: function (el: HTMLElement) {  // don't convert this to a lamba or the test will suddenly fail due to Typescript's this-capturing
@@ -386,7 +368,7 @@ describe('Bindings', () => {
                 preBindingInit: "init"
             });
 
-            var el = <HTMLElement> document.querySelector("#fixture5");
+            const el = <HTMLElement> document.querySelector("#fixture5");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect(invoked).toBeTruthy();
@@ -397,12 +379,12 @@ describe('Bindings', () => {
         it("invokes postBindingInit",() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = '<span>foo</span>';
-            var invoked = false;
-            var __this: any;
-            var elementArg = false;
+            const template = '<span>foo</span>';
+            let invoked = false;
+            let __this: any;
+            let elementArg = false;
 
-            var vm: any;
+            let vm: any;
 
             vm = {
                 init: function(el: HTMLElement) {   // don't convert this to a lamba or the test will suddenly fail due to Typescript's this-capturing
@@ -418,7 +400,7 @@ describe('Bindings', () => {
                 postBindingInit: "init"
             });
 
-            var el = <HTMLElement> document.querySelector("#fixture5");
+            const el = <HTMLElement> document.querySelector("#fixture5");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect(invoked).toBeTruthy();
@@ -429,7 +411,7 @@ describe('Bindings', () => {
         it("Disposes a component's viewmodel if it's disposable",() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = '<span>foo</span>';
+            const template = '<span>foo</span>';
             let disposed = false;
 
             function vm() {
@@ -443,7 +425,7 @@ describe('Bindings', () => {
 
             expect(disposed).toBeFalsy();
 
-            var el = <HTMLElement> document.querySelector("#fixture1");
+            const el = <HTMLElement> document.querySelector("#fixture1");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             wx.cleanNode(el);
@@ -453,7 +435,7 @@ describe('Bindings', () => {
         it("Loads a component from an observable returning a descriptor",() => {
             loadFixtures('templates/Bindings/Component.html');
 
-            var template = "<span data-bind='text: foo'>invalid</span>";
+            const template = "<span data-bind='text: foo'>invalid</span>";
 
             let descriptor = {
                 template: template,
@@ -462,10 +444,44 @@ describe('Bindings', () => {
 
             wx.app.component("test1", Rx.Observable.return(descriptor));
 
-            var el = <HTMLElement> document.querySelector("#fixture2");
+            const el = <HTMLElement> document.querySelector("#fixture2");
             expect(() => wx.applyBindings(undefined, el)).not.toThrow();
 
             expect((<HTMLElement> el.children[0]).childNodes[0].textContent).toEqual('bar');
         });
-    });
+
+        it("Loads a component from an observable returning a descriptor",() => {
+            loadFixtures('templates/Bindings/Component.html');
+
+            const template = "<span data-bind='text: foo'>invalid</span>";
+
+            let descriptor = {
+                template: template,
+                viewModel: { observable: Rx.Observable.return<any>({ foo: 'bar' }) }
+            };
+
+            wx.app.component("test1", Rx.Observable.return(descriptor));
+
+            const el = <HTMLElement> document.querySelector("#fixture2");
+            expect(() => wx.applyBindings(undefined, el)).not.toThrow();
+
+            expect((<HTMLElement> el.children[0]).childNodes[0].textContent).toEqual('bar');
+        });
+
+        it('Loads a ViewModel only component using simple string options',() => {
+            loadFixtures('templates/Bindings/Component.html');
+
+            const template = "<span data-bind='text: foo'>invalid</span>";
+            let value = "baz";
+
+            wx.app.component("test1", {
+                viewModel: { instance: { foo: value } }
+            });
+
+            const el = <HTMLElement> document.querySelector("#fixture7");
+            expect(() => wx.applyBindings(undefined, el)).not.toThrow();
+
+            expect((<HTMLElement> document.querySelector("#fixture7 span")).textContent).toEqual(value);
+        });
+     });
 });

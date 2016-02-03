@@ -5,9 +5,9 @@ import Lazy = wx.Lazy;
 
 describe("Lazy",() => {
     it("should not create value in constructor",() => {
-        var creatorInvoked = false;
+        let creatorInvoked = false;
 
-        var lazy = new Lazy(() => {
+        let lazy = new Lazy(() => {
             creatorInvoked = true;
             return "foobar";
         });
@@ -16,20 +16,20 @@ describe("Lazy",() => {
     });
 
     it("should create the value on access",() => {
-        var creatorInvoked = false;
+        let creatorInvoked = false;
 
-        var lazy = new Lazy(() => {
+        let lazy = new Lazy(() => {
             creatorInvoked = true;
             return "foobar";
         });
 
-        var dummy = lazy.value;
+        let dummy = lazy.value;
         expect(creatorInvoked).toBeTruthy();
     });
 
     it("should return the correct value",() => {
-        var expectedValue = "foobar";
-        var lazy = new Lazy(() => expectedValue );
+        let expectedValue = "foobar";
+        let lazy = new Lazy(() => expectedValue );
 
         expect(lazy.value).toEqual(expectedValue);
     });

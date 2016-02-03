@@ -3,15 +3,15 @@
 /// <reference path="../../src/web.rx.d.ts" />
 
 describe('Components', () => {
-    var domManager = wx.injector.get<wx.IDomManager>(wx.res.domManager);
+    let domManager = wx.injector.get<wx.IDomManager>(wx.res.domManager);
 
     describe('Select',() => {
         it('items only',() => {
             loadFixtures('templates/Components/Select.html');
 
-            var el = <HTMLElement> document.querySelector("#fixture1");
-            var items = [3, 2, 1];
-            var model = { items: items };
+            let el = <HTMLElement> document.querySelector("#fixture1");
+            let items = [3, 2, 1];
+            let model = { items: items };
 
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
             //console.log(el.innerHTML);
@@ -25,9 +25,9 @@ describe('Components', () => {
         it('custom css class for select element',() => {
             loadFixtures('templates/Components/Select.html');
 
-            var el = <HTMLElement> document.querySelector("#fixture6");
-            var items = [3, 2, 1];
-            var model = { items: items };
+            const el = <HTMLElement> document.querySelector("#fixture6");
+            let items = [3, 2, 1];
+            let model = { items: items };
 
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
 
@@ -38,9 +38,9 @@ describe('Components', () => {
         it('items with label',() => {
             loadFixtures('templates/Components/Select.html');
 
-            var el = document.querySelector("#fixture2");
-            var items = [{ key: "foo", value: "1" }, { key: "bar", value: "2" }, { key: "baz", value: "3" }];
-            var model = { items: items };
+            let el = document.querySelector("#fixture2");
+            let items = [{ key: "foo", value: "1" }, { key: "bar", value: "2" }, { key: "baz", value: "3" }];
+            let model = { items: items };
 
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
             el = <HTMLElement> el.childNodes[0];
@@ -53,9 +53,9 @@ describe('Components', () => {
         it('items with label and css-class',() => {
             loadFixtures('templates/Components/Select.html');
 
-            var el = document.querySelector("#fixture3");
-            var items = [{ key: "foo", value: "1" }, { key: "bar", value: "2" }, { key: "baz", value: "3" }];
-            var model = { items: items };
+            let el = document.querySelector("#fixture3");
+            let items = [{ key: "foo", value: "1" }, { key: "bar", value: "2" }, { key: "baz", value: "3" }];
+            let model = { items: items };
 
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
             el = <HTMLElement> el.childNodes[0];
@@ -67,13 +67,13 @@ describe('Components', () => {
         it('items with label, css-class and selection',() => {
             loadFixtures('templates/Components/Select.html');
 
-            var el = document.querySelector("#fixture4");
-            var items = [{ key: "foo", value: "1" }, { key: "bar", value: "2" }, { key: "baz", value: "3" }];
-            var model = { items: items, selection: wx.property("2") };
+            let el = document.querySelector("#fixture4");
+            let items = [{ key: "foo", value: "1" }, { key: "bar", value: "2" }, { key: "baz", value: "3" }];
+            let model = { items: items, selection: wx.property("2") };
 
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
             el = <HTMLSelectElement> el.childNodes[0];
-            var select = <HTMLSelectElement> el;
+            let select = <HTMLSelectElement> el;
 
             expect(el.childNodes.length).toEqual(items.length);
             expect(model.selection()).toEqual("2");
@@ -95,9 +95,9 @@ describe('Components', () => {
         it('live example 1',() => {
             loadFixtures('templates/Components/Select.html');
 
-            var el = document.querySelector("#fixture5");
+            let el = document.querySelector("#fixture5");
 
-            var SimpleListModel = function (items) {
+            let SimpleListModel = function (items) {
                 this.items = wx.list(items);
                 this.itemToAdd = wx.property("");
                 this.selectedItem = wx.property(null);
@@ -125,9 +125,9 @@ describe('Components', () => {
                     }), this);
             };
 
-            var templateLength = 5;
-            var initialContents = ["Alpha", "Beta", "Gamma"];
-            var model = new SimpleListModel(initialContents);
+            let templateLength = 5;
+            let initialContents = ["Alpha", "Beta", "Gamma"];
+            let model = new SimpleListModel(initialContents);
 
             wx.applyBindings(model, el);
 

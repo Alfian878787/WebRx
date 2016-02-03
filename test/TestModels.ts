@@ -41,7 +41,7 @@ class NestedTextModel {
 
 class TextModel {
     constructor() {
-         var _vm = new NestedTextModel();
+         let _vm = new NestedTextModel();
         _vm.text("text");
         _vm.hasData(true);
         this.value(_vm);
@@ -53,7 +53,7 @@ class TextModel {
 
 class TestFixture {
     constructor() {
-        var list = wx.list<number>();
+        let list = wx.list<number>();
         list.changeTrackingEnabled = true;
         this.TestCollection(list);
     }

@@ -4,8 +4,8 @@
 /// <reference path="../../TestUtils.ts" />
 
 describe('Routing', () => {
-    var router = wx.injector.get<wx.IRouter>(wx.res.router);
-    var domManager = wx.injector.get<wx.IDomManager>(wx.res.domManager);
+    let router = wx.injector.get<wx.IRouter>(wx.res.router);
+    let domManager = wx.injector.get<wx.IDomManager>(wx.res.domManager);
 
     beforeEach(() => {
         router.reset();
@@ -24,15 +24,15 @@ describe('Routing', () => {
                 it('binds using view name', () => {
                     loadFixtures('templates/Routing/Bindings/View.html');
 
-                    var el = document.querySelector("#fixture1");
-                    var model = {};
+                    const el = document.querySelector("#fixture1");
+                    let model = {};
                     expect(() => wx.applyBindings(model, el)).not.toThrow();
                 });
 
                 it('reacts to router state change by instantiating designated component', () => {
                     loadFixtures('templates/Routing/Bindings/View.html');
 
-                    var items = [3, 2, 1];
+                    let items = [3, 2, 1];
 
                     if (!animated) {
                         router.state({
@@ -64,8 +64,8 @@ describe('Routing', () => {
                         });
                     }
 
-                    var el = <HTMLElement> document.querySelector("#fixture1");
-                    var model = {};
+                    let el = <HTMLElement> document.querySelector("#fixture1");
+                    let model = {};
                     expect(() => wx.applyBindings(model, el)).not.toThrow();
 
                     router.go("foo");
@@ -118,8 +118,8 @@ describe('Routing', () => {
                         });
                     }
 
-                    var el = <HTMLElement> document.querySelector("#fixture1");
-                    var model = {};
+                    const el = <HTMLElement> document.querySelector("#fixture1");
+                    let model = {};
                     expect(() => wx.applyBindings(model, el)).not.toThrow();
 
                     router.go("foo");

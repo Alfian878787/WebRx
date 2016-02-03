@@ -14,18 +14,18 @@ describe("Utils",() => {
     });
 
     it("getOid smoke-test",() => {
-        var o1 = new Object();
-        var o2 = new Object();
+        let o1 = new Object();
+        let o2 = new Object();
 
-        var id1 = wx.getOid(o1);
-        var id2 = wx.getOid(o2);
+        let id1 = wx.getOid(o1);
+        let id2 = wx.getOid(o2);
 
         expect(typeof id1 === "string").toBeTruthy();
         expect(typeof id2 === "string").toBeTruthy();
         expect(id1).not.toEqual(id2);
 
         // id for same object should always return the same value
-        var id1b = wx.getOid(o1);
+        let id1b = wx.getOid(o1);
         expect(id1).toEqual(id1b);
 
         // should not throw for primitive
@@ -35,8 +35,8 @@ describe("Utils",() => {
         expect(wx.getOid("foo")).toEqual("string:foo");
 
         // should not throw for primitive objects
-        var n = new Number(1);
-        var s = new String("foo");
+        let n = new Number(1);
+        let s = new String("foo");
         expect(() => wx.getOid(n)).not.toThrowError();
         expect(() => wx.getOid(s)).not.toThrowError();
 
@@ -97,7 +97,7 @@ describe("Utils",() => {
     it("toggleCssClass smoke-test",() => {
         loadFixtures('templates/Core/Utils.html');
 
-        var el = <HTMLMapElement> document.querySelector('#fixture');
+        const el = <HTMLMapElement> document.querySelector('#fixture');
         expect($(el)).toHaveClass("foo bar");
 
         // test with single class
@@ -126,7 +126,7 @@ describe("Utils",() => {
     it("hassCssClass smoke-test",() => {
         loadFixtures('templates/Core/Utils.html');
 
-        var el = <HTMLMapElement> document.querySelector('#fixture');
+        const el = <HTMLMapElement> document.querySelector('#fixture');
         expect($(el)).toHaveClass("foo bar");
         expect(wx.hasCssClass(el, "foo")).toBeTruthy();
         expect(wx.hasCssClass(el, "bar")).toBeTruthy();
@@ -140,25 +140,25 @@ describe("Utils",() => {
     });
 
     it("whenAny using observable properties",() => {
-        var vm = {
+        let vm = {
             prop1: wx.property('Homer'),
             prop2: wx.property('Bart'),
             prop3: wx.property('Apu'),
         }
 
-        var combined1 = wx.whenAny(vm.prop1, (prop1) => {
+        let combined1 = wx.whenAny(vm.prop1, (prop1) => {
             return prop1;
         }).toProperty();
 
         expect(combined1()).toEqual(vm.prop1());
 
-        var combined2 = wx.whenAny(vm.prop1, vm.prop2, (prop1, prop2) => {
+        let combined2 = wx.whenAny(vm.prop1, vm.prop2, (prop1, prop2) => {
             return prop1+prop2;
         }).toProperty();
 
         expect(combined2()).toEqual(vm.prop1() + vm.prop2());
 
-        var combined3 = wx.whenAny(vm.prop1, vm.prop2, vm.prop3,(prop1, prop2, prop3) => {
+        let combined3 = wx.whenAny(vm.prop1, vm.prop2, vm.prop3,(prop1, prop2, prop3) => {
             return prop1 + prop2 + prop3;
         }).toProperty();
 
@@ -166,7 +166,7 @@ describe("Utils",() => {
     });
 
     it("whenAny using observable properties and plain observables",() => {
-        var vm = {
+        let vm = {
             prop1: wx.property('Homer'),
             prop2: wx.property('Bart'),
             prop3: wx.property('Apu'),
@@ -175,7 +175,7 @@ describe("Utils",() => {
 
         vm.obs4 = Rx.Observable.return(vm.prop3());
 
-        var combined3 = wx.whenAny(vm.prop1, vm.prop2, vm.obs4,(prop1, prop2, obs4) => {
+        let combined3 = wx.whenAny(vm.prop1, vm.prop2, vm.obs4,(prop1, prop2, obs4) => {
             return prop1 + prop2 + obs4;
         }).toProperty();
 

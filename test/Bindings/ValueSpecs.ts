@@ -7,7 +7,7 @@ describe('Bindings', () => {
     describe('Value', () => {
        it('Should treat null values as empty strings', ()=> {
             loadFixtures('templates/Generic.html');
-            var testNode = <any> document.querySelector("#fixture");
+            let testNode = <any> document.querySelector("#fixture");
 
             testNode.innerHTML = "<input data-bind='value: @myProp' />";
             wx.applyBindings({ myProp: wx.property(0) }, testNode);
@@ -16,7 +16,7 @@ describe('Bindings', () => {
 
         it('Should assign an empty string as value if the model value is undefined', ()=> {
             loadFixtures('templates/Generic.html');
-            var testNode = <any> document.querySelector("#fixture");
+            let testNode = <any> document.querySelector("#fixture");
 
             testNode.innerHTML = "<input data-bind='value:undefined' />";
             wx.applyBindings(null, testNode);
@@ -25,9 +25,9 @@ describe('Bindings', () => {
 
         it('For observable values, should unwrap the value and update on change', ()=> {
             loadFixtures('templates/Generic.html');
-            var testNode = <any> document.querySelector("#fixture");
+            let testNode = <any> document.querySelector("#fixture");
 
-            var myobservable = wx.property(123);
+            let myobservable = wx.property(123);
             testNode.innerHTML = "<input data-bind='value: @someProp' />";
             wx.applyBindings({ someProp: myobservable }, testNode);
             expect(testNode.childNodes[0].value).toEqual("123");
@@ -37,9 +37,9 @@ describe('Bindings', () => {
 
         it('For observable values, should update on change if new value is \'strictly\' different from previous value', ()=> {
             loadFixtures('templates/Generic.html');
-            var testNode = <any> document.querySelector("#fixture");
+            let testNode = <any> document.querySelector("#fixture");
 
-            var myobservable = wx.property<any>("+123");
+            let myobservable = wx.property<any>("+123");
             testNode.innerHTML = "<input data-bind='value: @someProp' />";
             wx.applyBindings({ someProp: myobservable }, testNode);
             expect(testNode.childNodes[0].value).toEqual("+123");
@@ -49,9 +49,9 @@ describe('Bindings', () => {
 
         it('For writeable observable values, should catch the node\'s onchange and write values back to the observable', ()=> {
             loadFixtures('templates/Generic.html');
-            var testNode = <any> document.querySelector("#fixture");
+            let testNode = <any> document.querySelector("#fixture");
 
-            var myobservable = wx.property(123);
+            let myobservable = wx.property(123);
             testNode.innerHTML = "<input data-bind='value: @someProp' />";
             wx.applyBindings({ someProp: myobservable }, testNode);
             testNode.childNodes[0].value = "some user-entered value";
@@ -61,10 +61,10 @@ describe('Bindings', () => {
 
         it('Should ignore node changes when bound to a read-only observable', ()=> {
             loadFixtures('templates/Generic.html');
-            var testNode = <any> document.querySelector("#fixture");
+            let testNode = <any> document.querySelector("#fixture");
 
-            var computedValue = Rx.Observable.return('zzz').toProperty();
-            var vm = { prop: computedValue };
+            let computedValue = Rx.Observable.return('zzz').toProperty();
+            let vm = { prop: computedValue };
 
             testNode.innerHTML = "<input data-bind='value: @prop' />";
             wx.applyBindings(vm, testNode);
@@ -79,12 +79,12 @@ describe('Bindings', () => {
 
         it('Should be able to write to observable subproperties of an observable, even after the parent observable has changed', ()=> {
             loadFixtures('templates/Generic.html');
-            var testNode = <any> document.querySelector("#fixture");
+            let testNode = <any> document.querySelector("#fixture");
 
             // This spec represents https://github.com/SteveSanderson/knockout/issues#issue/13
-            var originalSubproperty = wx.property("original value");
-            var newSubproperty = wx.property<any>();
-            var model = { myprop: wx.property<any>({ subproperty: originalSubproperty }) };
+            let originalSubproperty = wx.property("original value");
+            let newSubproperty = wx.property<any>();
+            let model = { myprop: wx.property<any>({ subproperty: originalSubproperty }) };
 
             // Set up a text box whose value is linked to the subproperty of the observable's current value
             testNode.innerHTML = "<input data-bind='value: myprop.@subproperty' />";
@@ -102,10 +102,10 @@ describe('Bindings', () => {
 
         it('Should only register one single onchange handler', ()=> {
             loadFixtures('templates/Generic.html');
-            var testNode = <any> document.querySelector("#fixture");
+            let testNode = <any> document.querySelector("#fixture");
 
-            var notifiedValues = [];
-            var myobservable = wx.property(123);
+            let notifiedValues = [];
+            let myobservable = wx.property(123);
             myobservable.changed.subscribe(value => { notifiedValues.push(value); });
             expect(notifiedValues.length).toEqual(0);
 

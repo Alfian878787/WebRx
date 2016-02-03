@@ -6,15 +6,15 @@
 
 describe("MessageBus", () => {
     it("Smoke-Test", () => {
-        var input = [1, 2, 3, 4];
+        let input = [1, 2, 3, 4];
 
-        var result = testutils.withScheduler(new Rx.TestScheduler(), sched => {
-            var source = new Rx.Subject<number>();
-            var fixture = wx.messageBus;
+        let result = testutils.withScheduler(new Rx.TestScheduler(), sched => {
+            let source = new Rx.Subject<number>();
+            let fixture = wx.messageBus;
 
             fixture.registerMessageSource(source, "Test");
 
-            var output = [];
+            let output = [];
             fixture.listen<number>("Test").subscribe(x => output.push(x));
 
             testutils.run(input, (x) => source.onNext(x));
@@ -27,10 +27,10 @@ describe("MessageBus", () => {
     });
 
     it("explicit send message should work even after registering source", () => {
-        var fixture = wx.messageBus;
+        let fixture = wx.messageBus;
         fixture.registerMessageSource(Rx.Observable.never<number>(), "Test");
 
-        var messageReceived = false;
+        let messageReceived = false;
         fixture.listen<number>("Test").subscribe(_ => messageReceived = true);
 
         fixture.sendMessage(42, "Test");
@@ -38,8 +38,8 @@ describe("MessageBus", () => {
     });
 
     it("listening before registering a source should work", () => {
-        var fixture = wx.messageBus;
-        var result = -1;
+        let fixture = wx.messageBus;
+        let result = -1;
 
         fixture.listen<number>("Test").subscribe(x => result = x);
         expect(-1).toEqual(result);
@@ -49,11 +49,11 @@ describe("MessageBus", () => {
     });
 
     it("registering second message source should merge both sources", () => {
-        var bus = wx.messageBus;
-        var source1 = new Rx.Subject<number>();
-        var source2 = new Rx.Subject<number>();
-        var recieved_message1 = false;
-        var recieved_message2 = false;
+        let bus = wx.messageBus;
+        let source1 = new Rx.Subject<number>();
+        let source2 = new Rx.Subject<number>();
+        let recieved_message1 = false;
+        let recieved_message2 = false;
 
         bus.registerMessageSource(source1, "Test");
         bus.listen<number>("Test").subscribe(x => recieved_message1 = true);

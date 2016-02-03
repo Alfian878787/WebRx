@@ -51,11 +51,6 @@ export default class ComponentBinding {
                 }
             }
         }
-        // clear children
-        let oldContents = new Array();
-        while (el.firstChild) {
-            oldContents.push(el.removeChild(el.firstChild));
-        }
         // subscribe to any input changes
         state.cleanup.add(componentNameObservable.subscribe(componentName => {
             try {
@@ -76,10 +71,7 @@ export default class ComponentBinding {
                     if (component.viewModel) {
                         if (isDisposable(component.viewModel)) {
                             cleanup.add(component.viewModel);
-                        } /* else if(!isPrimitive(component.viewModel)) {
-                            cleanup.add(Rx.Disposable.create(()=>
-                                disposeMembers(component.viewModel)));
-                        } */
+                        }
                     }
                     // done
                     this.applyTemplate(component, el, ctx, state, component.template, component.viewModel);
@@ -99,7 +91,6 @@ export default class ComponentBinding {
             ctx = null;
             state = null;
             // nullify common locals
-            oldContents = null;
             compiled = null;
             doCleanup();
         }));
@@ -108,15 +99,17 @@ export default class ComponentBinding {
         // intentionally left blank
     }
     applyTemplate(component, el, ctx, state, template, vm) {
-        // clear
-        while (el.firstChild) {
-            this.domManager.cleanNode(el.firstChild);
-            el.removeChild(el.firstChild);
-        }
-        // clone template and inject
-        for (let i = 0; i < template.length; i++) {
-            let node = template[i].cloneNode(true);
-            el.appendChild(node);
+        if (template) {
+            // clear
+            while (el.firstChild) {
+                this.domManager.cleanNode(el.firstChild);
+                el.removeChild(el.firstChild);
+            }
+            // clone template and inject
+            for (let i = 0; i < template.length; i++) {
+                let node = template[i].cloneNode(true);
+                el.appendChild(node);
+            }
         }
         if (vm) {
             state.model = vm;

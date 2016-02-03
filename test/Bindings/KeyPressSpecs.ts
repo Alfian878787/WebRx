@@ -10,13 +10,13 @@ describe('Bindings',() => {
         it('binds a single key to a handler function',() => {
             loadFixtures('templates/Bindings/KeyPress.html');
 
-            var el = <HTMLElement> document.querySelector("#keypress-single");
+            const el = <HTMLElement> document.querySelector("#keypress-single");
 
-            var called = false;
-            var calledWithValidContext = false;
-            var callCount = 0;
+            let called = false;
+            let calledWithValidContext = false;
+            let callCount = 0;
 
-            var model = {
+            let model = {
                 clickHandler: (ctx: wx.IDataContext) => {
                     callCount++;
                     called = true;
@@ -48,12 +48,12 @@ describe('Bindings',() => {
         it('binds multiple keys to handler functions',() => {
             loadFixtures('templates/Bindings/KeyPress.html');
 
-            var el = <HTMLInputElement> document.querySelector("#keypress-multiple");
+            const el = <HTMLInputElement> document.querySelector("#keypress-multiple");
 
-            var clickCallCount = 0;
-            var inputCallCount = 0;
+            let clickCallCount = 0;
+            let inputCallCount = 0;
 
-            var model = {
+            let model = {
                 clickHandler: (ctx: wx.IDataContext, e: Event) => {
                     clickCallCount++;
                 },
@@ -90,15 +90,15 @@ describe('Bindings',() => {
         it('binds multiple keys to commands',() => {
             loadFixtures('templates/Bindings/KeyPress.html');
 
-            var el = <HTMLInputElement> document.querySelector("#keypress-multiple-command");
+            const el = <HTMLInputElement> document.querySelector("#keypress-multiple-command");
 
-            var clickCallCount = 0;
-            var inputCallCount = 0;
+            let clickCallCount = 0;
+            let inputCallCount = 0;
 
-            var clickSubject = new Rx.Subject<Event>();
-            var inputSubject = new Rx.Subject<Event>();
+            let clickSubject = new Rx.Subject<Event>();
+            let inputSubject = new Rx.Subject<Event>();
 
-            var model = {
+            let model = {
                 clickCommand: wx.command((x) => { clickSubject.onNext(x) }),
                 inputCommand: wx.command((x) => { inputSubject.onNext(x) })
             };
@@ -134,11 +134,11 @@ describe('Bindings',() => {
         it('binds multiple keys to commands with params',() => {
             loadFixtures('templates/Bindings/KeyPress.html');
 
-            var el = <HTMLInputElement> document.querySelector("#keypress-multiple-command-with-params");
+            const el = <HTMLInputElement> document.querySelector("#keypress-multiple-command-with-params");
 
-            var clicks = [];
+            let clicks = [];
 
-            var model = {
+            let model = {
                 clickCommand: wx.command((x) => { clicks.push(x); })
             };
 

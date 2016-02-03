@@ -6,15 +6,15 @@
 /// <reference path="../typings/ix.d.ts" />
 
 describe('HtmlTemplateEngine',() => {
-    var engine = wx.injector.get<wx.ITemplateEngine>(wx.res.templateEngine);
+    let engine = wx.injector.get<wx.ITemplateEngine>(wx.res.templateEngine);
 
     it('smoke-test',() => {
         loadFixtures('templates/Core/HtmlTemplateEngine.html');
 
-        var html;
+        let html;
         expect(engine.parse("")).toEqual([]);
 
-        var nodes = engine.parse($("#fixture1")[0].innerHTML);
+        let nodes = engine.parse($("#fixture1")[0].innerHTML);
         expect(nodes.length).toEqual(3);
         expect(Array.isArray(nodes)).toBeTruthy();
 
@@ -23,7 +23,7 @@ describe('HtmlTemplateEngine',() => {
             jQuery["parseHTML"]($("#fixture1")[0].innerHTML).map(x=> x.toString()).join());
 
         html = "<script>undefined()</script>";  // "Ignore scripts by default"
-        var parsed = engine.parse(html);
+        let parsed = engine.parse(html);
         expect(parsed.length).toEqual(0);
 
         html += "<div></div>";

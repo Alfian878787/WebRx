@@ -20,8 +20,8 @@ describe('Bindings', () => {
         it('binding to a string constant', () => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#css-constant-string");
-            var model = {};
+            const el = <HTMLElement> document.querySelector("#css-constant-string");
+            let model = {};
 
             expect($(el)).not.toHaveClass('foo');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -31,8 +31,8 @@ describe('Bindings', () => {
         it('binding to a non-observable model property', () => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#css-non-observable-model-property");
-            var model = createCssModel();
+            const el = <HTMLElement> document.querySelector("#css-non-observable-model-property");
+            let model = createCssModel();
             model.constantString = 'foo';
 
             expect($(el)).not.toHaveClass('foo');
@@ -43,8 +43,8 @@ describe('Bindings', () => {
         it('binding to a observable model property', () => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#css-observable-model-property");
-            var model = createCssModel();
+            const el = <HTMLElement> document.querySelector("#css-observable-model-property");
+            let model = createCssModel();
 
             expect($(el)).not.toHaveClass('foo');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -63,8 +63,8 @@ describe('Bindings', () => {
         it('binding to a observable model @propref',() => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#css-observable-model-propref");
-            var model = createCssModel();
+            const el = <HTMLElement> document.querySelector("#css-observable-model-propref");
+            let model = createCssModel();
 
             expect($(el)).not.toHaveClass('foo');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -74,8 +74,8 @@ describe('Bindings', () => {
         it('binding to a model observable', () => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#css-observable-model");
-            var model = createCssModel();
+            const el = <HTMLElement> document.querySelector("#css-observable-model");
+            let model = createCssModel();
             model["changed"] = model.observableBool.changed;
             model.observableBool(false);
 
@@ -99,8 +99,8 @@ describe('Bindings', () => {
         it('binding multiple css classes to multiple observable model properties', () => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#css-observable-model-property2");
-            var model = createCssModel();
+            const el = <HTMLElement> document.querySelector("#css-observable-model-property2");
+            let model = createCssModel();
 
             expect($(el)).not.toHaveClass('foo');
             expect($(el)).not.toHaveClass('bar');
@@ -135,8 +135,8 @@ describe('Bindings', () => {
         it('binding to a non-observable model property - dynamic',() => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#css-non-observable-model-property-dynamic");
-            var model = createCssModel();
+            const el = <HTMLElement> document.querySelector("#css-non-observable-model-property-dynamic");
+            let model = createCssModel();
             model.constantString = 'foo';
 
             expect($(el)).not.toHaveClass('foo');
@@ -147,8 +147,8 @@ describe('Bindings', () => {
         it('binding to a observable model property - dynamic',() => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#css-observable-model-property-dynamic");
-            var model = createCssModel();
+            const el = <HTMLElement> document.querySelector("#css-observable-model-property-dynamic");
+            let model = createCssModel();
 
             expect($(el)).not.toHaveClass('foo');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -173,8 +173,8 @@ describe('Bindings', () => {
         it('binding to a observable model @propref - dynamic',() => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#css-observable-model-propref-dynamic");
-            var model = createCssModel();
+            const el = <HTMLElement> document.querySelector("#css-observable-model-propref-dynamic");
+            let model = createCssModel();
 
             expect($(el)).not.toHaveClass('voodoo');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -184,8 +184,8 @@ describe('Bindings', () => {
         it('binding using dynamic value does not interfere with manually added classes',() => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#css-non-observable-model-property-dynamic");
-            var model = createCssModel();
+            const el = <HTMLElement> document.querySelector("#css-non-observable-model-property-dynamic");
+            let model = createCssModel();
             model.constantString = 'foo';
 
             $(el).addClass("bar");
@@ -201,8 +201,8 @@ describe('Bindings', () => {
         it('binding to a string constant', () => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#attr-constant-string");
-            var model = {};
+            const el = <HTMLElement> document.querySelector("#attr-constant-string");
+            let model = {};
 
             expect($(el)).not.toHaveAttr('data-foo');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -212,8 +212,8 @@ describe('Bindings', () => {
         it('binding to a non-observable model property', () => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#attr-non-observable-model-property");
-            var model = createCssModel();
+            const el = <HTMLElement> document.querySelector("#attr-non-observable-model-property");
+            let model = createCssModel();
             model.constantString = 'data-foo';
 
             expect($(el)).not.toHaveAttr('data-foo');
@@ -224,8 +224,8 @@ describe('Bindings', () => {
         it('binding to a observable model property', () => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#attr-observable-model-property");
-            var model = createCssModel();
+            const el = <HTMLElement> document.querySelector("#attr-observable-model-property");
+            let model = createCssModel();
 
             expect($(el)).not.toHaveAttr('data-foo');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -244,8 +244,8 @@ describe('Bindings', () => {
         it('binding to a observable model @propref',() => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#attr-observable-model-propref");
-            var model = createCssModel();
+            const el = <HTMLElement> document.querySelector("#attr-observable-model-propref");
+            let model = createCssModel();
 
             expect($(el)).not.toHaveAttr('data-foo');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -256,8 +256,8 @@ describe('Bindings', () => {
         it('binding to a model observable', () => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#attr-observable-model");
-            var model = createCssModel();
+            const el = <HTMLElement> document.querySelector("#attr-observable-model");
+            let model = createCssModel();
             model["changed"] = model.observableString.changed;
             model.observableString('');
 
@@ -281,8 +281,8 @@ describe('Bindings', () => {
         it('binding multiple attr classes to multiple observable model properties', () => {
             loadFixtures('templates/Bindings/MultiOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#attr-observable-model-property2");
-            var model = createCssModel();
+            const el = <HTMLElement> document.querySelector("#attr-observable-model-property2");
+            let model = createCssModel();
 
             expect($(el)).not.toHaveAttr('data-foo');
             expect($(el)).not.toHaveAttr('data-bar');

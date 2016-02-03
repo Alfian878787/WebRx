@@ -3,12 +3,12 @@
 
 describe("TestUtils",() => {
     it("trackSubscriptions smoke-test",() => {
-        var sub = new Rx.Subject<number>();
-        var track = testutils.trackSubscriptions(sub);
+        let sub = new Rx.Subject<number>();
+        let track = testutils.trackSubscriptions(sub);
 
         expect(track.count).toEqual(0);
 
-        var disp = new Rx.CompositeDisposable();
+        let disp = new Rx.CompositeDisposable();
         sub.onNext(1);
         expect(track.count).toEqual(0);
 
@@ -21,7 +21,7 @@ describe("TestUtils",() => {
         expect(track.count).toEqual(0);
 
         // make sure the wrapped observable forwards correctly
-        var nextFired = false, errorFired = false, completedFired = false;
+        let nextFired = false, errorFired = false, completedFired = false;
         track.observable.subscribe(x => nextFired = true, x=> errorFired = true, ()=> completedFired = true);
         sub.onNext(4100);
         sub.onError(new Error("foo"));

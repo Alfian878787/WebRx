@@ -4,11 +4,11 @@
 
 describe("IWeakMap",() => {
     function crudSmokeTestImpl(forceEmulated: boolean) {
-        var wm = wx.createWeakMap<String, Object>(forceEmulated);
+        let wm = wx.createWeakMap<String, Object>(forceEmulated);
 
         // set/has/get
-        var key = new String("foo");
-        var foo = new Object();
+        let key = new String("foo");
+        let foo = new Object();
         wm.set(key, foo);
         expect(wm.has(key)).toBeTruthy();
         expect(wm.get(key)).toBe(foo);
@@ -20,7 +20,7 @@ describe("IWeakMap",() => {
     }
 
     it("emulated: creation",() => {
-        var wm = wx.createWeakMap<String, Object>(true);
+        let wm = wx.createWeakMap<String, Object>(true);
         expect(wm).not.toBeNull();
         expect(wm.isEmulated).toBeTruthy();
     });
@@ -29,11 +29,11 @@ describe("IWeakMap",() => {
         crudSmokeTestImpl(true);
     });
 
-    var hasNativeSupport = typeof WeakMap === "function";
+    let hasNativeSupport = typeof WeakMap === "function";
 
     if (hasNativeSupport) {
         it("native: creation",() => {
-            var wm = wx.createWeakMap<String, Object>();
+            let wm = wx.createWeakMap<String, Object>();
             expect(wm).not.toBeNull();
             expect(wm.isEmulated).toBeFalsy();
         });

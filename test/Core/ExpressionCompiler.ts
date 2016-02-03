@@ -5,10 +5,10 @@
 describe("ExpressionCompiler", function () {
     function testImpl(compiler: wx.IExpressionCompiler, withHooks: boolean) {
 
-        var readHookInvocationCount;
-        var writeHookInvocationCount;
-        var readIndexHookInvocationCount;
-        var writeIndexHookInvocationCount;
+        let readHookInvocationCount;
+        let writeHookInvocationCount;
+        let readIndexHookInvocationCount;
+        let writeIndexHookInvocationCount;
 
         function getHooks() {
             readHookInvocationCount = 0;
@@ -38,7 +38,7 @@ describe("ExpressionCompiler", function () {
         }
 
         function getLocals() {
-            var locals = {};
+            let locals = {};
 
             if (withHooks)
                 compiler.setRuntimeHooks(locals, getHooks());
@@ -47,8 +47,8 @@ describe("ExpressionCompiler", function () {
         }
 
         describe("compile(src)" + (withHooks ? "- with pass-through hooks" : ""), function() {
-            var scope;
-            var evaluate: (scope?: any, locals?: any) => any;
+            let scope;
+            let evaluate: (scope?: any, locals?: any) => any;
 
             beforeEach(function() {
                 scope = {
@@ -250,7 +250,7 @@ describe("ExpressionCompiler", function () {
                 });
 
                 it("should throw an error if the array doesn't exist", function() {
-                    var obj,
+                    let obj,
                         err;
 
                     try {
@@ -429,7 +429,7 @@ describe("ExpressionCompiler", function () {
             describe("when using filters", function() {
 
                 it("should apply the given filter", function () {
-                    var options: wx.IExpressionCompilerOptions = {
+                    let options: wx.IExpressionCompilerOptions = {
                         filters: {
                             currency: function(input, currency, digits) {
                                 input = input.toFixed(digits);
@@ -455,7 +455,7 @@ describe("ExpressionCompiler", function () {
             describe("when evaluating the same expression multiple times", function() {
 
                 it("should cache the generated function", function() {
-                    var cache: any = {};
+                    let cache: any = {};
                     expect(compiler.compileExpression("a", {}, cache)).toEqual(compiler.compileExpression("a", {}, cache));
                 });
 
@@ -463,8 +463,8 @@ describe("ExpressionCompiler", function () {
 
             describe(".cache", function() {
                 it("should cache the generated function by the expression", function() {
-                    var cache: any = {};
-                    var fn = compiler.compileExpression("a", {}, cache);
+                    let cache: any = {};
+                    let fn = compiler.compileExpression("a", {}, cache);
 
                     expect(cache.a).toEqual(fn);
                 });
@@ -473,13 +473,13 @@ describe("ExpressionCompiler", function () {
         });
     }
 
-    var compiler = wx.injector.get<wx.IExpressionCompiler>(wx.res.expressionCompiler);
+    let compiler = wx.injector.get<wx.IExpressionCompiler>(wx.res.expressionCompiler);
     testImpl(compiler, false);
     testImpl(compiler, true);
 
     it("parse literal containing comma in string value",() => {
-        var input = "foo: ',', bar: true";
-        var result = compiler.parseObjectLiteral(input);
+        let input = "foo: ',', bar: true";
+        let result = compiler.parseObjectLiteral(input);
 
         expect(result.length).toEqual(2);
         expect(result[0].value).toEqual("','");
@@ -487,8 +487,8 @@ describe("ExpressionCompiler", function () {
     });
 
     it("parse literal containing curly brace in string value",() => {
-        var input = "foo: '{', bar: true";
-        var result = compiler.parseObjectLiteral(input);
+        let input = "foo: '{', bar: true";
+        let result = compiler.parseObjectLiteral(input);
 
         expect(result.length).toEqual(2);
         expect(result[0].value).toEqual("'{'");
@@ -496,24 +496,24 @@ describe("ExpressionCompiler", function () {
     });
 
     it("parse invalid literal",() => {
-        var input = ", bar: true";
-        var result = compiler.parseObjectLiteral(input);
+        let input = ", bar: true";
+        let result = compiler.parseObjectLiteral(input);
 
         expect(result.length).toEqual(1);
         expect(result[0].value).toEqual('true');
     });
 
     it("parse literal containing complex angular expressions",() => {
-        var exp1 = "a=1;b=2;{ 'c': a + b }['c']";
-        var input = wx.formatString("foo: {0}, bar: true", exp1);
-        var result = compiler.parseObjectLiteral(input);
+        let exp1 = "a=1;b=2;{ 'c': a + b }['c']";
+        let input = wx.formatString("foo: {0}, bar: true", exp1);
+        let result = compiler.parseObjectLiteral(input);
 
         expect(result.length).toEqual(2);
         expect(result[0].key).toEqual('foo');
         expect(result[0].value.replace(/ +?/g, '')).toEqual(exp1.replace(/ +?/g, '')); // should equal minus whitespaces
 
         // ultimate test, compile expression and validate result
-        var scope = {};
+        let scope = {};
         expect(compiler.compileExpression(result[0].value)(scope, scope)).toEqual(3); // should equal minus whitespaces
 
         expect(result[1].key).toEqual('bar');
@@ -521,17 +521,17 @@ describe("ExpressionCompiler", function () {
     });
 
     it("parse literal containing multiple complex angular expressions",() => {
-        var exp1 = "a=1;b=2;{ 'c': a + b }['c']";
-        var exp2 = "a=1;b=2;[a, ['three',b]]";
-        var input = wx.formatString("foo: {0}, bar: true, baz: {1}", exp1, exp2);
-        var result = compiler.parseObjectLiteral(input);
+        let exp1 = "a=1;b=2;{ 'c': a + b }['c']";
+        let exp2 = "a=1;b=2;[a, ['three',b]]";
+        let input = wx.formatString("foo: {0}, bar: true, baz: {1}", exp1, exp2);
+        let result = compiler.parseObjectLiteral(input);
 
         expect(result.length).toEqual(3);
         expect(result[0].key).toEqual('foo');
         expect(result[0].value.replace(/ +?/g, '')).toEqual(exp1.replace(/ +?/g, '')); // should equal minus whitespaces
 
         // ultimate test, compile expression and validate result
-        var scope = {};
+        let scope = {};
         expect(compiler.compileExpression(result[0].value)(scope, scope)).toEqual(3); // should equal minus whitespaces
 
         expect(result[1].key).toEqual('bar');

@@ -663,7 +663,7 @@ module wx {
     }
 
     export interface IComponent {
-        template: Node[];
+        template?: Node[];
         viewModel?: any;
 
         preBindingInit?: string;   // name of method on view-model to invoke before bindings get applied

@@ -11,9 +11,9 @@ describe('Bindings',() => {
     });
 
     function createTestList() {
-        var item1 = new TestViewModel(1, "foo");
-        var item2 = new TestViewModel(5, "bar");
-        var item3 = new TestViewModel(7, "baz");
+        let item1 = new TestViewModel(1, "foo");
+        let item2 = new TestViewModel(5, "bar");
+        let item3 = new TestViewModel(7, "baz");
 
         return wx.list([item1, item2, item3]);
     }
@@ -23,9 +23,9 @@ describe('Bindings',() => {
             it('binding to a standard array', () => {
                 loadFixtures('templates/Bindings/ForEach.html');
 
-                var el = <HTMLElement> document.querySelector("#foreach-array" + fixturePostfix);
-                var templateLength = el.children.length;
-                var list = [1, 5, 7];
+                const el = <HTMLElement> document.querySelector("#foreach-array" + fixturePostfix);
+                let templateLength = el.children.length;
+                let list = [1, 5, 7];
                 expect(() => wx.applyBindings({ src: list }, el)).not.toThrowError();
 
                 expect(el.children.length).toEqual(list.length * templateLength);
@@ -35,9 +35,9 @@ describe('Bindings',() => {
             it('binding to a standard array and template accessing index', () => {
                 loadFixtures('templates/Bindings/ForEach.html');
 
-                var el = <HTMLElement> document.querySelector("#foreach-array-with-index" + fixturePostfix);
-                var templateLength = el.children.length;
-                var list = [1, 5, 7];
+                const el = <HTMLElement> document.querySelector("#foreach-array-with-index" + fixturePostfix);
+                let templateLength = el.children.length;
+                let list = [1, 5, 7];
                 expect(() => wx.applyBindings({ src: list }, el)).not.toThrowError();
 
                 expect(el.children.length).toEqual(list.length * templateLength);
@@ -47,15 +47,15 @@ describe('Bindings',() => {
             it('binding to a property yielding an array', () => {
                 loadFixtures('templates/Bindings/ForEach.html');
 
-                var el = <HTMLElement> document.querySelector("#foreach-array-with-index" + fixturePostfix);
-                var templateLength = el.children.length;
-                var prop = wx.property([]);
+                const el = <HTMLElement> document.querySelector("#foreach-array-with-index" + fixturePostfix);
+                let templateLength = el.children.length;
+                let prop = wx.property([]);
 
                 expect(() => wx.applyBindings({ src: prop }, el)).not.toThrowError();
                 expect(el.children.length).toEqual(prop().length * templateLength);
                 expect($(el).children().map((index, node) => parseInt(node.textContent)).get()).toEqual(Ix.Enumerable.range(0, prop().length).toArray());
 
-                var list = [1, 5, 7];
+                let list = [1, 5, 7];
                 prop(list);
                 expect(el.children.length).toEqual(prop().length * templateLength);
                 expect($(el).children().map((index, node) => parseInt(node.textContent)).get()).toEqual(Ix.Enumerable.range(0, prop().length).toArray());
@@ -64,8 +64,8 @@ describe('Bindings',() => {
             it('binding to a standard array - inline', () => {
                 loadFixtures('templates/Bindings/ForEach.html');
 
-                var el = <HTMLElement> document.querySelector("#foreach-array-inline" + fixturePostfix);
-                var templateLength = el.children.length;
+                const el = <HTMLElement> document.querySelector("#foreach-array-inline" + fixturePostfix);
+                let templateLength = el.children.length;
                 expect(() => wx.applyBindings({}, el)).not.toThrowError();
 
                 expect(el.children.length).toEqual(3 * templateLength);
@@ -75,9 +75,9 @@ describe('Bindings',() => {
             it('binding to a observable list containing numbers', () => {
                 loadFixtures('templates/Bindings/ForEach.html');
 
-                var el = <HTMLElement> document.querySelector("#foreach-list-scalar" + fixturePostfix);
-                var templateLength = el.children.length;
-                var list = wx.list([1, 5, 7]);
+                const el = <HTMLElement> document.querySelector("#foreach-list-scalar" + fixturePostfix);
+                let templateLength = el.children.length;
+                let list = wx.list([1, 5, 7]);
                 expect(() => wx.applyBindings({ src: list }, el)).not.toThrowError();
 
                 expect(el.children.length).toEqual(list.length() * templateLength);
@@ -87,11 +87,11 @@ describe('Bindings',() => {
             it('binding to a observable list containing numbers without initialContents', () => {
                 loadFixtures('templates/Bindings/ForEach.html');
 
-                var el = <HTMLElement> document.querySelector("#foreach-list-scalar" + fixturePostfix);
-                var templateLength = el.children.length;
-                var list = wx.list();
+                const el = <HTMLElement> document.querySelector("#foreach-list-scalar" + fixturePostfix);
+                let templateLength = el.children.length;
+                let list = wx.list();
 
-                for (var i = 0; i < 10; i++) {
+                for (let i = 0; i < 10; i++) {
                     list.add(i);
                 }
 
@@ -107,9 +107,9 @@ describe('Bindings',() => {
             it('binding to a observable list containing model', () => {
                 loadFixtures('templates/Bindings/ForEach.html');
 
-                var el = <HTMLElement> document.querySelector("#foreach-list-model" + fixturePostfix);
-                var templateLength = el.children.length;
-                var list = createTestList();
+                const el = <HTMLElement> document.querySelector("#foreach-list-model" + fixturePostfix);
+                let templateLength = el.children.length;
+                let list = createTestList();
                 expect(() => wx.applyBindings({ src: list }, el)).not.toThrowError();
 
                 expect(el.children.length).toEqual(list.length() * templateLength);
@@ -121,9 +121,9 @@ describe('Bindings',() => {
             it('binding to a observable list containing model and template accessing index', () => {
                 loadFixtures('templates/Bindings/ForEach.html');
 
-                var el = <HTMLElement> document.querySelector("#foreach-list-model-with-index" + fixturePostfix);
-                var templateLength = el.children.length;
-                var list = createTestList();
+                const el = <HTMLElement> document.querySelector("#foreach-list-model-with-index" + fixturePostfix);
+                let templateLength = el.children.length;
+                let list = createTestList();
                 expect(() => wx.applyBindings({ src: list }, el)).not.toThrowError();
 
                 expect(el.children.length).toEqual(list.length() * templateLength);
@@ -136,9 +136,9 @@ describe('Bindings',() => {
             it('observable list manipulation smoke-test', () => {
                 loadFixtures('templates/Bindings/ForEach.html');
 
-                var el = <HTMLElement> document.querySelector("#foreach-list-model-with-index" + fixturePostfix);
-                var templateLength = el.children.length;
-                var list = createTestList();
+                const el = <HTMLElement> document.querySelector("#foreach-list-model-with-index" + fixturePostfix);
+                let templateLength = el.children.length;
+                let list = createTestList();
                 expect(() => wx.applyBindings({ src: list }, el)).not.toThrowError();
 
                 expect(el.children.length).toEqual(list.length() * templateLength);
@@ -194,9 +194,9 @@ describe('Bindings',() => {
             it('$index calculation when bound to observable list smoke-test', () => {
                 loadFixtures('templates/Bindings/ForEach.html');
 
-                var el = <HTMLElement> document.querySelector("#foreach-list-model-with-index" + fixturePostfix);
-                var templateLength = el.children.length;
-                var list = createTestList();
+                const el = <HTMLElement> document.querySelector("#foreach-list-model-with-index" + fixturePostfix);
+                let templateLength = el.children.length;
+                let list = createTestList();
                 expect(() => wx.applyBindings({ src: list }, el)).not.toThrowError();
 
                 // verify indexes
@@ -215,9 +215,9 @@ describe('Bindings',() => {
             it('observable list item property-changes propagate to DOM', () => {
                 loadFixtures('templates/Bindings/ForEach.html');
 
-                var el = <HTMLElement> document.querySelector("#foreach-list-model-with-index" + fixturePostfix);
-                var templateLength = el.children.length;
-                var list = createTestList();
+                const el = <HTMLElement> document.querySelector("#foreach-list-model-with-index" + fixturePostfix);
+                let templateLength = el.children.length;
+                let list = createTestList();
                 expect(() => wx.applyBindings({ src: list }, el)).not.toThrowError();
 
                 list.forEach((x) => x.foo(33));
@@ -227,15 +227,15 @@ describe('Bindings',() => {
             it('observable list with animation-hooks', () => {
                 loadFixtures('templates/Bindings/ForEach.html');
 
-                var el = <HTMLElement> document.querySelector("#foreach-list-model-with-index-and-hooks" + fixturePostfix);
-                var list = createTestList();
-                var beforeRemoveCount = 0;
-                var afterRenderCount = 0;
-                var afterAddCount = 0;
-                var beforeMoveCount = 0;
-                var afterMoveCount = 0;
+                const el = <HTMLElement> document.querySelector("#foreach-list-model-with-index-and-hooks" + fixturePostfix);
+                let list = createTestList();
+                let beforeRemoveCount = 0;
+                let afterRenderCount = 0;
+                let afterAddCount = 0;
+                let beforeMoveCount = 0;
+                let afterMoveCount = 0;
 
-                var hooks: wx.IForEachBindingHooks = {
+                let hooks: wx.IForEachBindingHooks = {
                     afterRender: (nodes: Node[], data: any) => {
                         afterRenderCount++;
                     },

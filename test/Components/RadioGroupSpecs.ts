@@ -3,15 +3,15 @@
 /// <reference path="../../src/web.rx.d.ts" />
 
 describe('Components', () => {
-    var domManager = wx.injector.get<wx.IDomManager>(wx.res.domManager);
+    let domManager = wx.injector.get<wx.IDomManager>(wx.res.domManager);
 
     describe('RadioGroup',() => {
         it('items only',() => {
             loadFixtures('templates/Components/RadioGroup.html');
 
-            var el = document.querySelector("#fixture1");
-            var items = [3, 2, 1];
-            var model = { items: items };
+            let el = document.querySelector("#fixture1");
+            let items = [3, 2, 1];
+            let model = { items: items };
 
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
             el = <HTMLElement> el.childNodes[0];
@@ -25,7 +25,7 @@ describe('Components', () => {
                 .map(x => x.getAttribute("name")).every(x => x.indexOf("wx-radiogroup") === 0)).toBeTruthy();
 
             // all items share the same groupname
-            var groupName = (<HTMLElement> el.childNodes[0]).getAttribute("name");
+            let groupName = (<HTMLElement> el.childNodes[0]).getAttribute("name");
             expect(testutils.nodeChildrenToArray<HTMLElement>(el).filter(x => x instanceof HTMLInputElement)
                 .map(x => x.getAttribute("name")).every(x => x === groupName)).toBeTruthy();
         });
@@ -33,9 +33,9 @@ describe('Components', () => {
         it('items with custom groupName',() => {
             loadFixtures('templates/Components/RadioGroup.html');
 
-            var el = document.querySelector("#fixture5");
-            var items = [3, 2, 1];
-            var model = { items: items };
+            let el = document.querySelector("#fixture5");
+            let items = [3, 2, 1];
+            let model = { items: items };
 
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
             el = <HTMLElement> el.childNodes[0];
@@ -51,9 +51,9 @@ describe('Components', () => {
         it('items with label',() => {
             loadFixtures('templates/Components/RadioGroup.html');
 
-            var el = document.querySelector("#fixture2");
-            var items = [{ key: "foo", value: "1" }, { key: "bar", value: "2" }, { key: "baz", value: "3" }];
-            var model = { items: items };
+            let el = document.querySelector("#fixture2");
+            let items = [{ key: "foo", value: "1" }, { key: "bar", value: "2" }, { key: "baz", value: "3" }];
+            let model = { items: items };
 
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
             el = <HTMLElement> el.childNodes[0];
@@ -66,9 +66,9 @@ describe('Components', () => {
         it('items with label and css-class',() => {
             loadFixtures('templates/Components/RadioGroup.html');
 
-            var el = document.querySelector("#fixture3");
-            var items = [{ key: "foo", value: "1" }, { key: "bar", value: "2" }, { key: "baz", value: "3" }];
-            var model = { items: items };
+            let el = document.querySelector("#fixture3");
+            let items = [{ key: "foo", value: "1" }, { key: "bar", value: "2" }, { key: "baz", value: "3" }];
+            let model = { items: items };
 
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
             el = <HTMLElement> el.childNodes[0];
@@ -80,9 +80,9 @@ describe('Components', () => {
         it('items with label, css-class and selection',() => {
             loadFixtures('templates/Components/RadioGroup.html');
 
-            var el = document.querySelector("#fixture4");
-            var items = [{ key: "foo", value: "1" }, { key: "bar", value: "2" }, { key: "baz", value: "3" }];
-            var model = { items: items, selection: wx.property("2") };
+            let el = document.querySelector("#fixture4");
+            let items = [{ key: "foo", value: "1" }, { key: "bar", value: "2" }, { key: "baz", value: "3" }];
+            let model = { items: items, selection: wx.property("2") };
 
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
             el = <HTMLElement> el.childNodes[0];

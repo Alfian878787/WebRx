@@ -10,8 +10,8 @@ describe('Bindings', () => {
             // register a binding that would not be available in default module
             wx.module("test", (m)=> m.binding("foo", wx.app.binding("text")));
 
-            var el = document.querySelector("#module-name");
-            var model = {};
+            const el = document.querySelector("#module-name");
+            let model = {};
             expect(() => wx.applyBindings(model, el)).not.toThrow();
 
             expect($(el).children("#content").text()).toEqual("bar");
@@ -24,8 +24,8 @@ describe('Bindings', () => {
             wx.module("test",(m) => m.binding("foo", wx.app.binding("text")));
             wx.module("test2",(m) => m.binding("bar", wx.app.binding("text")));
 
-            var el = document.querySelector("#multiple-module-names");
-            var model = {};
+            const el = document.querySelector("#multiple-module-names");
+            let model = {};
             expect(() => wx.applyBindings(model, el)).not.toThrow();
 
             expect($(el).children("#content").text()).toEqual("bar");
@@ -39,8 +39,8 @@ describe('Bindings', () => {
             wx.module("test1",(m) => m.binding("foo", wx.app.binding("text")));
             wx.module("test2",(m) => m.binding("bar", wx.app.binding("text")));
 
-            var el = document.querySelector("#module-name-nested");
-            var model = {};
+            const el = document.querySelector("#module-name-nested");
+            let model = {};
             expect(() => wx.applyBindings(model, el)).not.toThrow();
 
             expect($(el).children("#content1").text()).toEqual("bar");
@@ -54,8 +54,8 @@ describe('Bindings', () => {
             wx.module("test1", (m) => m.binding("foo", wx.app.binding("text")));
             wx.module("test2", (m) => m.binding("bar", wx.app.binding("text")));
 
-            var el = document.querySelector("#module-name-nested");
-            var model = {};
+            const el = document.querySelector("#module-name-nested");
+            let model = {};
             expect(() => wx.applyBindings(model, el)).not.toThrow();
 
             expect($(el).children("#content1").text()).toEqual("bar");

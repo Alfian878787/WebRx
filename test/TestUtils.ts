@@ -12,25 +12,25 @@ declare module wx {
 }
 
 module testutils {
-    var knownEvents = {}, knownEventTypesByEventName = {};
+    let knownEvents = {}, knownEventTypesByEventName = {};
     const keyEventTypeName = 'KeyboardEvent';
     knownEvents[keyEventTypeName] = ['keyup', 'keydown', 'keypress'];
     knownEvents['MouseEvents'] = ['click', 'dblclick', 'mousedown', 'mouseup', 'mousemove', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave'];
 
     Object.keys(knownEvents).forEach(x=> {
-        var eventType = x;
-        var knownEventsForType = knownEvents[x];
+        let eventType = x;
+        let knownEventsForType = knownEvents[x];
 
         if (knownEventsForType.length) {
-            for (var i = 0, j = knownEventsForType.length; i < j; i++)
+            for (let i = 0, j = knownEventsForType.length; i < j; i++)
                 knownEventTypesByEventName[knownEventsForType[i]] = eventType;
         }
     });
 
     export function distinctUntilChanged<T>(arr: Array<T>): Array<T> {
-        var isFirst = true;
-        var lastValue;
-        var result = new Array<T>();
+        let isFirst = true;
+        let lastValue;
+        let result = new Array<T>();
 
         arr.forEach(v => {
             if (isFirst) {
@@ -63,8 +63,8 @@ module testutils {
     /// schedulers.</returns>
     function _withScheduler<T extends Rx.IScheduler>(sched: T): Rx.IDisposable {
         //schedGate.WaitOne();
-        var prevDef = wx.app.mainThreadScheduler;
-        //var prevTask = wx.wx.App.taskpoolScheduler;
+        let prevDef = wx.app.mainThreadScheduler;
+        //let prevTask = wx.wx.App.taskpoolScheduler;
 
         wx.app.mainThreadScheduler = sched;
         //wx.wx.App.TaskpoolScheduler = sched;
@@ -77,8 +77,8 @@ module testutils {
     }
 
     export function withScheduler<T extends Rx.IScheduler, TRet>(sched: T, block: (sched: T) => TRet) {
-        var ret: TRet;
-        var disp: Rx.IDisposable;
+        let ret: TRet;
+        let disp: Rx.IDisposable;
 
         try {
             disp = _withScheduler(sched);
@@ -99,12 +99,12 @@ module testutils {
     }
 
     export function trackSubscriptions(parent: Rx.Observable<any>): IObservableSubscriptionCount {
-        var result: IObservableSubscriptionCount = { count: 0, observable: null };
+        let result: IObservableSubscriptionCount = { count: 0, observable: null };
 
         result.observable = Rx.Observable.create<any>(obs => {
             result.count++;
 
-            var sub = parent.subscribe(x => obs.onNext(x), x => obs.onError(x),() => obs.onCompleted());
+            let sub = parent.subscribe(x => obs.onNext(x), x => obs.onError(x),() => obs.onCompleted());
 
             return new Rx.CompositeDisposable(sub,
                 Rx.Disposable.create(() => result.count--));
@@ -114,14 +114,14 @@ module testutils {
     }
 
     export function createHistory(): wx.IHistory {
-        var stack:Array<{ data: any; url: string }> = [];
-        var location: Location = <Location> {};
-        var current: number = 0;
-        var popStateSubject = new Rx.Subject<PopStateEvent>();
-        var pushStateSubject = new Rx.Subject<PopStateEvent>();
+        let stack:Array<{ data: any; url: string }> = [];
+        let location: Location = <Location> {};
+        let current: number = 0;
+        let popStateSubject = new Rx.Subject<PopStateEvent>();
+        let pushStateSubject = new Rx.Subject<PopStateEvent>();
 
         function updateLocation(uri: string) {
-            var u = new URI(uri);
+            let u = new URI(uri);
             location.host = u.host();
             location.href = u.href();
             location.pathname = u.pathname();
@@ -174,7 +174,7 @@ module testutils {
         }
 
         // inherit default implementation
-        var result = <wx.IHistory> {
+        let result = <wx.IHistory> {
             back: back,
             forward: forward,
             //go: window.history.go,
@@ -188,8 +188,8 @@ module testutils {
                 if(query) {
                     let result = {};
                     let params = query.split("&");
-                    for ( var i = 0; i < params.length; i++) {
-                        var tmp = params[i].split("=");
+                    for ( let i = 0; i < params.length; i++) {
+                        let tmp = params[i].split("=");
                         result[tmp[0]] = decodeURIComponent(tmp[1]);
                     }
 
@@ -231,7 +231,7 @@ module testutils {
     }
 
     export function createModelContext(...models: any[]) {
-        var ctx: wx.IDataContext = {
+        let ctx: wx.IDataContext = {
             $data: models[0],
             $root: models[models.length - 1],
             $parent: models.length > 1 ? models[1] : null,
@@ -259,14 +259,14 @@ module testutils {
     export function triggerEvent(element: HTMLElement, eventType: string, keyCode?: any) {
         if (typeof document.createEvent == "function") {
             if (typeof element.dispatchEvent == "function") {
-                var eventCategory = knownEventTypesByEventName[eventType] || "HTMLEvents";
-                var event: any;
+                let eventCategory = knownEventTypesByEventName[eventType] || "HTMLEvents";
+                let event: any;
 
                 if (eventCategory !== 'KeyboardEvent') {
                     event = document.createEvent(eventCategory);
                     (<any> event.initEvent)(eventType, true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, element);
                 } else {
-                    var keyEvent = <KeyboardEvent> <any> document.createEvent(eventCategory);
+                    let keyEvent = <KeyboardEvent> <any> document.createEvent(eventCategory);
                     keyEvent.initKeyboardEvent(eventType, true, true, null, "", 0, "", false, null);
 
                     if (keyCode) {

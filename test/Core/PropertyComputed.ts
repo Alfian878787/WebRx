@@ -5,55 +5,55 @@
 
 describe("Output Properties", () => {
     it("can be created using factory method",() => {
-        var prop = Rx.Observable.never().toProperty();
+        let prop = Rx.Observable.never().toProperty();
         expect(prop).toBeDefined();
     });
 
     it("implements IObservableProperty",() => {
-        var prop = Rx.Observable.never().toProperty();
+        let prop = Rx.Observable.never().toProperty();
         expect(wx.queryInterface(prop, wx.IID.IObservableProperty)).toBeTruthy();
     });
 
     it("observables are set up during creation",() => {
-        var prop = Rx.Observable.never().toProperty();
+        let prop = Rx.Observable.never().toProperty();
         expect(prop.changing !== undefined && prop.changed !== undefined).toBeTruthy();
     });
 
     it("can be created using factory method with initial value",() => {
-        var obs = Rx.Observable.never();
-        var prop = obs.toProperty(10);
+        let obs = Rx.Observable.never();
+        let prop = obs.toProperty(10);
         expect(prop()).toEqual(10);
     });
 
     it("source observable prefixed with startWith overrides initialValue",() => {
-        var obs = Rx.Observable.never().startWith(13);
-        var prop = obs.toProperty();
+        let obs = Rx.Observable.never().startWith(13);
+        let prop = obs.toProperty();
         expect(prop()).toEqual(13);
     });
 
     it("invoking it as a function with a parameter to change it's value, throws an error",() => {
-        var prop = Rx.Observable.never().toProperty();
+        let prop = Rx.Observable.never().toProperty();
         expect(() => prop(10)).toThrowError();
     });
 
     it("returns the last value of the underlying observable upon creation",() => {
-        var obs = Rx.Observable.return(3);
-        var prop = obs.toProperty();
+        let obs = Rx.Observable.return(3);
+        let prop = obs.toProperty();
         expect(prop()).toEqual(3);
     });
 
     it("returns the last value of the underlying observable",() => {
-        var subject = new Rx.Subject<number>();
-        var prop = subject.toProperty();
+        let subject = new Rx.Subject<number>();
+        let prop = subject.toProperty();
         subject.onNext(3);
         expect(prop()).toEqual(3);
     });
 
     it("adding data to the underlying observable results in change notifications on the property",() => {
-        var subject = new Rx.Subject<number>();
-        var prop = subject.toProperty();
-        var changingFired = false;
-        var changedFired = false;
+        let subject = new Rx.Subject<number>();
+        let prop = subject.toProperty();
+        let changingFired = false;
+        let changedFired = false;
 
         prop.changing.subscribe(x => changingFired = true);
         prop.changed.subscribe(x => changedFired = true);
@@ -63,9 +63,9 @@ describe("Output Properties", () => {
     });
 
     it("multiple subscribers receive notifications",() => {
-        var subject = new Rx.Subject<number>();
-        var prop = subject.toProperty();
-        var changingFiredCount = 0;
+        let subject = new Rx.Subject<number>();
+        let prop = subject.toProperty();
+        let changingFiredCount = 0;
 
         // subscribe
         prop.changing.subscribe(x => changingFiredCount++);
@@ -79,10 +79,10 @@ describe("Output Properties", () => {
     });
 
     it("'changing' notification with new value is fired before 'changed' notification",() => {
-        var subject = new Rx.Subject<number>();
-        var prop = subject.toProperty();
-        var first = undefined;
-        var valueCorrect = false;
+        let subject = new Rx.Subject<number>();
+        let prop = subject.toProperty();
+        let first = undefined;
+        let valueCorrect = false;
 
         subject.onNext(5);
 
@@ -105,10 +105,10 @@ describe("Output Properties", () => {
     });
 
     it("notifications for changes in absence of any subscribers do not get buffered",() => {
-        var subject = new Rx.Subject<number>();
-        var prop = subject.toProperty();
-        var changingFired = false;
-        var changedFired = false;
+        let subject = new Rx.Subject<number>();
+        let prop = subject.toProperty();
+        let changingFired = false;
+        let changedFired = false;
 
         subject.onNext(10);
         prop.changing.subscribe(x => changingFired = true);
@@ -118,9 +118,9 @@ describe("Output Properties", () => {
     });
 
     it("consecutively assigning the same value does not result in duplicate change notifications",() => {
-        var subject = new Rx.Subject<number>();
-        var prop = subject.toProperty();
-        var changedFiredCount = 0;
+        let subject = new Rx.Subject<number>();
+        let prop = subject.toProperty();
+        let changedFiredCount = 0;
 
         prop.changed.subscribe(x => changedFiredCount++);
         subject.onNext(1);

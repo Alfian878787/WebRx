@@ -167,13 +167,13 @@ export class Module implements wx.IModule {
 
                 if (cd.instance) {
                     result = Rx.Observable.return<wx.IComponentDescriptor>(cd.instance);
-                } else if (cd.template) {
-                    result = Rx.Observable.return<wx.IComponentDescriptor>(cd);
                 } else if (cd.resolve) {
                     let resolved = injector.get<wx.IComponentDescriptor>(cd.resolve);
                     result = Rx.Observable.return<wx.IComponentDescriptor>(resolved);
                 } else if (cd.require) {
                     result = observableRequire<wx.IComponentDescriptor>(cd.require);
+                } else {
+                    result = Rx.Observable.return<wx.IComponentDescriptor>(cd);
                 }
             }
         } else {
@@ -190,7 +190,7 @@ export class Module implements wx.IModule {
                 }
 
                 return Rx.Observable.combineLatest(
-                    this.loadComponentTemplate(component.template, params),
+                    component.template ? this.loadComponentTemplate(component.template, params) : Rx.Observable.return<any>(undefined),
                     component.viewModel ? this.loadComponentViewModel(component.viewModel, params) : Rx.Observable.return<any>(undefined),
                     (t, vm) => {
                         // if view-model factory yields a function, use it as constructor

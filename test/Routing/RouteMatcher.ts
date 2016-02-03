@@ -9,7 +9,7 @@ describe('Routing', () => {
     describe('RouteMatcher', () => {
         describe('parse', () => {
             it('regex route', () => {
-                var r = wx.route(/^(users?)(?:\/(\d+)(?:\.\.(\d+))?)?/);
+                let r = wx.route(/^(users?)(?:\/(\d+)(?:\.\.(\d+))?)?/);
                 expect(r.parse("foo")).toBe(null);
                 expect(r.parse("user")).toEqual({ captures: ["user", undefined, undefined] });
                 expect(r.parse("users")).toEqual({ captures: ["users", undefined, undefined] });
@@ -18,7 +18,7 @@ describe('Routing', () => {
             });
 
             it('string route, basic', () => {
-                var r = wx.route("users");
+                let r = wx.route("users");
                 expect(r.parse("fail")).toBe(null);
                 expect(r.parse("users/")).toBe(null);
                 expect(r.parse("users/foo")).toBe(null);
@@ -26,7 +26,7 @@ describe('Routing', () => {
             });
 
             it('string route, one variable', () => {
-                var r = wx.route("users/:id");
+                let r = wx.route("users/:id");
                 expect(r.parse("users")).toBe(null);
                 expect(r.parse("users/123/456")).toBe(null);
                 expect(r.parse("users/")).toEqual({ id: "" });
@@ -34,14 +34,14 @@ describe('Routing', () => {
             });
 
             it('string route, multiple variables', () => {
-                var r = wx.route("users/:id/:other");
+                let r = wx.route("users/:id/:other");
                 expect(r.parse("users")).toBe(null);
                 expect(r.parse("users/123")).toBe(null);
                 expect(r.parse("users/123/456")).toEqual({ id: "123", other: "456" });
             });
 
             it('string route, one splat', () => {
-                var r = wx.route("users/*stuff");
+                let r = wx.route("users/*stuff");
                 expect(r.parse("users")).toBe(null);
                 expect(r.parse("users/")).toEqual({ stuff: "" });
                 expect(r.parse("users/123")).toEqual({ stuff: "123" });
@@ -49,7 +49,7 @@ describe('Routing', () => {
             });
 
             it('string route, multiple splats', () => {
-                var r = wx.route("users/*stuff/*more");
+                let r = wx.route("users/*stuff/*more");
                 expect(r.parse("users")).toBe(null);
                 expect(r.parse("users/123")).toBe(null);
                 expect(r.parse("users/123/")).toEqual({ stuff: "123", more: "" });
@@ -61,7 +61,7 @@ describe('Routing', () => {
             });
 
             it('string route, variables and splats', () => {
-                var r = wx.route("users/:id/foo/*stuff/:other/*more");
+                let r = wx.route("users/:id/foo/*stuff/:other/*more");
                 expect(r.parse("users/123/foo/aaa/456/bbb")).toEqual({ id: "123", other: "456", stuff: "aaa", more: "bbb" });
 
                 r = wx.route("users/:id/:other/*stuff/*more");
@@ -70,7 +70,7 @@ describe('Routing', () => {
 
             // These were pulled from the backbone.js unit tests.
             it('a few backbone.js test routes', () => {
-                var r = wx.route("search/:query/p:page");
+                let r = wx.route("search/:query/p:page");
                 expect(r.parse("search/boston/p20")).toEqual({ query: "boston", page: "20" });
 
                 r = wx.route("*first/complex-:part/*rest");
@@ -84,10 +84,10 @@ describe('Routing', () => {
             });
 
             it('specific matching rules', () => {
-                var digitsOnlyFn = value => value.match(/^\d+$/);
-                var digitsOnlyRe = /^\d+$/;
+                let digitsOnlyFn = value => value.match(/^\d+$/);
+                let digitsOnlyRe = /^\d+$/;
 
-                var r = wx.route("users/:id", { id: digitsOnlyRe });
+                let r = wx.route("users/:id", { id: digitsOnlyRe });
                 expect(r.parse("users")).toBe(null);
                 expect(r.parse("users/")).toBe(null);
                 expect(r.parse("users/abc")).toBe(null);
@@ -117,12 +117,12 @@ describe('Routing', () => {
 
         describe('stringify', () => {
             it('regex route', () => {
-                var r = wx.route(/^(users?)(?:\/(\d+)(?:\.\.(\d+))?)?/);
+                let r = wx.route(/^(users?)(?:\/(\d+)(?:\.\.(\d+))?)?/);
                 expect(r.stringify("anything")).toBe("");
             });
 
             it('one variable',() => {
-                var r = wx.route("users/:id");
+                let r = wx.route("users/:id");
                 expect(r.stringify({ id: "123" })).toBe("users/123");
                 expect(r.stringify({ id: "" })).toBe("users/");
                 expect(r.stringify({})).toBe("users/");
@@ -130,7 +130,7 @@ describe('Routing', () => {
             });
 
             it('multiple variables',() => {
-                var r = wx.route("users/:id/:other");
+                let r = wx.route("users/:id/:other");
                 expect(r.stringify({ id: "123", other: "456" })).toBe("users/123/456");
                 expect(r.stringify({ id: "", other: "456" })).toBe("users//456");
                 expect(r.stringify({ id: "123", other: "" })).toBe("users/123/");
@@ -142,7 +142,7 @@ describe('Routing', () => {
             });
 
             it('one splat',() => {
-                var r = wx.route("users/*stuff");
+                let r = wx.route("users/*stuff");
                 expect(r.stringify({ stuff: "" })).toBe("users/");
                 expect(r.stringify({ stuff: "123" })).toBe("users/123");
                 expect(r.stringify({ stuff: "123/456" })).toBe("users/123/456");
@@ -151,7 +151,7 @@ describe('Routing', () => {
             });
 
             it('multiple splats',() => {
-                var r = wx.route("users/*stuff/*more");
+                let r = wx.route("users/*stuff/*more");
                 expect(r.stringify({ stuff: "123", more: "456" })).toBe("users/123/456");
                 expect(r.stringify({ stuff: "123", more: "" })).toBe("users/123/");
                 expect(r.stringify({ stuff: "", more: "123" })).toBe("users//123");
@@ -161,7 +161,7 @@ describe('Routing', () => {
             });
 
             it('possibly conflicting param names',() => {
-                var r = wx.route(":a/:aa/*aaa/*aaaa");
+                let r = wx.route(":a/:aa/*aaa/*aaaa");
                 expect(r.stringify({ a: 1, aa: 2, aaa: 3, aaaa: 4 })).toBe("1/2/3/4");
                 expect(r.stringify({ aaaa: 4, aaa: 3, aa: 2, a: 1 })).toBe("1/2/3/4");
             });

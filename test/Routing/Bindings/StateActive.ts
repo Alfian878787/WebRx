@@ -4,7 +4,7 @@
 /// <reference path="../../typings/URI.d.ts" />
 
 describe('Routing',() => {
-    var router = wx.injector.get<wx.IRouter>(wx.res.router);
+    let router = wx.injector.get<wx.IRouter>(wx.res.router);
 
     beforeEach(() => {
         router.reset();
@@ -24,8 +24,8 @@ describe('Routing',() => {
                     name: "foo"
                 });
 
-                var el = <HTMLAnchorElement> document.querySelector("#fixture1");
-                var model = {};
+                const el = <HTMLAnchorElement> document.querySelector("#fixture1");
+                let model = {};
                 expect(() => wx.applyBindings(model, el)).not.toThrow();
                 expect(el).not.toHaveClass("active");
 
@@ -40,8 +40,8 @@ describe('Routing',() => {
                     name: "foo"
                 });
 
-                var el = <HTMLAnchorElement> document.querySelector("#fixture2");
-                var model = {};
+                const el = <HTMLAnchorElement> document.querySelector("#fixture2");
+                let model = {};
                 expect(() => wx.applyBindings(model, el)).not.toThrow();
                 expect(el).not.toHaveClass("active");
 
@@ -59,7 +59,7 @@ describe('Routing',() => {
                     name: "foo"
                 });
 
-                var el = <HTMLAnchorElement> document.querySelector("#fixture4");
+                const el = <HTMLAnchorElement> document.querySelector("#fixture4");
                 expect(() => wx.applyBindings(undefined, el)).not.toThrow();
                 expect(el).not.toHaveClass("selected");
                 expect(el).not.toHaveClass("selected2");
@@ -76,8 +76,8 @@ describe('Routing',() => {
                     name: "foo"
                 });
 
-                var el = <HTMLAnchorElement> document.querySelector("#fixture2");
-                var model = {};
+                const el = <HTMLAnchorElement> document.querySelector("#fixture2");
+                let model = {};
                 expect(() => wx.applyBindings(model, el)).not.toThrow();
                 expect(el).not.toHaveClass("active");
 
@@ -95,8 +95,8 @@ describe('Routing',() => {
                     name: "foo"
                 });
 
-                var el = <HTMLAnchorElement> document.querySelector("#fixture3");
-                var model = { stringProp: wx.property("5") };
+                const el = <HTMLAnchorElement> document.querySelector("#fixture3");
+                let model = { stringProp: wx.property("5") };
                 expect(() => wx.applyBindings(model, el)).not.toThrow();
                 expect(el).not.toHaveClass("active");
 

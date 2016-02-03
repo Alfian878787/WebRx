@@ -115,15 +115,15 @@ export class Module {
                 if (cd.instance) {
                     result = Rx.Observable.return(cd.instance);
                 }
-                else if (cd.template) {
-                    result = Rx.Observable.return(cd);
-                }
                 else if (cd.resolve) {
                     let resolved = injector.get(cd.resolve);
                     result = Rx.Observable.return(resolved);
                 }
                 else if (cd.require) {
                     result = observableRequire(cd.require);
+                }
+                else {
+                    result = Rx.Observable.return(cd);
                 }
             }
         }
@@ -137,7 +137,7 @@ export class Module {
             if (component == null) {
                 return Rx.Observable.return(undefined);
             }
-            return Rx.Observable.combineLatest(this.loadComponentTemplate(component.template, params), component.viewModel ? this.loadComponentViewModel(component.viewModel, params) : Rx.Observable.return(undefined), (t, vm) => {
+            return Rx.Observable.combineLatest(component.template ? this.loadComponentTemplate(component.template, params) : Rx.Observable.return(undefined), component.viewModel ? this.loadComponentViewModel(component.viewModel, params) : Rx.Observable.return(undefined), (t, vm) => {
                 // if view-model factory yields a function, use it as constructor
                 if (isFunction(vm)) {
                     vm = new vm(params);

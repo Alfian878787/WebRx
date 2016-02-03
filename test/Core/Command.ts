@@ -5,16 +5,16 @@
 
 describe("Command", () => {
     it("implements ICommand", () => {
-        var cmd = wx.command();
+        let cmd = wx.command();
         expect(wx.queryInterface(cmd, wx.IID.ICommand)).toBeTruthy();
     });
 
     it("completely default reactive command should fire", () => {
-        var sched = new Rx.TestScheduler();
-        var fixture = wx.command(null, sched);
+        let sched = new Rx.TestScheduler();
+        let fixture = wx.command(null, sched);
         expect(fixture.canExecute(null)).toBeTruthy();
 
-        var result = null;
+        let result = null;
 
         fixture.results.subscribe(x => {
             result = x.toString();
@@ -29,10 +29,10 @@ describe("Command", () => {
     });
 
     it("register sync function smoke-test",() => {
-        var invoked = false;
-        var fixture = wx.command(()=> invoked = true);
+        let invoked = false;
+        let fixture = wx.command(()=> invoked = true);
 
-        var results = new Array<number>();
+        let results = new Array<number>();
         fixture.results.subscribe(x => results.push(x));
 
         expect(invoked).toBeFalsy();
@@ -44,9 +44,9 @@ describe("Command", () => {
     });
 
     it("execute with sync function doesnt throw on error",() => {
-        var fixture = wx.command(() => { throw new Error("foo"); });
+        let fixture = wx.command(() => { throw new Error("foo"); });
 
-        var results = new Array<Error>();
+        let results = new Array<Error>();
         fixture.thrownExceptions.subscribe(x => results.push(x));
 
         expect(() => fixture.execute(null)).not.toThrowError();
@@ -55,13 +55,13 @@ describe("Command", () => {
     });
 
     it("observable canExecute should show up in command", () => {
-        var input = [true, false, false, true, false, true];
-        var result = testutils.withScheduler(new Rx.TestScheduler(), sched => {
-            var can_execute = new Rx.Subject<boolean>();
-            var fixture = wx.command(can_execute, sched);
-            var changes_as_observable = [];
+        let input = [true, false, false, true, false, true];
+        let result = testutils.withScheduler(new Rx.TestScheduler(), sched => {
+            let can_execute = new Rx.Subject<boolean>();
+            let fixture = wx.command(can_execute, sched);
+            let changes_as_observable = [];
 
-            var change_event_count = 0;
+            let change_event_count = 0;
 
             fixture.canExecuteObservable.subscribe(x => {
                 change_event_count++;
@@ -86,14 +86,14 @@ describe("Command", () => {
     });
 
     it("observable execute func should be observable and act", () => {
-        var executed_params = new Array<any>();
-        var fixture = wx.command();
+        let executed_params = new Array<any>();
+        let fixture = wx.command();
         fixture.results.subscribe(x => executed_params.push(x));
 
-        var observed_params = new Rx.ReplaySubject<any>();
+        let observed_params = new Rx.ReplaySubject<any>();
         fixture.results.subscribe(x=> observed_params.onNext(x), x=> observed_params.onError(x), ()=> observed_params.onCompleted());
 
-        var range = Ix.Enumerable.range(0, 5).toArray();
+        let range = Ix.Enumerable.range(0, 5).toArray();
         range.forEach(x => fixture.execute(x));
 
         expect(range).toEqual(executed_params.filter(x => typeof x === "number"));
@@ -103,7 +103,7 @@ describe("Command", () => {
     });
 
     it("canExecuteObservable is not null after canExecute called", () => {
-        var fixture = wx.command(null);
+        let fixture = wx.command(null);
 
         fixture.canExecute(null);
 
@@ -111,9 +111,9 @@ describe("Command", () => {
     });
 
     it("no results are emitted when attempting to execute a command that is not allowed to execute", () => {
-        var fixture = wx.command(()=> {}, Rx.Observable.return(false));
+        let fixture = wx.command(()=> {}, Rx.Observable.return(false));
 
-        var resultsCount = 0, executingCount = 0;
+        let resultsCount = 0, executingCount = 0;
         fixture.results.subscribe(x=> resultsCount++);
         fixture.isExecuting.subscribe(x=> executingCount += (x ? 1 : 0));
 
@@ -125,11 +125,11 @@ describe("Command", () => {
     });
 
     it("multiple subscribes shouldn't result in multiple notifications", () => {
-        var input = [1, 2, 1, 2];
-        var fixture = wx.command(null);
+        let input = [1, 2, 1, 2];
+        let fixture = wx.command(null);
 
-        var odd_list = new Array<number>();
-        var even_list = new Array<number>();
+        let odd_list = new Array<number>();
+        let even_list = new Array<number>();
         fixture.results.where(x => x % 2 !== 0).subscribe(x => odd_list.push(x));
         fixture.results.where(x => x % 2 === 0).subscribe(x => even_list.push(x));
 
@@ -140,11 +140,11 @@ describe("Command", () => {
     });
 
     it("canExecute exception shouldnt perma-break commands", () => {
-        var canExecute = new Rx.Subject<boolean>();
-        var fixture = wx.command(canExecute);
+        let canExecute = new Rx.Subject<boolean>();
+        let fixture = wx.command(canExecute);
 
-        var exceptions = new Array<Error>();
-        var canExecuteStates = new Array<boolean>();
+        let exceptions = new Array<Error>();
+        let canExecuteStates = new Array<boolean>();
         fixture.canExecuteObservable.subscribe(x => canExecuteStates.push(x));
         fixture.thrownExceptions.subscribe(x => exceptions.push(x));
 
@@ -167,7 +167,7 @@ describe("Command", () => {
     });
 
     it("execute doesnt throw on error", () => {
-        var command = wx.asyncCommand(_ =>
+        let command = wx.asyncCommand(_ =>
             Rx.Observable.throw(new Error("Aieeeee!")));
 
         command.thrownExceptions.subscribe();
@@ -177,13 +177,13 @@ describe("Command", () => {
 
     it("register async function smoke-test", () => {
         testutils.withScheduler(new Rx.TestScheduler(), sched => {
-            var fixture = wx.asyncCommand(Rx.Observable.return(true),
+            let fixture = wx.asyncCommand(Rx.Observable.return(true),
                 _ => Rx.Observable.return(5).delay(5000, sched));
 
-            var results: Array<number> = [];
+            let results: Array<number> = [];
             fixture.results.subscribe(x => results.push(x));
 
-            var inflightResults: Array<boolean> = [];
+            let inflightResults: Array<boolean> = [];
             fixture.isExecuting.subscribe(x => inflightResults.push(x));
             sched.advanceTo(10);
             expect(fixture.canExecute(null)).toBeTruthy();
@@ -202,11 +202,11 @@ describe("Command", () => {
 
     it("multiple subscribers shouldnt decrement refCount below zero", () => {
         testutils.withScheduler(new Rx.TestScheduler(), sched => {
-            var fixture = wx.asyncCommand(Rx.Observable.return(true),
+            let fixture = wx.asyncCommand(Rx.Observable.return(true),
                 _ => Rx.Observable.return(5).delay(5000, sched));
 
-            var results = new Array<number>();
-            var subscribers = [false, false, false, false, false];
+            let results = new Array<number>();
+            let subscribers = [false, false, false, false, false];
 
 
             fixture.results.subscribe(x => results.push(x));
@@ -230,13 +230,13 @@ describe("Command", () => {
 
     it("mulftiple results from observable shouldnt decrement refCount below zero", () => {
         testutils.withScheduler(new Rx.TestScheduler(), sched => {
-            var latestExecuting = false;
+            let latestExecuting = false;
 
-            var fixture = wx.asyncCommand(Rx.Observable.return(true),
+            let fixture = wx.asyncCommand(Rx.Observable.return(true),
                 _ => Rx.Observable.fromArray([1, 2, 3]),
                 sched);
 
-            var results = [];
+            let results = [];
             fixture.results.subscribe(x => results.push(x));
 
             fixture.isExecuting.subscribe(x => latestExecuting = x);
@@ -251,7 +251,7 @@ describe("Command", () => {
 
     it("canExecute should change on in-flight op", () => {
         testutils.withScheduler(new Rx.TestScheduler(), sched => {
-            var canExecute = sched.createHotObservable<boolean>(
+            let canExecute = sched.createHotObservable<boolean>(
                 testutils.recordNext(sched, 0, true),
                 testutils.recordNext(sched, 250, false),
                 testutils.recordNext(sched, 500, true),
@@ -260,11 +260,11 @@ describe("Command", () => {
                 testutils.recordNext(sched, 1100, false)
             );
 
-            var fixture = wx.asyncCommand(canExecute,
+            let fixture = wx.asyncCommand(canExecute,
                 x => Rx.Observable.return(x * 5).delay(900, wx.app.mainThreadScheduler));
 
-            var calculatedResult = -1;
-            var latestcanExecute = false;
+            let calculatedResult = -1;
+            let latestcanExecute = false;
 
             fixture.results.subscribe(x => calculatedResult = x);
             fixture.canExecuteObservable.subscribe(x => latestcanExecute = x);
@@ -308,13 +308,13 @@ describe("Command", () => {
 
     it("disallow concurrent execution test", () => {
         testutils.withScheduler(new Rx.TestScheduler(), sched => {
-            var fixture = wx.asyncCommand(Rx.Observable.return(true),
+            let fixture = wx.asyncCommand(Rx.Observable.return(true),
                 _ => Rx.Observable.return(4).delay(5000, sched),
                 sched);
 
             expect(fixture.canExecute(null)).toBeTruthy();
 
-            var result = [];
+            let result = [];
             fixture.results.subscribe(x => result.push(x));
             expect(0).toEqual(result.length);
 
@@ -336,9 +336,9 @@ describe("Command", () => {
     });
 
     it("command can execute on whenAny",() => {
-        var prop = wx.property();
-        var commandExecuted = false;
-        var command = wx.command(_=> commandExecuted = true, wx.whenAny(prop, x=> !!x));
+        let prop = wx.property();
+        let commandExecuted = false;
+        let command = wx.command(_=> commandExecuted = true, wx.whenAny(prop, x=> !!x));
         expect(commandExecuted).toBeFalsy();
 
         prop(undefined);
@@ -355,12 +355,12 @@ describe("Command", () => {
     });
 
     it("command executes in context of thisArg",() => {
-        var vm = new Object();
+        let vm = new Object();
 
         // test wx.command() overload
-        var thisWas: any = undefined;
+        let thisWas: any = undefined;
         // WARNING: don't convert this to a lamba or the test will suddenly fail due to Typescript's this-capturing
-        var command = wx.command(function (_) { thisWas = this }, Rx.Observable.return(true), vm);
+        let command = wx.command(function (_) { thisWas = this }, Rx.Observable.return(true), vm);
         command.execute(null);
         expect(thisWas).toBe(vm);
 

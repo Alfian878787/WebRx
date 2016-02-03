@@ -7,15 +7,15 @@ describe('Bindings', () => {
         it('binds a single event to a handler function',() => {
             loadFixtures('templates/Bindings/Event.html');
 
-            var el = <HTMLElement> document.querySelector("#event-single");
+            const el = <HTMLElement> document.querySelector("#event-single");
 
-            var called = false;
-            var eventName = undefined;
-            var calledWithValidContext = false;
-            var calledWithValidEvent = false;
-            var callCount = 0;
+            let called = false;
+            let eventName = undefined;
+            let calledWithValidContext = false;
+            let calledWithValidEvent = false;
+            let callCount = 0;
 
-            var model = {
+            let model = {
                 clickHandler: (ctx: wx.IDataContext, e: Event) => {
                     callCount++;
                     called = true;
@@ -55,12 +55,12 @@ describe('Bindings', () => {
         it('binds multiple events to handler functions',() => {
             loadFixtures('templates/Bindings/Event.html');
 
-            var el = <HTMLInputElement> document.querySelector("#event-multiple");
+            const el = <HTMLInputElement> document.querySelector("#event-multiple");
 
-            var clickCallCount = 0;
-            var inputCallCount = 0;
+            let clickCallCount = 0;
+            let inputCallCount = 0;
 
-            var model = {
+            let model = {
                 clickHandler: (ctx: wx.IDataContext, e: Event) => {
                     clickCallCount++;
                 },
@@ -97,15 +97,15 @@ describe('Bindings', () => {
         it('binds multiple events to observers',() => {
             loadFixtures('templates/Bindings/Event.html');
 
-            var el = <HTMLInputElement> document.querySelector("#event-multiple-observer");
+            const el = <HTMLInputElement> document.querySelector("#event-multiple-observer");
 
-            var clickCallCount = 0;
-            var inputCallCount = 0;
+            let clickCallCount = 0;
+            let inputCallCount = 0;
 
-            var clickSubject = new Rx.Subject<Event>();
-            var inputSubject = new Rx.Subject<Event>();
+            let clickSubject = new Rx.Subject<Event>();
+            let inputSubject = new Rx.Subject<Event>();
 
-            var model = {
+            let model = {
                 clickObserver: Rx.Observer.create<Event>((x) => { clickSubject.onNext(x) }),
                 inputObserver: Rx.Observer.create<Event>((x) => { inputSubject.onNext(x) })
             };
@@ -141,15 +141,15 @@ describe('Bindings', () => {
         it('binds multiple events to commands',() => {
             loadFixtures('templates/Bindings/Event.html');
 
-            var el = <HTMLInputElement> document.querySelector("#event-multiple-command");
+            const el = <HTMLInputElement> document.querySelector("#event-multiple-command");
 
-            var clickCallCount = 0;
-            var inputCallCount = 0;
+            let clickCallCount = 0;
+            let inputCallCount = 0;
 
-            var clickSubject = new Rx.Subject<Event>();
-            var inputSubject = new Rx.Subject<Event>();
+            let clickSubject = new Rx.Subject<Event>();
+            let inputSubject = new Rx.Subject<Event>();
 
-            var model = {
+            let model = {
                 clickCommand: wx.command((x) => { clickSubject.onNext(x) }),
                 inputCommand: wx.command((x) => { inputSubject.onNext(x) })
             };
@@ -185,11 +185,11 @@ describe('Bindings', () => {
         it('binds multiple events to commands with params',() => {
             loadFixtures('templates/Bindings/Event.html');
 
-            var el = <HTMLInputElement> document.querySelector("#event-multiple-command-with-params");
+            const el = <HTMLInputElement> document.querySelector("#event-multiple-command-with-params");
 
-            var clicks = [];
+            let clicks = [];
 
-            var model = {
+            let model = {
                 clickCommand: wx.command((x) => { clicks.push(x); })
             };
 

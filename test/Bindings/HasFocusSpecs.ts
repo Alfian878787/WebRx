@@ -5,17 +5,17 @@
 
 describe('Bindings', () => {
     describe('HasFocus',() => {
-        var focusInEvent = "focusin";
-        var focusOutEvent ="focusout";
+        let focusInEvent = "focusin";
+        let focusOutEvent ="focusout";
 
         // only run input-focus related tests locally in PhantomJS
         if ((<any> window)._phantom) {
             it('Should respond to changes on an observable value by blurring or focusing the element', () => {
                 loadFixtures('templates/Generic.html');
-                var testNode = <any> document.querySelector("#fixture");
+                let testNode = <any> document.querySelector("#fixture");
 
-                var currentState = false;
-                var model = { myVal: wx.property() }
+                let currentState = false;
+                let model = { myVal: wx.property() }
                 testNode.innerHTML = "<input data-bind='hasfocus: @myVal' /><input />";
                 wx.applyBindings(model, testNode);
                 testNode.childNodes[0].addEventListener(focusInEvent, () => { currentState = true });
@@ -32,9 +32,9 @@ describe('Bindings', () => {
 
             it('Should set an observable value to be true on focus and false on blur', () => {
                 loadFixtures('templates/Generic.html');
-                var testNode = <any> document.querySelector("#fixture");
+                let testNode = <any> document.querySelector("#fixture");
 
-                var model = { myVal: wx.property() }
+                let model = { myVal: wx.property() }
                 testNode.innerHTML = "<input data-bind='hasfocus: @myVal' /><input />";
                 wx.applyBindings(model, testNode);
 
@@ -52,7 +52,7 @@ describe('Bindings', () => {
 
                 // If the model value becomes true after a blur, we re-focus the element
                 // (Represents issue #672, where this wasn't working)
-                var didFocusExpectedElement = false;
+                let didFocusExpectedElement = false;
                 testNode.childNodes[0].addEventListener(focusInEvent, () => { didFocusExpectedElement = true });
                 model.myVal(true);
                 expect(didFocusExpectedElement).toEqual(true);
@@ -60,16 +60,16 @@ describe('Bindings', () => {
 
             it('Should not unnecessarily focus or blur an element that is already focused/blurred', () => {
                 loadFixtures('templates/Generic.html');
-                var testNode = <any> document.querySelector("#fixture");
+                let testNode = <any> document.querySelector("#fixture");
 
                 // This is the closest we can get to representing issue #698 as a spec
-                var model = { isFocused: wx.property({}) };
+                let model = { isFocused: wx.property({}) };
                 testNode.innerHTML = "<input data-bind='hasfocus: @isFocused' />";
                 wx.applyBindings(model, testNode);
 
                 // The elem is already focused, so changing the model value to a different truthy value
                 // shouldn't cause any additional focus events
-                var didFocusAgain = false;
+                let didFocusAgain = false;
                 testNode.childNodes[0].addEventListener(focusInEvent, () => { didFocusAgain = true });
                 model.isFocused(1);
                 expect(didFocusAgain).toEqual(false);
@@ -77,7 +77,7 @@ describe('Bindings', () => {
                 // Similarly, when the elem is already blurred, changing the model value to a different
                 // falsey value shouldn't cause any additional blur events
                 model.isFocused(false);
-                var didBlurAgain = false;
+                let didBlurAgain = false;
                 testNode.childNodes[0].addEventListener(focusOutEvent, () => { didBlurAgain = true });
                 model.isFocused(null);
                 expect(didBlurAgain).toEqual(false);

@@ -7,15 +7,15 @@ describe('Bindings', () => {
         it('bound to a non-observable property', () => {
             loadFixtures('templates/Bindings/With.html');
 
-            var childModel = {
+            let childModel = {
                 foo: wx.property("bar")
             };
 
-            var model = {
+            let model = {
                 childModel: childModel
             };
 
-            var el = <HTMLElement> document.querySelector("#fixture1");
+            const el = <HTMLElement> document.querySelector("#fixture1");
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
 
             expect($(el).find("span")[0].textContent).toEqual(model.childModel.foo());
@@ -31,19 +31,19 @@ describe('Bindings', () => {
         it('bound to an observable property',() => {
             loadFixtures('templates/Bindings/With.html');
 
-            var childModel1 = {
+            let childModel1 = {
                 foo: wx.property("bar")
             };
 
-            var childModel2 = {
+            let childModel2 = {
                 foo: wx.property("magic")
             };
 
-            var model = {
+            let model = {
                 childModel: wx.property<any>()
             };
 
-            var el = <HTMLElement> document.querySelector("#fixture1");
+            const el = <HTMLElement> document.querySelector("#fixture1");
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
             expect($(el).find("span")[0].textContent).toEqual("");
 

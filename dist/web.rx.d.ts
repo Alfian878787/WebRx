@@ -587,7 +587,7 @@ declare module wx {
         postBindingInit?: string;
     }
     interface IComponent {
-        template: Node[];
+        template?: Node[];
         viewModel?: any;
         preBindingInit?: string;
         postBindingInit?: string;

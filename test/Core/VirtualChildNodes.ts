@@ -5,7 +5,7 @@
 
 describe("VirtualChildNodes",() => {
     function createChild(id: string): Element {
-        var child = document.createElement("div");
+        let child = document.createElement("div");
         child.setAttribute("id", id);
         return child;
     }
@@ -13,14 +13,14 @@ describe("VirtualChildNodes",() => {
     it("smoke-test",() => {
         loadFixtures('templates/Core/VirtualChildNodes.html');
 
-        var el = <HTMLElement> document.querySelector("#empty-node");
-        var proxy = new wx.VirtualChildNodes(el, false);
+        const el = <HTMLElement> document.querySelector("#empty-node");
+        let proxy = new wx.VirtualChildNodes(el, false);
 
         expect(proxy.childNodes.length).toEqual(el.childNodes.length);
 
-        var child1 = createChild("child1");
-        var child2 = createChild("child2");
-        var child3 = createChild("child3");
+        let child1 = createChild("child1");
+        let child2 = createChild("child2");
+        let child3 = createChild("child3");
 
         // append
         proxy.appendChilds([child1, child2, child3]);
@@ -29,9 +29,9 @@ describe("VirtualChildNodes",() => {
         expect(testutils.allAttributes2String(testutils.nodeChildrenToArray(el), "id")).toEqual(
             testutils.allAttributes2String(proxy.childNodes, "id"));
 
-        var child4 = createChild("child4");
-        var child5 = createChild("child5");
-        var child6 = createChild("child6");
+        let child4 = createChild("child4");
+        let child5 = createChild("child5");
+        let child6 = createChild("child6");
 
         // insert
         proxy.insertChilds(2, [child4, child5, child6]);
@@ -58,10 +58,10 @@ describe("VirtualChildNodes",() => {
     it("smoke-test - with aliens",() => {
         loadFixtures('templates/Core/VirtualChildNodes.html');
 
-        var el = <HTMLElement> document.querySelector("#empty-node");
-        var proxy = new wx.VirtualChildNodes(el, false);
-        var aliens = [];
-        var alien: Node;
+        const el = <HTMLElement> document.querySelector("#empty-node");
+        let proxy = new wx.VirtualChildNodes(el, false);
+        let aliens = [];
+        let alien: Node;
 
         // insert alien at the beginning
         alien = createChild("child10");
@@ -70,9 +70,9 @@ describe("VirtualChildNodes",() => {
 
         expect(proxy.childNodes.length).toEqual(el.childNodes.length - aliens.length);
 
-        var child1 = createChild("child1");
-        var child2 = createChild("child2");
-        var child3 = createChild("child3");
+        let child1 = createChild("child1");
+        let child2 = createChild("child2");
+        let child3 = createChild("child3");
 
         // append
         proxy.appendChilds([child1, child2, child3]);
@@ -86,9 +86,9 @@ describe("VirtualChildNodes",() => {
         expect(testutils.allAttributes2String(testutils.nodeChildrenToArray(el), "id", aliens)).toEqual(
             testutils.allAttributes2String(proxy.childNodes, "id"));
 
-        var child4 = createChild("child4");
-        var child5 = createChild("child5");
-        var child6 = createChild("child6");
+        let child4 = createChild("child4");
+        let child5 = createChild("child5");
+        let child6 = createChild("child6");
 
         // remove an alien
         el.removeChild(aliens[1]);

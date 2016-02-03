@@ -5,7 +5,7 @@
 
 describe('Bindings', () => {
     function createCommandModel(commandAction: (any) => void) {
-        var canExecute = wx.property(false);
+        let canExecute = wx.property(false);
 
         return {
             cmd: wx.command(commandAction, canExecute.changed),
@@ -17,13 +17,13 @@ describe('Bindings', () => {
         it('reacts to changes when bound to observable properties holding command and parameter',() => {
             loadFixtures('templates/Bindings/Command.html');
 
-            var el = <HTMLButtonElement> document.querySelector("#command-button-observable");
+            const el = <HTMLButtonElement> document.querySelector("#command-button-observable");
 
-            var fooExecuteCount = 0;
-            var barExecuteCount = 0;
-            var executeParam = undefined;
+            let fooExecuteCount = 0;
+            let barExecuteCount = 0;
+            let executeParam = undefined;
 
-            var model = {
+            let model = {
                 cmd: wx.property(),
                 param: wx.property()
             };
@@ -54,9 +54,9 @@ describe('Bindings', () => {
         });
 
         function commandBindingSmokeTestImpl(sel: string) {
-            var executed = false;
-            var el = <HTMLElement> document.querySelector(sel);
-            var model = createCommandModel((_) => executed = true);
+            let executed = false;
+            const el = <HTMLElement> document.querySelector(sel);
+            let model = createCommandModel((_) => executed = true);
 
             // canExecute tests
             expect(() => wx.applyBindings(model, el)).not.toThrowError();

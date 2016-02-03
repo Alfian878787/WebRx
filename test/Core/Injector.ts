@@ -9,42 +9,42 @@ function getInjector() {
 
 describe("Injector",() => {
     it("should support creating instances of itself",() => {
-        var injector: IInjector;
+        let injector: IInjector;
         expect(() => injector = getInjector()).not.toThrowError();
         expect(injector).toBeDefined();
     });
 
     it("throws when attempting to get unregistered type",() => {
-        var injector = getInjector();
+        let injector = getInjector();
         expect(() => injector.get("foo")).toThrowError(/not registered/);
     });
 
     it("get singleton",() => {
-        var injector = getInjector();
+        let injector = getInjector();
 
-        var foo = new Object();
+        let foo = new Object();
         injector.register("foo", foo);
-        var result;
+        let result;
         expect(() => result = injector.get("foo")).not.toThrowError();
         expect(result).toBe(foo);
     });
 
     it("get singleton primitive",() => {
-        var injector = getInjector();
+        let injector = getInjector();
 
-        var foo = "string";
+        let foo = "string";
         injector.register("foo", foo);
-        var result;
+        let result;
         expect(() => result = injector.get("foo")).not.toThrowError();
         expect(result).toBe(foo);
     });
 
     it("get using factory method",() => {
-        var injector = getInjector();
+        let injector = getInjector();
 
-        var foo = new Object();
+        let foo = new Object();
         injector.register("foo", () => foo);
-        var result;
+        let result;
         expect(() => result = injector.get("foo")).not.toThrowError();
         expect(result).toBe(foo);
 
@@ -58,11 +58,11 @@ describe("Injector",() => {
     });
 
     it("get using inline array notation with additional args",() => {
-        var injector = getInjector();
-        var val;
-        var arg1: any;
+        let injector = getInjector();
+        let val;
+        let arg1: any;
 
-        var bar = { key: "baz" };
+        let bar = { key: "baz" };
         injector.register("bar", () => bar);
 
         // foo factory method expecting dependency
@@ -73,25 +73,25 @@ describe("Injector",() => {
 
         injector.register("foo", ["bar", foo]);
 
-        var result;
+        let result;
         expect(() => result = injector.get("foo", ["test"])).not.toThrowError();
         expect(arg1).toEqual("test");
     });
 
     it("get inline using array notation",() => {
-        var injector = getInjector();
+        let injector = getInjector();
 
-        var foo = new Object();
+        let foo = new Object();
         injector.register("foo", () => foo);
 
-        var bar = { key: "baz" };
+        let bar = { key: "baz" };
         injector.register("bar", () => bar);
 
         // foo factory method expecting dependency
         injector.register("test1", ["foo", "bar", Tuple]);
         injector.register("test2", ["foo", "bar", Tuple]);
 
-        var result:Tuple<any, any>;
+        let result:Tuple<any, any>;
         expect(() => result = injector.get<Tuple<any, any>>("test1")).not.toThrowError();
         expect(result.Item1).toBe(foo);
         expect(result.Item2.key).toEqual("baz");
@@ -104,22 +104,22 @@ describe("Injector",() => {
     });
 
     it("resolve inline annotated array",() => {
-        var injector = getInjector();
+        let injector = getInjector();
 
-        var foo = new Object();
+        let foo = new Object();
         injector.register("foo",() => foo);
 
-        var bar = { key: "baz" };
+        let bar = { key: "baz" };
         injector.register("bar",() => bar);
 
-        var result: Tuple<any, any>;
+        let result: Tuple<any, any>;
         expect(() => result = injector.resolve<Tuple<any, any>>(["foo", "bar", Tuple])).not.toThrowError();
         expect(result.Item1).toBe(foo);
         expect(result.Item2.key).toEqual("baz");
     });
 
     it("properly detects circular dependencies",() => {
-        var injector = getInjector();
+        let injector = getInjector();
 
         injector.register("foo", ["bar", (_bar) => 1]);
         injector.register("bar", ["foo", (_foo) => 2]);

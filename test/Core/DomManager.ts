@@ -7,15 +7,15 @@
 /// <reference path="../typings/ix.d.ts" />
 
 describe('DomManager',() => {
-    var domManager = wx.injector.get<wx.IDomManager>(wx.res.domManager);
+    let domManager = wx.injector.get<wx.IDomManager>(wx.res.domManager);
 
     describe('getBindingDefinitions',() => {
         it('smoke-test',() => {
             loadFixtures('templates/Core/DomManager.html');
 
              // stand-alone (no context- or model-references)
-            var el = document.querySelector("#stand-alone");
-            var def: any = null;
+            let el = document.querySelector("#stand-alone");
+            let def: any = null;
             expect(() => def = domManager.getBindingDefinitions(el)).not.toThrowError();
             expect(def[0].key).toEqual("text");
             expect(def[1].key).toEqual("css");
@@ -69,9 +69,9 @@ describe('DomManager',() => {
         it('invoking multiple on same node times throws error',() => {
             loadFixtures('templates/Core/DomManager.html');
 
-            var el = document.querySelector("#stand-alone");
-            var model1 = new Object();
-            var model2 = new Object();
+            const el = document.querySelector("#stand-alone");
+            let model1 = new Object();
+            let model2 = new Object();
 
             expect(() => domManager.applyBindings(model1, el)).not.toThrow();
 
@@ -83,19 +83,19 @@ describe('DomManager',() => {
         it('invoking on a node with a binding-definition referencing a non-registered directive throws an error',() => {
             loadFixtures('templates/Core/DomManager.html');
 
-            var el = document.querySelector("#stand-alone-non-registered");
-            var model1 = new Object();
+            const el = document.querySelector("#stand-alone-non-registered");
+            let model1 = new Object();
 
             expect(() => domManager.applyBindings(model1, el)).toThrowError(/binding.+not.+registered/);
         });
     });
 
     describe('compileBindingOptions',() => {
-        var def = "{ text: 'foo', css: { foo: numVal > 3, bar: boolVal, baz: numVal, options: { enable: boolVal } }, visible: 8*4 }";
+        let def = "{ text: 'foo', css: { foo: numVal > 3, bar: boolVal, baz: numVal, options: { enable: boolVal } }, visible: 8*4 }";
 
         it('handles nested definitions',() => {
-            var compiled: any;
-            var scope = {};
+            let compiled: any;
+            let scope = {};
 
             expect(() => compiled = domManager.compileBindingOptions(def, undefined)).not.toThrow();
 
@@ -114,12 +114,12 @@ describe('DomManager',() => {
 
     describe('expressionToObservable',() => {
         it('correctly maps data context to locals',() => {
-            var def = "{ ctx: { data: $data, root: $root, parent: $parent, parents: $parents, index: $index } }";
-            var compiled: any;
-            var model: any = {
+            let def = "{ ctx: { data: $data, root: $root, parent: $parent, parents: $parents, index: $index } }";
+            let compiled: any;
+            let model: any = {
             };
 
-            var ctx = testutils.createModelContext(model);
+            let ctx = testutils.createModelContext(model);
             expect(() => compiled = domManager.compileBindingOptions(def, undefined)).not.toThrow();
 
             expect(domManager.expressionToObservable(compiled.ctx.data, ctx).toProperty()()).toBe(ctx.$data);
@@ -129,34 +129,34 @@ describe('DomManager',() => {
         });
 
         it('returns the current value of the expression upon subscription',() => {
-            var def = "2 + 2";
-            var compiled: any;
-            var model: any = {
+            let def = "2 + 2";
+            let compiled: any;
+            let model: any = {
             };
 
-            var ctx = testutils.createModelContext(model);
+            let ctx = testutils.createModelContext(model);
             expect(() => compiled = domManager.compileBindingOptions(def, undefined)).not.toThrow();
 
-            var value;
-            var obs = domManager.expressionToObservable(compiled, ctx);
+            let value;
+            let obs = domManager.expressionToObservable(compiled, ctx);
 
             obs.subscribe(x => value = x);
             expect(value).toEqual(4);
         });
 
         it('re-evaluates expression when observable expression dependencies change',() => {
-            var def = "{ text: foo + bar }";
-            var compiled: any;
+            let def = "{ text: foo + bar }";
+            let compiled: any;
 
-            var model: any = {
+            let model: any = {
                 foo: wx.property(42),
                 bar: wx.property("hello")
             };
 
-            var ctx = testutils.createModelContext(model);
+            let ctx = testutils.createModelContext(model);
             expect(() => compiled = domManager.compileBindingOptions(def, undefined)).not.toThrow();
 
-            var prop = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
+            let prop = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
             expect(prop()).toEqual("42hello");
 
             model.bar("world");
@@ -167,43 +167,43 @@ describe('DomManager',() => {
         });
 
         it('when an expression yields an observable without touching observable properties, return it',() => {
-            var def = "{ text: foo }";
-            var compiled: any;
+            let def = "{ text: foo }";
+            let compiled: any;
 
-            var model: any = {
+            let model: any = {
                 foo: Rx.Observable.return(3)
             };
 
-            var ctx = testutils.createModelContext(model);
+            let ctx = testutils.createModelContext(model);
             expect(() => compiled = domManager.compileBindingOptions(def, undefined)).not.toThrow();
 
-            var prop = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
+            let prop = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
             expect(prop.source).toBe(model.foo);
         });
 
         it('handles access to nested observable properties correctly',() => {
-            var def = "{ text: foo.bar, html: foo.baz.foo }";
-            var compiled: any;
+            let def = "{ text: foo.bar, html: foo.baz.foo }";
+            let compiled: any;
 
-            var grandChildModel = {
+            let grandChildModel = {
                 foo: wx.property("<span>hello</hello>")
             };
 
-            var childModel = {
+            let childModel = {
                 bar: wx.property(42),
                 baz: wx.property()
             };
 
-            var model: any = {
+            let model: any = {
                 foo: wx.property()
             };
 
-            var ctx = testutils.createModelContext(model);
+            let ctx = testutils.createModelContext(model);
 
             expect(() => compiled = domManager.compileBindingOptions(def, undefined)).not.toThrow();
 
-            var text = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
-            var html = domManager.expressionToObservable(compiled['html'], ctx).toProperty();
+            let text = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
+            let html = domManager.expressionToObservable(compiled['html'], ctx).toProperty();
             expect(text()).not.toBeDefined();
             expect(html()).not.toBeDefined();
 
@@ -221,24 +221,24 @@ describe('DomManager',() => {
         });
 
         it('handles access to observable properties through object or array index',() => {
-            var def = "{ text: foo[1], html: bar['foo'] }";
-            var compiled: any;
+            let def = "{ text: foo[1], html: bar['foo'] }";
+            let compiled: any;
 
-            var model: any = {
+            let model: any = {
                 foo: [null, wx.property("hello")],
                 bar: { 'foo': wx.property("world") }
             };
 
-            var ctx = testutils.createModelContext(model);
+            let ctx = testutils.createModelContext(model);
             expect(() => compiled = domManager.compileBindingOptions(def, undefined)).not.toThrow();
 
-            var text = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
+            let text = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
             expect(text()).toEqual("hello");
 
             model.foo[1]("bye");
             expect(text()).toEqual("bye");
 
-            var html = domManager.expressionToObservable(compiled['html'], ctx).toProperty();
+            let html = domManager.expressionToObservable(compiled['html'], ctx).toProperty();
             expect(html()).toEqual("world");
 
             model.bar['foo']("bye");
@@ -246,17 +246,17 @@ describe('DomManager',() => {
         });
 
         it('handles access to observable properties in observable lists through read and write indexers',() => {
-            var def = "{ text: foo[0] }";
-            var compiled: any;
+            let def = "{ text: foo[0] }";
+            let compiled: any;
 
-            var model: any = {
+            let model: any = {
                 foo: wx.list([wx.property("world")])
             };
 
-            var ctx = testutils.createModelContext(model);
+            let ctx = testutils.createModelContext(model);
             expect(() => compiled = domManager.compileBindingOptions(def, undefined)).not.toThrow();
 
-            var text = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
+            let text = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
 
             // index access should be translated to list.get(index)
             expect(text()).toEqual("world");
@@ -274,24 +274,24 @@ describe('DomManager',() => {
         });
 
         it('diposing the subscription should stop producing values',() => {
-            var def = "{ text: foo + bar }";
-            var compiled: any;
+            let def = "{ text: foo + bar }";
+            let compiled: any;
 
-            var model: any = {
+            let model: any = {
                 foo: wx.property(42),
                 bar: wx.property("hello")
             };
 
-            var ctx = testutils.createModelContext(model);
+            let ctx = testutils.createModelContext(model);
             expect(() => compiled = domManager.compileBindingOptions(def, undefined)).not.toThrow();
 
             // count evals
-            var evalCount = 0;
-            var evalObs = Rx.Observer.create<any>(x => evalCount++);
+            let evalCount = 0;
+            let evalObs = Rx.Observer.create<any>(x => evalCount++);
 
-            var obs = domManager.expressionToObservable(compiled['text'], ctx, evalObs);
-            var val;
-            var disp = obs.subscribe(x => val = x);
+            let obs = domManager.expressionToObservable(compiled['text'], ctx, evalObs);
+            let val;
+            let disp = obs.subscribe(x => val = x);
             expect(val).toEqual("42hello");
 
             evalCount = 0;
@@ -305,17 +305,17 @@ describe('DomManager',() => {
         });
 
         it('seamlessly handles normal values and obserables',() => {
-            var def = "{ text: foo }";
-            var compiled: any;
+            let def = "{ text: foo }";
+            let compiled: any;
 
-            var model: any = {
+            let model: any = {
                 foo: wx.property(<any> 3)
             };
 
-            var ctx = testutils.createModelContext(model);
+            let ctx = testutils.createModelContext(model);
             expect(() => compiled = domManager.compileBindingOptions(def, undefined)).not.toThrow();
 
-            var prop = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
+            let prop = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
 
             // number
             expect(prop()).toEqual(3);
@@ -334,21 +334,21 @@ describe('DomManager',() => {
         });
 
         it('an expression evaluating to an observable property result, using the propref-modifier (@) should return the property itself instead of its value ',() => {
-            var compiled: any;
+            let compiled: any;
 
-            var model: any = {
+            let model: any = {
                 foo: wx.property<any>("baz")
             };
 
-            var ctx = testutils.createModelContext(model);
+            let ctx = testutils.createModelContext(model);
 
-            var def = "{ text: @foo }";
+            let def = "{ text: @foo }";
             expect(() => compiled = domManager.compileBindingOptions(def, undefined)).not.toThrow();
-            var result = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
+            let result = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
             expect(result()).toBe(model.foo);
 
             // increase complexity
-            var childModel: any = {
+            let childModel: any = {
                 bar: wx.property<any>("foo")
             };
             model.foo(childModel);
@@ -359,7 +359,7 @@ describe('DomManager',() => {
             expect(result()).toBe(childModel.bar);
 
             // increase complexity even more (trigger use of cspSafeGetterFn)
-            var grandChildModel: any = {
+            let grandChildModel: any = {
                 baz: wx.property<any>("bar")
             };
             childModel.bar(grandChildModel);
@@ -370,27 +370,27 @@ describe('DomManager',() => {
             expect(result()).toBe(grandChildModel.baz);
 
             // go nuts (trigger use of cspSafeGetterFn in a loop)
-            var model1: any = {
+            let model1: any = {
                 prop1: wx.property<any>("1")
             };
             grandChildModel.baz(model1);
 
-            var model2: any = {
+            let model2: any = {
                 prop2: wx.property<any>("2")
             };
             model1.prop1(model2);
 
-            var model3: any = {
+            let model3: any = {
                 prop3: wx.property<any>("3")
             };
             model2.prop2(model3);
 
-            var model4: any = {
+            let model4: any = {
                 prop4: wx.property<any>("4")
             };
             model3.prop3(model4);
 
-            var model5: any = {
+            let model5: any = {
                 prop5: wx.property<any>("5")
             };
             model4.prop4(model5);
@@ -407,17 +407,17 @@ describe('DomManager',() => {
         });
 
         it('does not miss values of expression dependencies when the dependency is hot and fast',() => {
-            var def = "{ text: foo }";
-            var compiled: any;
+            let def = "{ text: foo }";
+            let compiled: any;
 
-            var model: any = {
+            let model: any = {
                 foo: new Rx.Subject<string>()
             };
 
-            var ctx = testutils.createModelContext(model);
+            let ctx = testutils.createModelContext(model);
             expect(() => compiled = domManager.compileBindingOptions(def, undefined)).not.toThrow();
 
-            var text = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
+            let text = domManager.expressionToObservable(compiled['text'], ctx).toProperty();
 
             // index access should be translated to list.get(index)
             model.foo.onNext("bar");

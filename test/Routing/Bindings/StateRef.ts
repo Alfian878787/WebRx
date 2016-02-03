@@ -5,7 +5,7 @@
 /// <reference path="../../TestUtils.ts" />
 
 describe('Routing',() => {
-    var router = wx.injector.get<wx.IRouter>(wx.res.router);
+    let router = wx.injector.get<wx.IRouter>(wx.res.router);
 
     beforeEach(() => {
         router.reset();
@@ -25,8 +25,8 @@ describe('Routing',() => {
                     name: "foo"
                 });
 
-                var el = <HTMLAnchorElement> document.querySelector("#fixture1");
-                var model = {};
+                const el = <HTMLAnchorElement> document.querySelector("#fixture1");
+                let model = {};
                 expect(() => wx.applyBindings(model, el)).not.toThrow();
 
                 expect(new URI(el.href).pathname()).toEqual("/foo");
@@ -40,9 +40,9 @@ describe('Routing',() => {
                     url: "foo/:bar"
                 });
 
-                var el = <HTMLAnchorElement> document.querySelector("#fixture2");
+                const el = <HTMLAnchorElement> document.querySelector("#fixture2");
 
-                var model = {
+                let model = {
                     stringProp: wx.property("voodoo"),
                     boolProp: wx.property(false)
                 };
@@ -65,8 +65,8 @@ describe('Routing',() => {
                     name: "bar"
                 });
 
-                var el = <HTMLAnchorElement> document.querySelector("#fixture3");
-                var model = { state: wx.property("foo") };
+                const el = <HTMLAnchorElement> document.querySelector("#fixture3");
+                let model = { state: wx.property("foo") };
                 expect(() => wx.applyBindings(model, el)).not.toThrow();
 
                 expect(new URI(el.href).pathname()).toEqual("/foo");
@@ -81,8 +81,8 @@ describe('Routing',() => {
                     name: "foo"
                 });
 
-                var el = <HTMLAnchorElement> document.querySelector("#fixture1");
-                var model = {};
+                const el = <HTMLAnchorElement> document.querySelector("#fixture1");
+                let model = {};
                 expect(() => wx.applyBindings(model, el)).not.toThrow();
 
                 expect(router.current().name).toEqual("$");
@@ -98,8 +98,8 @@ describe('Routing',() => {
                     name: "foo"
                 });
 
-                var el = <HTMLElement> document.querySelector("#fixture4");
-                var model = {};
+                const el = <HTMLElement> document.querySelector("#fixture4");
+                let model = {};
                 expect(() => wx.applyBindings(model, el)).not.toThrow();
 
                 expect(router.current().name).toEqual("$");

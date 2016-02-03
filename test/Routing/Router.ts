@@ -444,8 +444,8 @@ describe('Routing',() => {
         });
 
         it('invokes enter- and leave-callbacks',() => {
-            var fooEntered = false;
-            var fooLeft = false;
+            let fooEntered = false;
+            let fooLeft = false;
 
             wx.router.state({
                 name: "foo",
@@ -561,7 +561,7 @@ describe('Routing',() => {
 
 
             wx.router.go("foo", { fooId: 3 }, { location: true });
-            var config = wx.router.getViewComponent("main");
+            let config = wx.router.getViewComponent("main");
             expect(config.component).toEqual("foo");
             expect(Object.keys(config.params)).toEqual(["baz", "fooId"]);
 

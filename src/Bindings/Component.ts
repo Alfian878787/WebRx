@@ -59,12 +59,6 @@ export default class ComponentBinding implements wx.IBindingHandler {
             }
         }
 
-        // clear children
-        let oldContents = new Array<Node>();
-        while (el.firstChild) {
-             oldContents.push(el.removeChild(el.firstChild));
-        }
-
         // subscribe to any input changes
         state.cleanup.add(componentNameObservable.subscribe(componentName => {
             try {
@@ -89,10 +83,7 @@ export default class ComponentBinding implements wx.IBindingHandler {
                     if (component.viewModel) {
                         if (isDisposable(component.viewModel)) {
                             cleanup.add(component.viewModel);
-                        } /* else if(!isPrimitive(component.viewModel)) {
-                            cleanup.add(Rx.Disposable.create(()=>
-                                disposeMembers(component.viewModel)));
-                        } */
+                        }
                     }
 
                     // done
@@ -115,7 +106,6 @@ export default class ComponentBinding implements wx.IBindingHandler {
             state = null;
 
             // nullify common locals
-            oldContents = null;
             compiled = null;
 
             doCleanup();
@@ -136,16 +126,18 @@ export default class ComponentBinding implements wx.IBindingHandler {
     protected app: wx.IWebRxApp;
 
     protected applyTemplate(component: wx.IComponentDescriptor, el: HTMLElement, ctx: wx.IDataContext, state: wx.INodeState, template: Node[], vm?: any) {
-        // clear
-        while (el.firstChild) {
-            this.domManager.cleanNode(el.firstChild);
-            el.removeChild(el.firstChild);
-        }
+        if(template) {
+            // clear
+            while (el.firstChild) {
+                this.domManager.cleanNode(el.firstChild);
+                el.removeChild(el.firstChild);
+            }
 
-        // clone template and inject
-        for(let i = 0; i < template.length; i++) {
-            let node = template[i].cloneNode(true);
-            el.appendChild(node);
+            // clone template and inject
+            for(let i = 0; i < template.length; i++) {
+                let node = template[i].cloneNode(true);
+                el.appendChild(node);
+            }
         }
 
         if (vm) {

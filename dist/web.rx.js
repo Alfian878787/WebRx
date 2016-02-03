@@ -1305,15 +1305,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (cd.instance) {
 	                    result = Rx.Observable.return(cd.instance);
 	                }
-	                else if (cd.template) {
-	                    result = Rx.Observable.return(cd);
-	                }
 	                else if (cd.resolve) {
 	                    var resolved = Injector_1.injector.get(cd.resolve);
 	                    result = Rx.Observable.return(resolved);
 	                }
 	                else if (cd.require) {
 	                    result = Utils_1.observableRequire(cd.require);
+	                }
+	                else {
+	                    result = Rx.Observable.return(cd);
 	                }
 	            }
 	        }
@@ -1328,7 +1328,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (component == null) {
 	                return Rx.Observable.return(undefined);
 	            }
-	            return Rx.Observable.combineLatest(_this.loadComponentTemplate(component.template, params), component.viewModel ? _this.loadComponentViewModel(component.viewModel, params) : Rx.Observable.return(undefined), function (t, vm) {
+	            return Rx.Observable.combineLatest(component.template ? _this.loadComponentTemplate(component.template, params) : Rx.Observable.return(undefined), component.viewModel ? _this.loadComponentViewModel(component.viewModel, params) : Rx.Observable.return(undefined), function (t, vm) {
 	                // if view-model factory yields a function, use it as constructor
 	                if (Utils_1.isFunction(vm)) {
 	                    vm = new vm(params);
@@ -7844,11 +7844,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	            }
 	        }
-	        // clear children
-	        var oldContents = new Array();
-	        while (el.firstChild) {
-	            oldContents.push(el.removeChild(el.firstChild));
-	        }
 	        // subscribe to any input changes
 	        state.cleanup.add(componentNameObservable.subscribe(function (componentName) {
 	            try {
@@ -7869,10 +7864,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    if (component.viewModel) {
 	                        if (Utils_1.isDisposable(component.viewModel)) {
 	                            cleanup.add(component.viewModel);
-	                        } /* else if(!isPrimitive(component.viewModel)) {
-	                            cleanup.add(Rx.Disposable.create(()=>
-	                                disposeMembers(component.viewModel)));
-	                        } */
+	                        }
 	                    }
 	                    // done
 	                    _this.applyTemplate(component, el, ctx, state, component.template, component.viewModel);
@@ -7892,7 +7884,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            ctx = null;
 	            state = null;
 	            // nullify common locals
-	            oldContents = null;
 	            compiled = null;
 	            doCleanup();
 	        }));
@@ -7901,15 +7892,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // intentionally left blank
 	    };
 	    ComponentBinding.prototype.applyTemplate = function (component, el, ctx, state, template, vm) {
-	        // clear
-	        while (el.firstChild) {
-	            this.domManager.cleanNode(el.firstChild);
-	            el.removeChild(el.firstChild);
-	        }
-	        // clone template and inject
-	        for (var i = 0; i < template.length; i++) {
-	            var node = template[i].cloneNode(true);
-	            el.appendChild(node);
+	        if (template) {
+	            // clear
+	            while (el.firstChild) {
+	                this.domManager.cleanNode(el.firstChild);
+	                el.removeChild(el.firstChild);
+	            }
+	            // clone template and inject
+	            for (var i = 0; i < template.length; i++) {
+	                var node = template[i].cloneNode(true);
+	                el.appendChild(node);
+	            }
 	        }
 	        if (vm) {
 	            state.model = vm;
@@ -9281,7 +9274,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 52 */
 /***/ function(module, exports) {
 
-	exports.version = '1.4.3';
+	exports.version = '1.4.4';
 	//# sourceMappingURL=Version.js.map
 
 /***/ },

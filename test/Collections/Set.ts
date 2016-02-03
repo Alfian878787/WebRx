@@ -4,9 +4,9 @@
 
 describe("ISet",() => {
     function crudSmokeTestImpl(forceEmulated: boolean) {
-        var hs = wx.createSet<Object>(forceEmulated);
-        var o1 = new Object();
-        var o2 = new Object();
+        let hs = wx.createSet<Object>(forceEmulated);
+        let o1 = new Object();
+        let o2 = new Object();
 
         expect(hs.size).toEqual(0);
 
@@ -48,7 +48,7 @@ describe("ISet",() => {
     }
 
     it("emulated: creation",() => {
-        var hs = wx.createSet<Object>(true);
+        let hs = wx.createSet<Object>(true);
         expect(hs).not.toBeNull();
         expect(hs.isEmulated).toBeTruthy();
     });
@@ -57,13 +57,13 @@ describe("ISet",() => {
         crudSmokeTestImpl(true);
     });
 
-    var hasNativeSupport = typeof Set === "function" && Set.prototype.hasOwnProperty("forEach")
+    let hasNativeSupport = typeof Set === "function" && Set.prototype.hasOwnProperty("forEach")
         && Set.prototype.hasOwnProperty("add") && Set.prototype.hasOwnProperty("clear")
         && Set.prototype.hasOwnProperty("delete") && Set.prototype.hasOwnProperty("has");
 
     if (hasNativeSupport) {
         it("native: creation",() => {
-            var hs = wx.createSet<Object>();
+            let hs = wx.createSet<Object>();
             expect(hs).not.toBeNull();
             expect(hs.isEmulated).toBeFalsy();
         });

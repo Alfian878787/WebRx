@@ -18,8 +18,8 @@ describe('Bindings', () => {
         it('binding to a string constant', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#text-constant-string");
-            var model = {};
+            const el = document.querySelector("#text-constant-string");
+            let model = {};
 
             expect(el.textContent).toEqual('invalid');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -29,8 +29,8 @@ describe('Bindings', () => {
         it('binding to a numeric constant', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#text-constant-numeric");
-            var model = {};
+            const el = document.querySelector("#text-constant-numeric");
+            let model = {};
 
             expect(el.textContent).toEqual('invalid');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -40,8 +40,8 @@ describe('Bindings', () => {
         it('binding to a falsy numeric model property',() => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#text-model");
-            var model = 0;
+            const el = document.querySelector("#text-model");
+            let model = 0;
 
             expect(el.textContent).toEqual('invalid');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -51,8 +51,8 @@ describe('Bindings', () => {
         it('binding to a boolean constant', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#text-constant-boolean");
-            var model = {};
+            const el = document.querySelector("#text-constant-boolean");
+            let model = {};
 
             expect(el.textContent).toEqual('invalid');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -62,8 +62,8 @@ describe('Bindings', () => {
         it('binding to a non-observable model property', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#text-non-observable-model-property");
-            var model = createModel();
+            const el = document.querySelector("#text-non-observable-model-property");
+            let model = createModel();
 
             expect(el.textContent).toEqual('invalid');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -73,8 +73,8 @@ describe('Bindings', () => {
         it('binding to a observable model property', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#text-observable-model-property");
-            var model = createModel();
+            const el = document.querySelector("#text-observable-model-property");
+            let model = createModel();
 
             expect(el.textContent).toEqual('invalid');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -85,7 +85,7 @@ describe('Bindings', () => {
             expect(el.textContent).toEqual(model.observableString());
 
             // binding should stop updating after getting disposed
-            var oldValue = model.observableString();
+            let oldValue = model.observableString();
             wx.cleanNode(el);
             model.observableString("nope");
             expect(el.textContent).toEqual(oldValue);
@@ -94,8 +94,8 @@ describe('Bindings', () => {
         it('binding to a observable model @propref',() => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#text-observable-model-propref");
-            var model = createModel();
+            const el = document.querySelector("#text-observable-model-propref");
+            let model = createModel();
 
             expect(el.textContent).toEqual('invalid');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -105,8 +105,8 @@ describe('Bindings', () => {
         it('binding to a model observable', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#text-observable-model");
-            var model = createModel();
+            const el = document.querySelector("#text-observable-model");
+            let model = createModel();
             model["changed"] = model.observableString.changed;
 
             expect(el.textContent).toEqual('invalid');
@@ -117,7 +117,7 @@ describe('Bindings', () => {
             expect(el.textContent).toEqual(model.observableString());
 
             // binding should stop updating after getting disposed
-            var oldValue = model.observableString();
+            let oldValue = model.observableString();
             wx.cleanNode(el);
             model.observableString("nope");
             expect(el.textContent).toEqual(oldValue);
@@ -129,8 +129,8 @@ describe('Bindings', () => {
         it('binding to a numeric constant', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#visible-constant-numeric");
-            var model = {};
+            const el = document.querySelector("#visible-constant-numeric");
+            let model = {};
 
             expect($(el)).toBeHidden();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -140,8 +140,8 @@ describe('Bindings', () => {
         it('binding to a boolean constant', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#visible-constant-boolean");
-            var model = {};
+            const el = document.querySelector("#visible-constant-boolean");
+            let model = {};
 
             expect($(el)).toBeHidden();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -151,8 +151,8 @@ describe('Bindings', () => {
         it('binding to a non-observable model property', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#visible-non-observable-model-property");
-            var model = createModel();
+            const el = document.querySelector("#visible-non-observable-model-property");
+            let model = createModel();
 
             expect($(el)).toBeHidden();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -162,8 +162,8 @@ describe('Bindings', () => {
         it('binding to a observable model property', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#visible-observable-model-property");
-            var model = createModel();
+            const el = document.querySelector("#visible-observable-model-property");
+            let model = createModel();
 
             expect($(el)).toBeHidden();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -182,8 +182,8 @@ describe('Bindings', () => {
         it('binding to a observable model @propref',() => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#visible-observable-model-propref");
-            var model = createModel();
+            const el = document.querySelector("#visible-observable-model-propref");
+            let model = createModel();
 
             expect($(el)).toBeHidden();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -193,8 +193,8 @@ describe('Bindings', () => {
         it('binding to a model observable', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#visible-observable-model");
-            var model = createModel();
+            const el = document.querySelector("#visible-observable-model");
+            let model = createModel();
             model["changed"] = model.observableBool.changed;
 
             expect($(el)).toBeHidden();
@@ -213,16 +213,16 @@ describe('Bindings', () => {
         it('binding to an observable model property (using css classes)', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#visible-observable-model-property-css");
-            var model = createModel();
+            const el = document.querySelector("#visible-observable-model-property-css");
+            let model = createModel();
 
             // configure handler
-            var domManager = wx.injector.get<wx.IDomManager>(wx.res.domManager);
-            var handler = wx.app.binding("visible");
-            var handlerOptions: wx.IVisibleBindingOptions = { useCssClass: true, hiddenClass: 'hidden' };
+            let domManager = wx.injector.get<wx.IDomManager>(wx.res.domManager);
+            let handler = wx.app.binding("visible");
+            let handlerOptions: wx.IVisibleBindingOptions = { useCssClass: true, hiddenClass: 'hidden' };
             handler.configure(handlerOptions);
 
-            var disp = Rx.Disposable.create(() => {
+            let disp = Rx.Disposable.create(() => {
                 handlerOptions.useCssClass = false;
                 handler.configure(handlerOptions);
             });
@@ -250,8 +250,8 @@ describe('Bindings', () => {
         it('binding to a numeric constant', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#hidden-constant-numeric");
-            var model = {};
+            const el = document.querySelector("#hidden-constant-numeric");
+            let model = {};
 
             expect($(el)).not.toBeHidden();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -261,8 +261,8 @@ describe('Bindings', () => {
         it('binding to a boolean constant', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#hidden-constant-boolean");
-            var model = {};
+            const el = document.querySelector("#hidden-constant-boolean");
+            let model = {};
 
             expect($(el)).not.toBeHidden();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -272,8 +272,8 @@ describe('Bindings', () => {
         it('binding to a non-observable model property', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#hidden-non-observable-model-property");
-            var model = createModel();
+            const el = document.querySelector("#hidden-non-observable-model-property");
+            let model = createModel();
 
             expect($(el)).not.toBeHidden();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -283,8 +283,8 @@ describe('Bindings', () => {
         it('binding to a observable model property', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#hidden-observable-model-property");
-            var model = createModel();
+            const el = document.querySelector("#hidden-observable-model-property");
+            let model = createModel();
 
             expect($(el)).not.toBeHidden();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -303,8 +303,8 @@ describe('Bindings', () => {
         it('binding to a model observable', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#hidden-observable-model");
-            var model = createModel();
+            const el = document.querySelector("#hidden-observable-model");
+            let model = createModel();
             model["changed"] = model.observableBool.changed;
 
             expect($(el)).not.toBeHidden();
@@ -323,16 +323,16 @@ describe('Bindings', () => {
         it('binding to an observable model property (using css classes)', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#hidden-observable-model-property-css");
-            var model = createModel();
+            const el = document.querySelector("#hidden-observable-model-property-css");
+            let model = createModel();
 
             // configure handler
-            var domManager = wx.injector.get<wx.IDomManager>(wx.res.domManager);
-            var handler = wx.app.binding("hidden");
-            var handlerOptions: wx.IVisibleBindingOptions = { useCssClass: true, hiddenClass: 'hidden' };
+            let domManager = wx.injector.get<wx.IDomManager>(wx.res.domManager);
+            let handler = wx.app.binding("hidden");
+            let handlerOptions: wx.IVisibleBindingOptions = { useCssClass: true, hiddenClass: 'hidden' };
             handler.configure(handlerOptions);
 
-            var disp = Rx.Disposable.create(() => {
+            let disp = Rx.Disposable.create(() => {
                 handlerOptions.useCssClass = false;
                 handler.configure(handlerOptions);
             });
@@ -360,8 +360,8 @@ describe('Bindings', () => {
         it('binding to a numeric constant', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#enabled-constant-numeric");
-            var model = {};
+            const el = document.querySelector("#enabled-constant-numeric");
+            let model = {};
 
             expect($(el)).toBeDisabled();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -371,8 +371,8 @@ describe('Bindings', () => {
         it('binding to a boolean constant', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#enabled-constant-boolean");
-            var model = {};
+            const el = document.querySelector("#enabled-constant-boolean");
+            let model = {};
 
             expect($(el)).toBeDisabled();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -382,8 +382,8 @@ describe('Bindings', () => {
         it('binding to a non-observable model property', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#enabled-non-observable-model-property");
-            var model = createModel();
+            const el = document.querySelector("#enabled-non-observable-model-property");
+            let model = createModel();
 
             expect($(el)).toBeDisabled();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -393,8 +393,8 @@ describe('Bindings', () => {
         it('binding to a observable model property', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#enabled-observable-model-property");
-            var model = createModel();
+            const el = document.querySelector("#enabled-observable-model-property");
+            let model = createModel();
 
             expect($(el)).toBeDisabled();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -415,8 +415,8 @@ describe('Bindings', () => {
         it('binding to a observable model @propref',() => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#enabled-observable-model-propref");
-            var model = createModel();
+            const el = document.querySelector("#enabled-observable-model-propref");
+            let model = createModel();
 
             expect($(el)).toBeDisabled();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -426,8 +426,8 @@ describe('Bindings', () => {
         it('binding to a model observable', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#enabled-observable-model");
-            var model = createModel();
+            const el = document.querySelector("#enabled-observable-model");
+            let model = createModel();
             model["changed"] = model.observableBool.changed;
 
             expect($(el)).toBeDisabled();
@@ -450,8 +450,8 @@ describe('Bindings', () => {
         it('binding to a numeric constant', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#disabled-constant-numeric");
-            var model = {};
+            const el = document.querySelector("#disabled-constant-numeric");
+            let model = {};
 
             expect($(el)).not.toBeDisabled();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -461,8 +461,8 @@ describe('Bindings', () => {
         it('binding to a boolean constant', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#disabled-constant-boolean");
-            var model = {};
+            const el = document.querySelector("#disabled-constant-boolean");
+            let model = {};
 
             expect($(el)).not.toBeDisabled();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -472,8 +472,8 @@ describe('Bindings', () => {
         it('binding to a non-observable model property', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#disabled-non-observable-model-property");
-            var model = createModel();
+            const el = document.querySelector("#disabled-non-observable-model-property");
+            let model = createModel();
 
             expect($(el)).not.toBeDisabled();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -483,8 +483,8 @@ describe('Bindings', () => {
         it('binding to a observable model property', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#disabled-observable-model-property");
-            var model = createModel();
+            const el = document.querySelector("#disabled-observable-model-property");
+            let model = createModel();
 
             expect($(el)).not.toBeDisabled();
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -505,8 +505,8 @@ describe('Bindings', () => {
         it('binding to a model observable', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = document.querySelector("#disabled-observable-model");
-            var model = createModel();
+            const el = document.querySelector("#disabled-observable-model");
+            let model = createModel();
             model["changed"] = model.observableBool.changed;
 
             expect($(el)).not.toBeDisabled();
@@ -529,8 +529,8 @@ describe('Bindings', () => {
         it('binding to a string constant', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#html-constant-string");
-            var model = {};
+            const el = <HTMLElement> document.querySelector("#html-constant-string");
+            let model = {};
 
             expect(el.innerHTML).toEqual('invalid');
             expect(() => wx.applyBindings(model, el)).not.toThrowError();
@@ -540,8 +540,8 @@ describe('Bindings', () => {
         it('binding to a non-observable model property', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#html-non-observable-model-property");
-            var model = createModel();
+            const el = <HTMLElement> document.querySelector("#html-non-observable-model-property");
+            let model = createModel();
             model.constantString = '<span>bla</span>';
 
             expect(el.innerHTML).toEqual('invalid');
@@ -552,8 +552,8 @@ describe('Bindings', () => {
         it('binding to a observable model property', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#html-observable-model-property");
-            var model = createModel();
+            const el = <HTMLElement> document.querySelector("#html-observable-model-property");
+            let model = createModel();
             model.observableString('<span>bla</span>');
 
             expect(el.innerHTML).toEqual('invalid');
@@ -565,7 +565,7 @@ describe('Bindings', () => {
             expect(el.innerHTML).toEqual(model.observableString());
 
             // binding should stop updating after getting disposed
-            var oldValue = model.observableString();
+            let oldValue = model.observableString();
             wx.cleanNode(el);
             model.observableString("nope");
             expect(el.innerHTML).toEqual(oldValue);
@@ -574,8 +574,8 @@ describe('Bindings', () => {
         it('binding to a observable model propref',() => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#html-observable-model-propref");
-            var model = createModel();
+            const el = <HTMLElement> document.querySelector("#html-observable-model-propref");
+            let model = createModel();
             model.observableString('<span>bla</span>');
 
             expect(el.innerHTML).toEqual('invalid');
@@ -586,8 +586,8 @@ describe('Bindings', () => {
         it('binding to a model observable', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');
 
-            var el = <HTMLElement> document.querySelector("#html-observable-model");
-            var model = createModel();
+            const el = <HTMLElement> document.querySelector("#html-observable-model");
+            let model = createModel();
             model.observableString('<span>bla</span>');
             model["changed"] = model.observableString.changed;
 
@@ -599,7 +599,7 @@ describe('Bindings', () => {
             expect(el.innerHTML).toEqual(model.observableString());
 
             // binding should stop updating after getting disposed
-            var oldValue = model.observableString();
+            let oldValue = model.observableString();
             wx.cleanNode(el);
             model.observableString("nope");
             expect(el.innerHTML).toEqual(oldValue);
