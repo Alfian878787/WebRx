@@ -132,7 +132,7 @@ module.exports = function (grunt) {
                 }
             }
         },
-        
+
         trimtrailingspaces: {
             main: {
                 src: ['src/**/*.ts', 'test/**/*.ts'],
@@ -174,7 +174,7 @@ module.exports = function (grunt) {
                 files: {
                     'dist/web.rx.min.js': ['dist/web.rx.js']
                 },
-                
+
                 options: {
                     sourceMap: true,
                     sourceMapIncludeSources: true,
@@ -233,11 +233,10 @@ module.exports = function (grunt) {
         }
     };
 
-    //var webpack = require("webpack");
     var _ = require("lodash");
 
     conf.jasmine["dist"] = _.cloneDeep(conf.jasmine.default);
-    conf.jasmine.dist.options.vendor[9] = 'dist/web.rx.min.js';
+    conf.jasmine.dist.options.vendor[10] = 'dist/web.rx.min.js';
 
     grunt.initConfig(conf);
 
