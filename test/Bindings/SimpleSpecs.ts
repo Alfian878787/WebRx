@@ -14,8 +14,9 @@ describe('Bindings', () => {
         }
     };
 
-    function simpleTextBinding(el: HTMLElement, value: any, compiled: any,
-        ctx: wx.IDataContext, domManager: wx.IDomManager, state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule) {
+    let simpleTextBinding:wx.ISimpleBindingHandler = {
+        update:(el: HTMLElement, value: any, compiled: any, ctx: wx.IDataContext, domManager: wx.IDomManager,
+            state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule)=> {
             if(typeof el === 'undefined')
                 throw Error("el");
             if(typeof state === 'undefined')
@@ -29,16 +30,18 @@ describe('Bindings', () => {
             if(typeof cleanup === 'undefined')
                 throw Error("cleanup");
 
-        if ((value === null) || (value === undefined))
-            value = "";
-        else
-            value = wx.unwrapProperty(value);
+            if ((value === null) || (value === undefined))
+                value = "";
+            else
+                value = wx.unwrapProperty(value);
 
-        el.textContent = value;
-    }
+            el.textContent = value;
+        }
+    };
 
-    function simpleTextBindingWithOptions(el: HTMLElement, value: any, compiled: any,
-        ctx: wx.IDataContext, domManager: wx.IDomManager, state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule) {
+    let simpleTextBindingWithOptions:wx.ISimpleBindingHandler = {
+        update:(el: HTMLElement, value: any, compiled: any, ctx: wx.IDataContext, domManager: wx.IDomManager,
+            state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule)=> {
             if(typeof el === 'undefined')
                 throw Error("el");
             if(typeof state === 'undefined')
@@ -52,38 +55,40 @@ describe('Bindings', () => {
             if(typeof cleanup === 'undefined')
                 throw Error("cleanup");
 
-        var text = (value.text === null) || (value.text === undefined) ? "" : wx.unwrapProperty(value.text);
-        let index = typeof value.index !== 'undefined' ? wx.unwrapProperty(value.index) : '';
+            var text = (value.text === null) || (value.text === undefined) ? "" : wx.unwrapProperty(value.text);
+            let index = typeof value.index !== 'undefined' ? wx.unwrapProperty(value.index) : '';
 
-        el.textContent = text + wx.unwrapProperty(index);
-    }
+            el.textContent = text + wx.unwrapProperty(index);
+        }
+    };
 
-    function simpleTextInput(el: HTMLElement, value: any, compiled: any,
-        ctx: wx.IDataContext, domManager: wx.IDomManager, state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule) {
-            if(typeof el === 'undefined')
-                throw Error("el");
-            if(typeof state === 'undefined')
-                throw Error("state");
-            if(typeof compiled === 'undefined')
-                throw Error("compiled");
-            if(typeof ctx === 'undefined')
-                throw Error("ctx");
-            if(typeof domManager === 'undefined')
-                throw Error("domManager");
-            if(typeof cleanup === 'undefined')
-                throw Error("cleanup");
-
-        if(!state.isSubscribed) {
+    let simpleTextInput:wx.ISimpleBindingHandler = {
+        init: (el: HTMLElement, value: any, compiled: any, ctx: wx.IDataContext, domManager: wx.IDomManager,
+            state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule)=> {
             cleanup.add(Rx.Observable.fromEvent(el, "change").subscribe(x=> {
                 // update model
                 value((<HTMLInputElement> el).value);
             }));
-        }
+        }, update:(el: HTMLElement, value: any, compiled: any, ctx: wx.IDataContext, domManager: wx.IDomManager,
+            state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule)=> {
+            if(typeof el === 'undefined')
+                throw Error("el");
+            if(typeof state === 'undefined')
+                throw Error("state");
+            if(typeof compiled === 'undefined')
+                throw Error("compiled");
+            if(typeof ctx === 'undefined')
+                throw Error("ctx");
+            if(typeof domManager === 'undefined')
+                throw Error("domManager");
+            if(typeof cleanup === 'undefined')
+                throw Error("cleanup");
 
-        // update dom
-        var result = (value === null) || (value === undefined) ? "" : wx.unwrapProperty(value);
-        (<HTMLInputElement> el).value = result;
-    }
+            // update dom
+            var result = (value === null) || (value === undefined) ? "" : wx.unwrapProperty(value);
+            (<HTMLInputElement> el).value = result;
+        }
+    };
 
     beforeAll(() => {
         wx.app.binding('simple-text', simpleTextBinding);

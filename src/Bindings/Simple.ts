@@ -31,6 +31,7 @@ export default class SimpleBinding implements wx.IBindingHandler, wx.ISimpleBind
         let cleanup: Rx.CompositeDisposable;
         let bindingDeps = new Array<Rx.IObservable<any>>();
         let bindingState = {};
+        let isInit = true;
         const keys = Object.keys(compiled);
 
         if (typeof compiled === "function") {
@@ -64,7 +65,12 @@ export default class SimpleBinding implements wx.IBindingHandler, wx.ISimpleBind
                     }
                 }
 
-                this.inner(el, value, compiled, ctx, this.domManager, bindingState, state.cleanup, module);
+                if(isInit && isFunction(this.inner.init)) {
+                    this.inner.init(el, value, compiled, ctx, this.domManager, bindingState, state.cleanup, module);
+                    isInit = false;
+                }
+
+                this.inner.update(el, value, compiled, ctx, this.domManager, bindingState, state.cleanup, module);
             } catch (e) {
                 this.app.defaultExceptionHandler.onNext(e);
             }
@@ -72,6 +78,10 @@ export default class SimpleBinding implements wx.IBindingHandler, wx.ISimpleBind
 
         // release closure references to GC
         state.cleanup.add(Rx.Disposable.create(() => {
+            if(isFunction(this.inner.cleanup)) {
+                this.inner.cleanup(el, this.domManager, bindingState, state.cleanup, module);
+            }
+
             // nullify args
             node = null;
             options = null;

@@ -73,22 +73,25 @@ export class Module implements wx.IModule {
         handler = args.shift();
 
         if (Array.isArray(name)) {
-            name.forEach(x => this.bindings[x] = handler);
+            name.forEach(x => this.registerBinding(x, handler));
         } else {
-            if(!isFunction(handler))
-                this.bindings[name] = handler;
-            else {
-                // Simple-binding handler
-                let controlsDescendants = args.shift();
-                let sbHandler = injector.get<wx.ISimpleBinding>(res.simpleBindingHandler);
-                sbHandler.inner = <wx.ISimpleBindingHandler> <any> handler;
-                sbHandler.controlsDescendants = !!controlsDescendants;
-
-                this.bindings[name] = sbHandler;
-            }
+            this.registerBinding(name, handler, args.shift());
         }
 
         return <any> this;
+    }
+
+    private registerBinding(name: string, handler: any, controlsDescendants?: any) {
+        if(typeof handler === 'string' || isFunction(handler["applyBinding"]))
+            this.bindings[name] = handler;
+        else {
+            // Simple-binding handler
+            let sbHandler = injector.get<wx.ISimpleBinding>(res.simpleBindingHandler);
+            sbHandler.inner = <wx.ISimpleBindingHandler> <any> handler;
+            sbHandler.controlsDescendants = !!controlsDescendants;
+
+            this.bindings[name] = sbHandler;
+        }
     }
 
     public filter(name: string, filter: wx.IExpressionFilter): wx.IExpressionFilterRegistry;

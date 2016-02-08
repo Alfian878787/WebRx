@@ -1244,21 +1244,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // registration
 	        handler = args.shift();
 	        if (Array.isArray(name)) {
-	            name.forEach(function (x) { return _this.bindings[x] = handler; });
+	            name.forEach(function (x) { return _this.registerBinding(x, handler); });
 	        }
 	        else {
-	            if (!Utils_1.isFunction(handler))
-	                this.bindings[name] = handler;
-	            else {
-	                // Simple-binding handler
-	                var controlsDescendants = args.shift();
-	                var sbHandler = Injector_1.injector.get(res.simpleBindingHandler);
-	                sbHandler.inner = handler;
-	                sbHandler.controlsDescendants = !!controlsDescendants;
-	                this.bindings[name] = sbHandler;
-	            }
+	            this.registerBinding(name, handler, args.shift());
 	        }
 	        return this;
+	    };
+	    Module.prototype.registerBinding = function (name, handler, controlsDescendants) {
+	        if (typeof handler === 'string' || Utils_1.isFunction(handler["applyBinding"]))
+	            this.bindings[name] = handler;
+	        else {
+	            // Simple-binding handler
+	            var sbHandler = Injector_1.injector.get(res.simpleBindingHandler);
+	            sbHandler.inner = handler;
+	            sbHandler.controlsDescendants = !!controlsDescendants;
+	            this.bindings[name] = sbHandler;
+	        }
 	    };
 	    Module.prototype.filter = function () {
 	        var args = Utils_1.args2Array(arguments);
@@ -8345,6 +8347,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var cleanup;
 	        var bindingDeps = new Array();
 	        var bindingState = {};
+	        var isInit = true;
 	        var keys = Object.keys(compiled);
 	        if (typeof compiled === "function") {
 	            var obs = this.domManager.expressionToObservable(compiled, ctx);
@@ -8374,7 +8377,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        value[key] = allValues[i];
 	                    }
 	                }
-	                _this.inner(el, value, compiled, ctx, _this.domManager, bindingState, state.cleanup, module);
+	                if (isInit && Utils_1.isFunction(_this.inner.init)) {
+	                    _this.inner.init(el, value, compiled, ctx, _this.domManager, bindingState, state.cleanup, module);
+	                    isInit = false;
+	                }
+	                _this.inner.update(el, value, compiled, ctx, _this.domManager, bindingState, state.cleanup, module);
 	            }
 	            catch (e) {
 	                _this.app.defaultExceptionHandler.onNext(e);
@@ -8382,6 +8389,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }));
 	        // release closure references to GC
 	        state.cleanup.add(Rx.Disposable.create(function () {
+	            if (Utils_1.isFunction(_this.inner.cleanup)) {
+	                _this.inner.cleanup(el, _this.domManager, bindingState, state.cleanup, module);
+	            }
 	            // nullify args
 	            node = null;
 	            options = null;

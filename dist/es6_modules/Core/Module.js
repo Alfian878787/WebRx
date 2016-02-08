@@ -50,21 +50,23 @@ export class Module {
         // registration
         handler = args.shift();
         if (Array.isArray(name)) {
-            name.forEach(x => this.bindings[x] = handler);
+            name.forEach(x => this.registerBinding(x, handler));
         }
         else {
-            if (!isFunction(handler))
-                this.bindings[name] = handler;
-            else {
-                // Simple-binding handler
-                let controlsDescendants = args.shift();
-                let sbHandler = injector.get(res.simpleBindingHandler);
-                sbHandler.inner = handler;
-                sbHandler.controlsDescendants = !!controlsDescendants;
-                this.bindings[name] = sbHandler;
-            }
+            this.registerBinding(name, handler, args.shift());
         }
         return this;
+    }
+    registerBinding(name, handler, controlsDescendants) {
+        if (typeof handler === 'string' || isFunction(handler["applyBinding"]))
+            this.bindings[name] = handler;
+        else {
+            // Simple-binding handler
+            let sbHandler = injector.get(res.simpleBindingHandler);
+            sbHandler.inner = handler;
+            sbHandler.controlsDescendants = !!controlsDescendants;
+            this.bindings[name] = sbHandler;
+        }
     }
     filter() {
         let args = args2Array(arguments);

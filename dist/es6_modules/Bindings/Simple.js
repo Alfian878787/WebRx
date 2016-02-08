@@ -1,5 +1,5 @@
 /// <reference path="../Interfaces.ts" />
-import { args2Array, throwError } from "../Core/Utils";
+import { args2Array, isFunction, throwError } from "../Core/Utils";
 "use strict";
 /**
 * Base class for simple-bindings. Responsible for taking care of the heavy-lifting.
@@ -24,6 +24,7 @@ export default class SimpleBinding {
         let cleanup;
         let bindingDeps = new Array();
         let bindingState = {};
+        let isInit = true;
         const keys = Object.keys(compiled);
         if (typeof compiled === "function") {
             let obs = this.domManager.expressionToObservable(compiled, ctx);
@@ -53,7 +54,11 @@ export default class SimpleBinding {
                         value[key] = allValues[i];
                     }
                 }
-                this.inner(el, value, compiled, ctx, this.domManager, bindingState, state.cleanup, module);
+                if (isInit && isFunction(this.inner.init)) {
+                    this.inner.init(el, value, compiled, ctx, this.domManager, bindingState, state.cleanup, module);
+                    isInit = false;
+                }
+                this.inner.update(el, value, compiled, ctx, this.domManager, bindingState, state.cleanup, module);
             }
             catch (e) {
                 this.app.defaultExceptionHandler.onNext(e);
@@ -61,6 +66,9 @@ export default class SimpleBinding {
         }));
         // release closure references to GC
         state.cleanup.add(Rx.Disposable.create(() => {
+            if (isFunction(this.inner.cleanup)) {
+                this.inner.cleanup(el, this.domManager, bindingState, state.cleanup, module);
+            }
             // nullify args
             node = null;
             options = null;

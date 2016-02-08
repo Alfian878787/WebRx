@@ -551,7 +551,11 @@ declare module wx {
     * Simplified binding-handler
     * @interface
     **/
-    type ISimpleBindingHandler = (el: HTMLElement, value: any, compiled: any, ctx: wx.IDataContext, domManager: wx.IDomManager, state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule) => void;
+    interface ISimpleBindingHandler {
+        init?(el: HTMLElement, value: any, compiled: any, ctx: wx.IDataContext, domManager: wx.IDomManager, state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule): void;
+        update(el: HTMLElement, value: any, compiled: any, ctx: wx.IDataContext, domManager: wx.IDomManager, state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule): void;
+        cleanup?(el: HTMLElement, domManager: wx.IDomManager, state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule): void;
+    }
     interface ISimpleBinding extends IBindingHandler {
         inner: ISimpleBindingHandler;
     }

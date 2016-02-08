@@ -10,6 +10,7 @@ export declare class Module implements wx.IModule {
     binding(names: string[], handler: wx.IBindingHandler): wx.IBindingRegistry;
     binding(names: string[], handler: string): wx.IBindingRegistry;
     binding(name: string): wx.IBindingHandler;
+    private registerBinding(name, handler, controlsDescendants?);
     filter(name: string, filter: wx.IExpressionFilter): wx.IExpressionFilterRegistry;
     filter(name: string): wx.IExpressionFilter;
     filters(): {
