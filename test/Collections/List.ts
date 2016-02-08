@@ -705,6 +705,23 @@ describe("Projected Observable List", () => {
         expect(1).toEqual(disposed.length);
     });
 
+    it("should remove all items that satisfy the given selector", () => {
+        var input = [1, 2, 3, 4];
+        var disposed = new Array<number>();
+
+        var fixture = wx.list<number>(input);
+
+        fixture.itemsRemoved.subscribe(x => {
+            x.items.forEach(item => disposed.push(item));
+        });
+
+        fixture.removeAll(x => x % 2 == 0);
+
+        expect(2).toEqual(disposed.length);
+        expect(2).toEqual(disposed[0]);
+        expect(4).toEqual(disposed[1]);
+    });
+
     it("addRange smoke-test", () => {
         let fixture = wx.list<string>();
         let output = fixture.project(undefined, undefined, x => "Prefix" + x);

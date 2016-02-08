@@ -251,10 +251,11 @@ export class ObservableList<T> implements wx.IObservableList<T>, Rx.IDisposable,
         });
     }
 
-    public removeAll(items: T[]): void {
-        if (items == null) {
+    public removeAll(itemsOrSelector: T[] | ((item: T) => boolean)): T[] {
+        if (itemsOrSelector == null) {
             throwError("items");
         }
+        const items: T[] = Array.isArray(itemsOrSelector) ? itemsOrSelector : this.inner.filter(itemsOrSelector);
 
         let disp = this.isLengthAboveResetThreshold(items.length) ?
             this.suppressChangeNotifications() : Rx.Disposable.empty;
@@ -264,6 +265,7 @@ export class ObservableList<T> implements wx.IObservableList<T>, Rx.IDisposable,
             // accounting of the length
             items.forEach(x => this.remove(x));
         });
+        return items;
     }
 
     public removeRange(index: number, count: number): void {
@@ -780,8 +782,9 @@ class ObservableListProjection<T, TValue> extends ObservableList<TValue> impleme
         throwError(this.readonlyExceptionMessage);
     }
 
-    public removeAll(items: TValue[]): void {
+    public removeAll(itemsOrSelector: TValue[] | ((item: TValue) => boolean)): TValue[] {
         throwError(this.readonlyExceptionMessage);
+        return undefined;
     }
 
     public removeRange(index: number, count: number): void {
