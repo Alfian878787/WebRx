@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.command = Command_1.command;
 	exports.asyncCommand = Command_1.asyncCommand;
 	exports.isCommand = Command_1.isCommand;
-	var Animation_1 = __webpack_require__(54);
+	var Animation_1 = __webpack_require__(55);
 	exports.animation = Animation_1.animation;
 	var Oid_1 = __webpack_require__(13);
 	exports.getOid = Oid_1.getOid;
@@ -93,7 +93,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.Lazy = Lazy_1.default;
 	var VirtualChildNodes_1 = __webpack_require__(32);
 	exports.VirtualChildNodes = VirtualChildNodes_1.default;
-	var RouteMatcher_1 = __webpack_require__(49);
+	var RouteMatcher_1 = __webpack_require__(50);
 	exports.route = RouteMatcher_1.route;
 	var Value_1 = __webpack_require__(34);
 	exports.getNodeValue = Value_1.getNodeValue;
@@ -102,7 +102,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.injector = Injector_1.injector;
 	var IID_1 = __webpack_require__(5);
 	exports.IID = IID_1.default;
-	var HttpClient_1 = __webpack_require__(51);
+	var HttpClient_1 = __webpack_require__(52);
 	exports.getHttpClientDefaultConfig = HttpClient_1.getHttpClientDefaultConfig;
 	var BindingBase_1 = __webpack_require__(29);
 	exports.SingleOneWayBindingBase = BindingBase_1.SingleOneWayBindingBase;
@@ -151,14 +151,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	var StateActive_1 = __webpack_require__(43);
 	var View_1 = __webpack_require__(44);
 	var StateRef_1 = __webpack_require__(45);
-	var Select_1 = __webpack_require__(46);
-	var RadioGroup_1 = __webpack_require__(47);
-	var Router_1 = __webpack_require__(48);
-	var MessageBus_1 = __webpack_require__(50);
-	var HttpClient_1 = __webpack_require__(51);
-	var Version_1 = __webpack_require__(52);
+	var Simple_1 = __webpack_require__(46);
+	var Select_1 = __webpack_require__(47);
+	var RadioGroup_1 = __webpack_require__(48);
+	var Router_1 = __webpack_require__(49);
+	var MessageBus_1 = __webpack_require__(51);
+	var HttpClient_1 = __webpack_require__(52);
+	var Version_1 = __webpack_require__(53);
 	// make sure RxExtensions get installed
-	var RxExtensions_1 = __webpack_require__(53);
+	var RxExtensions_1 = __webpack_require__(54);
 	RxExtensions_1.install();
 	"use strict";
 	var App = (function (_super) {
@@ -317,7 +318,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            .register("bindings.hasFocus", [res.domManager, res.app, HasFocus_1.default], true)
 	            .register("bindings.view", [res.domManager, res.router, res.app, View_1.default], true)
 	            .register("bindings.sref", [res.domManager, res.router, res.app, StateRef_1.default], true)
-	            .register("bindings.sactive", [res.domManager, res.router, res.app, StateActive_1.default], true);
+	            .register("bindings.sactive", [res.domManager, res.router, res.app, StateActive_1.default], true)
+	            .register("bindings.simple", [res.domManager, res.app, Simple_1.default], false);
 	        Injector_1.injector.register("components.radiogroup", [res.templateEngine, RadioGroup_1.default])
 	            .register("components.select", [res.templateEngine, Select_1.default]);
 	        // initialize module
@@ -1049,6 +1051,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.expressionCompiler = "expressioncompiler";
 	exports.templateEngine = "templateEngine";
 	exports.httpClient = "httpClient";
+	exports.simpleBindingHandler = "bindings.simple";
 	exports.hasValueBindingValue = "has.bindings.value";
 	exports.valueBindingValue = "bindings.value";
 	//# sourceMappingURL=Resources.js.map
@@ -1238,7 +1241,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	            name.forEach(function (x) { return _this.bindings[x] = handler; });
 	        }
 	        else {
-	            this.bindings[name] = handler;
+	            if (!Utils_1.isFunction(handler))
+	                this.bindings[name] = handler;
+	            else {
+	                // Simple-binding handler
+	                var controlsDescendants = args.shift();
+	                var sbHandler = Injector_1.injector.get(res.simpleBindingHandler);
+	                sbHandler.inner = handler;
+	                sbHandler.controlsDescendants = !!controlsDescendants;
+	                this.bindings[name] = sbHandler;
+	            }
 	        }
 	        return this;
 	    };
@@ -3043,10 +3055,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	                result = o[field];
 	                // intercept access to observable properties
-	                if (!noUnwrap && Utils_1.isProperty(result)) {
+	                if (Utils_1.isProperty(result)) {
 	                    var prop_1 = result;
 	                    // get the property's real value
-	                    result = prop_1();
+	                    if (!noUnwrap)
+	                        result = prop_1();
 	                    // register observable
 	                    if (captured)
 	                        captured.add(prop_1.changed);
@@ -8289,6 +8302,93 @@ return /******/ (function(modules) { // webpackBootstrap
 	/// <reference path="../Interfaces.ts" />
 	var Utils_1 = __webpack_require__(3);
 	"use strict";
+	/**
+	* Base class for simple-bindings. Responsible for taking care of the heavy-lifting.
+	* @class
+	*/
+	var SimpleBinding = (function () {
+	    function SimpleBinding(domManager, app) {
+	        this.priority = 0;
+	        this.domManager = domManager;
+	        this.app = app;
+	    }
+	    ////////////////////
+	    // wx.IBinding
+	    SimpleBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
+	        var _this = this;
+	        if (node.nodeType !== 1)
+	            Utils_1.throwError("binding only operates on elements!");
+	        if (options == null)
+	            Utils_1.throwError("invalid binding-options!");
+	        var el = node;
+	        var compiled = this.domManager.compileBindingOptions(options, module);
+	        var exp;
+	        var cleanup;
+	        var bindingDeps = new Array();
+	        var bindingState = {};
+	        var keys = Object.keys(compiled);
+	        if (typeof compiled === "function") {
+	            var obs = this.domManager.expressionToObservable(compiled, ctx);
+	            bindingDeps.push(obs);
+	        }
+	        else {
+	            // transform all properties into observables
+	            for (var i = 0; i < keys.length; i++) {
+	                bindingDeps.push(this.domManager.expressionToObservable(compiled[keys[i]], ctx));
+	            }
+	        }
+	        // subscribe to any input changes
+	        state.cleanup.add(Rx.Observable.combineLatest(bindingDeps, function () { return Utils_1.args2Array(arguments); })
+	            .subscribe(function (allValues) {
+	            try {
+	                cleanup = new Rx.CompositeDisposable();
+	                // construct current value
+	                var value;
+	                if (typeof compiled === "function") {
+	                    value = allValues[0];
+	                }
+	                else {
+	                    // collect current values into an object who's signature matches the source options
+	                    value = {};
+	                    for (var i = 0; i < keys.length; i++) {
+	                        var key = keys[i];
+	                        value[key] = allValues[i];
+	                    }
+	                }
+	                _this.inner(el, value, compiled, ctx, _this.domManager, bindingState, state.cleanup, module);
+	            }
+	            catch (e) {
+	                _this.app.defaultExceptionHandler.onNext(e);
+	            }
+	        }));
+	        // release closure references to GC
+	        state.cleanup.add(Rx.Disposable.create(function () {
+	            // nullify args
+	            node = null;
+	            options = null;
+	            ctx = null;
+	            state = null;
+	            bindingState = null;
+	            // nullify common locals
+	            compiled = null;
+	        }));
+	    };
+	    SimpleBinding.prototype.configure = function (options) {
+	        // intentionally left blank
+	    };
+	    return SimpleBinding;
+	})();
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = SimpleBinding;
+	//# sourceMappingURL=Simple.js.map
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/// <reference path="../Interfaces.ts" />
+	var Utils_1 = __webpack_require__(3);
+	"use strict";
 	var templateCache = {};
 	var SelectComponent = (function () {
 	    function SelectComponent(htmlTemplateEngine) {
@@ -8399,7 +8499,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=Select.js.map
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
@@ -8494,13 +8594,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=RadioGroup.js.map
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
 	var Utils_1 = __webpack_require__(3);
 	var Property_1 = __webpack_require__(8);
-	var RouteMatcher_1 = __webpack_require__(49);
+	var RouteMatcher_1 = __webpack_require__(50);
 	"use strict";
 	var Router = (function () {
 	    function Router(domManager, app) {
@@ -8900,7 +9000,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=Router.js.map
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
@@ -9057,7 +9157,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=RouteMatcher.js.map
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
@@ -9107,7 +9207,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=MessageBus.js.map
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9271,14 +9371,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=HttpClient.js.map
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports) {
 
 	exports.version = '1.4.4';
 	//# sourceMappingURL=Version.js.map
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="./Interfaces.ts" />
@@ -9387,7 +9487,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=RxExtensions.js.map
 
 /***/ },
-/* 54 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />

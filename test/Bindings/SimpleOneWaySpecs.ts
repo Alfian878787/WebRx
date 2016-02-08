@@ -2,18 +2,18 @@
 /// <reference path="../typings/jasmine-jquery.d.ts" />
 /// <reference path="../../src/web.rx.d.ts" />
 
-function createModel() {
-    return {
-        constantString: "bar",
-        constantBool: true,
-        constantNumeric: 42,
-        observableString: wx.property("voodoo"),
-        observableBool: wx.property(true),
-        observableNumeric: wx.property(96)
-    }
-};
-
 describe('Bindings', () => {
+    function createModel() {
+        return {
+            constantString: "bar",
+            constantBool: true,
+            constantNumeric: 42,
+            observableString: wx.property("voodoo"),
+            observableBool: wx.property(true),
+            observableNumeric: wx.property(96)
+        }
+    };
+
     describe('Text', () => {
         it('binding to a string constant', () => {
             loadFixtures('templates/Bindings/SimpleOneWay.html');

@@ -75,7 +75,17 @@ export class Module implements wx.IModule {
         if (Array.isArray(name)) {
             name.forEach(x => this.bindings[x] = handler);
         } else {
-            this.bindings[name] = handler;
+            if(!isFunction(handler))
+                this.bindings[name] = handler;
+            else {
+                // Simple-binding handler
+                let controlsDescendants = args.shift();
+                let sbHandler = injector.get<wx.ISimpleBinding>(res.simpleBindingHandler);
+                sbHandler.inner = <wx.ISimpleBindingHandler> <any> handler;
+                sbHandler.controlsDescendants = !!controlsDescendants;
+
+                this.bindings[name] = sbHandler;
+            }
         }
 
         return <any> this;

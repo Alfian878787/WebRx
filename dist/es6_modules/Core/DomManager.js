@@ -423,10 +423,11 @@ export class DomManager {
                 }
                 result = o[field];
                 // intercept access to observable properties
-                if (!noUnwrap && isProperty(result)) {
+                if (isProperty(result)) {
                     let prop = result;
                     // get the property's real value
-                    result = prop();
+                    if (!noUnwrap)
+                        result = prop();
                     // register observable
                     if (captured)
                         captured.add(prop.changed);

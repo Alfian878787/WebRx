@@ -27,6 +27,7 @@ import ComponentBinding from "./Bindings/Component"
 import StateActiveBinding from "./Routing/Bindings/StateActive"
 import ViewBinding from "./Routing/Bindings/View"
 import StateRefBinding from "./Routing/Bindings/StateRef"
+import SimpleBinding from "./Bindings/Simple"
 import SelectComponent from "./Components/Select"
 import RadioGroupComponent from "./Components/RadioGroup"
 import { Router } from "./Routing/Router"
@@ -216,7 +217,8 @@ class App extends Module implements wx.IWebRxApp {
             .register("bindings.hasFocus", [res.domManager, res.app, HasFocusBinding], true)
             .register("bindings.view", [res.domManager, res.router, res.app, ViewBinding], true)
             .register("bindings.sref", [res.domManager, res.router, res.app, StateRefBinding], true)
-            .register("bindings.sactive", [res.domManager, res.router, res.app, StateActiveBinding], true);
+            .register("bindings.sactive", [res.domManager, res.router, res.app, StateActiveBinding], true)
+            .register("bindings.simple", [res.domManager, res.app, SimpleBinding], false);
 
         injector.register("components.radiogroup", [res.templateEngine, RadioGroupComponent])
             .register("components.select", [res.templateEngine, SelectComponent]);

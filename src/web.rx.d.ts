@@ -557,13 +557,21 @@ declare module wx {
         **/
         controlsDescendants?: boolean;
     }
+    /**
+    * Simplified binding-handler
+    * @interface
+    **/
+    export type ISimpleBindingHandler = (el: HTMLElement, value: any, compiled: any,
+        ctx: wx.IDataContext, domManager: wx.IDomManager, state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule) => void;
+
     interface IBindingRegistry {
-        binding(name: string, handler: IBindingHandler): IBindingRegistry;
+        binding(name: string, handler: IBindingHandler|ISimpleBindingHandler, controlsDescendants?: boolean): IBindingRegistry;
         binding(name: string, handler: string): IBindingRegistry;
         binding(names: string[], handler: IBindingHandler): IBindingRegistry;
         binding(names: string[], handler: string): IBindingRegistry;
         binding(name: string): IBindingHandler;
     }
+
     interface IComponentTemplateDescriptor {
         require?: string;
         promise?: Rx.IPromise<Node[]>;

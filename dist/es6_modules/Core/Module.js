@@ -53,7 +53,16 @@ export class Module {
             name.forEach(x => this.bindings[x] = handler);
         }
         else {
-            this.bindings[name] = handler;
+            if (!isFunction(handler))
+                this.bindings[name] = handler;
+            else {
+                // Simple-binding handler
+                let controlsDescendants = args.shift();
+                let sbHandler = injector.get(res.simpleBindingHandler);
+                sbHandler.inner = handler;
+                sbHandler.controlsDescendants = !!controlsDescendants;
+                this.bindings[name] = sbHandler;
+            }
         }
         return this;
     }

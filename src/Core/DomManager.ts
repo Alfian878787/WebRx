@@ -543,11 +543,12 @@ export class DomManager implements wx.IDomManager {
                 result = o[field];
 
                 // intercept access to observable properties
-                if (!noUnwrap && isProperty(result)) {
+                if (isProperty(result)) {
                     let prop = <wx.IObservableProperty<any>> result;
 
                     // get the property's real value
-                    result = prop();
+                    if(!noUnwrap)
+                        result = prop();
 
                     // register observable
                     if (captured)

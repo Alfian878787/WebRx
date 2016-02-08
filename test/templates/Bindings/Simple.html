@@ -1,0 +1,12 @@
+﻿<div id="text-constant-string" data-bind="simple-text: 'foo'">invalid</div>
+<div id="text-non-observable-model-property" data-bind="simple-text: constantString">invalid</div>
+<div id="text-observable-model-property" data-bind="simple-text: observableString">invalid</div>
+<div id="text-observable-model-propref" data-bind="simple-text: @observableString">invalid</div>
+
+<div id="text-constant-string-with-options" data-bind="simple-text-with-options: { text: 'foo' }">invalid</div>
+<div id="text-non-observable-model-property-with-options" data-bind="simple-text-with-options: { text: constantString, index: 3 }">invalid</div>
+<div id="text-observable-model-property-with-options" data-bind="simple-text-with-options: { text: observableString, index: 2 }">invalid</div>
+<div id="text-observable-model-propref-with-options" data-bind="simple-text-with-options: { text: @observableString, index: 1 }">invalid</div>
+
+<input id="textinput-observable-model-property" data-bind="simple-textinput: observableString" value="invalid"></input>
+<input id="textinput-observable-model-propref" data-bind="simple-textinput: @observableString" value="invalid"></input>
