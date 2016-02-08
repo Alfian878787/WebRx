@@ -400,7 +400,7 @@ export function using(disp, action) {
 * @return {Rx.Observable<any>} An observable that yields a value and completes as soon as the module has been loaded
 */
 export function observableRequire(module) {
-    var requireFunc = window["require"];
+    var requireFunc = window != null ? window["require"] : null;
     if (!isFunction(requireFunc))
         throwError("there's no AMD-module loader available (Hint: did you forget to include RequireJS in your project?)");
     return Rx.Observable.create(observer => {

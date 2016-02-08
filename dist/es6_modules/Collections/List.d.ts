@@ -26,7 +26,7 @@ export declare class ObservableList<T> implements wx.IObservableList<T>, Rx.IDis
     length: wx.IObservableProperty<number>;
     addRange(items: T[]): void;
     insertRange(index: number, items: T[]): void;
-    removeAll(items: T[]): void;
+    removeAll(itemsOrSelector: T[] | ((item: T) => boolean)): T[];
     removeRange(index: number, count: number): void;
     toArray(): Array<T>;
     reset(contents?: Array<T>): void;

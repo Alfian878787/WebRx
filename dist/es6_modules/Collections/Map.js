@@ -85,8 +85,8 @@ class MapEmulated {
 function isFunction(o) {
     return typeof o === 'function';
 }
-var proto = window["Map"] !== undefined ? Map.prototype : undefined;
-var hasNativeSupport = isFunction(window["Map"]) && isFunction(proto.forEach) &&
+var proto = (window != null && window["Map"] !== undefined) ? Map.prototype : undefined;
+var hasNativeSupport = window != null && isFunction(window["Map"]) && isFunction(proto.forEach) &&
     isFunction(proto.set) && isFunction(proto.clear) &&
     isFunction(proto.delete) && isFunction(proto.has);
 /**

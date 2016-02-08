@@ -39,8 +39,8 @@ class WeakMapEmulated {
 function isFunction(o) {
     return typeof o === 'function';
 }
-var proto = window["WeakMap"] !== undefined ? WeakMap.prototype : undefined;
-var hasNativeSupport = isFunction(window["WeakMap"]) &&
+var proto = (window != null && window["WeakMap"] !== undefined) ? WeakMap.prototype : undefined;
+var hasNativeSupport = window != null && isFunction(window["WeakMap"]) &&
     isFunction(proto.set) && isFunction(proto.get) &&
     isFunction(proto.delete) && isFunction(proto.has);
 /**

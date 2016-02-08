@@ -291,7 +291,7 @@ declare module wx {
         addRange(collection: Array<T>): void;
         insertRange(index: number, collection: Array<T>): void;
         move(oldIndex: any, newIndex: any): void;
-        removeAll(items: Array<T>): void;
+        removeAll(itemsOrSelector: Array<T> | ((item: T) => boolean)): Array<T>;
         removeRange(index: number, count: number): void;
         reset(contents?: Array<T>): void;
 

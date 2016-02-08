@@ -46,13 +46,15 @@ class App extends Module {
         /// </summary>
         this.defaultExceptionHandler = Rx.Observer.create(ex => {
         });
-        this.title = property(document.title);
+        this.title = property(document != null ? document.title : '');
         this.version = version;
-        if (!isInUnitTest()) {
-            this.history = this.createHistory();
-        }
-        else {
-            this.history = window["createMockHistory"]();
+        if (window) {
+            if (!isInUnitTest()) {
+                this.history = this.createHistory();
+            }
+            else {
+                this.history = window["createMockHistory"]();
+            }
         }
     }
     /// <summary>
@@ -103,8 +105,6 @@ class App extends Module {
             back: window.history.back.bind(window.history),
             forward: window.history.forward.bind(window.history),
             //go: window.history.go,
-            pushState: window.history.pushState.bind(window.history),
-            replaceState: window.history.replaceState.bind(window.history),
             getSearchParameters: (query) => {
                 query = query || result.location.search.substr(1);
                 if (query) {
@@ -119,6 +119,12 @@ class App extends Module {
                 return {};
             }
         };
+        if (window.history.pushState) {
+            result.pushState = window.history.pushState.bind(window.history);
+        }
+        if (window.history.replaceState) {
+            result.replaceState = window.history.pushState.bind(window.history);
+        }
         Object.defineProperty(result, "length", {
             get() {
                 return window.history.length;

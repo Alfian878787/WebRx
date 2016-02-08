@@ -173,13 +173,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        /// </summary>
 	        this.defaultExceptionHandler = Rx.Observer.create(function (ex) {
 	        });
-	        this.title = Property_1.property(document.title);
+	        this.title = Property_1.property(document != null ? document.title : '');
 	        this.version = Version_1.version;
-	        if (!Utils_1.isInUnitTest()) {
-	            this.history = this.createHistory();
-	        }
-	        else {
-	            this.history = window["createMockHistory"]();
+	        if (window) {
+	            if (!Utils_1.isInUnitTest()) {
+	                this.history = this.createHistory();
+	            }
+	            else {
+	                this.history = window["createMockHistory"]();
+	            }
 	        }
 	    }
 	    Object.defineProperty(App.prototype, "mainThreadScheduler", {
@@ -242,8 +244,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            back: window.history.back.bind(window.history),
 	            forward: window.history.forward.bind(window.history),
 	            //go: window.history.go,
-	            pushState: window.history.pushState.bind(window.history),
-	            replaceState: window.history.replaceState.bind(window.history),
 	            getSearchParameters: function (query) {
 	                query = query || result.location.search.substr(1);
 	                if (query) {
@@ -258,6 +258,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return {};
 	            }
 	        };
+	        if (window.history.pushState) {
+	            result.pushState = window.history.pushState.bind(window.history);
+	        }
+	        if (window.history.replaceState) {
+	            result.replaceState = window.history.pushState.bind(window.history);
+	        }
 	        Object.defineProperty(result, "length", {
 	            get: function () {
 	                return window.history.length;
@@ -911,7 +917,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @return {Rx.Observable<any>} An observable that yields a value and completes as soon as the module has been loaded
 	*/
 	function observableRequire(module) {
-	    var requireFunc = window["require"];
+	    var requireFunc = window != null ? window["require"] : null;
 	    if (!isFunction(requireFunc))
 	        throwError("there's no AMD-module loader available (Hint: did you forget to include RequireJS in your project?)");
 	    return Rx.Observable.create(function (observer) {
@@ -1393,8 +1399,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            else if (options.select) {
 	                // try both getElementById & querySelector
-	                el = document.getElementById(options.select) ||
-	                    document.querySelector(options.select);
+	                el = document != null ? (document.getElementById(options.select) ||
+	                    document.querySelector(options.select)) : null;
 	                if (el != null) {
 	                    // only the nodes inside the specified element will be cloned for use as the component’s template
 	                    syncResult = this.app.templateEngine.parse(el.innerHTML);
@@ -3173,7 +3179,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @param {Node} rootNode The node to be bound
 	*/
 	function applyBindings(model, node) {
-	    Injector_1.injector.get(res.domManager).applyBindings(model, node || window.document.documentElement);
+	    Injector_1.injector.get(res.domManager).applyBindings(model, node || (window != null ? window.document.documentElement : null));
 	}
 	exports.applyBindings = applyBindings;
 	/**
@@ -3236,8 +3242,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	function isFunction(o) {
 	    return typeof o === 'function';
 	}
-	var proto = window["WeakMap"] !== undefined ? WeakMap.prototype : undefined;
-	var hasNativeSupport = isFunction(window["WeakMap"]) &&
+	var proto = (window != null && window["WeakMap"] !== undefined) ? WeakMap.prototype : undefined;
+	var hasNativeSupport = window != null && isFunction(window["WeakMap"]) &&
 	    isFunction(proto.set) && isFunction(proto.get) &&
 	    isFunction(proto.delete) && isFunction(proto.has);
 	/**
@@ -3358,8 +3364,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	function isFunction(o) {
 	    return typeof o === 'function';
 	}
-	var proto = window["Set"] !== undefined ? Set.prototype : undefined;
-	var hasNativeSupport = isFunction(window["Set"]) && isFunction(proto.forEach) &&
+	var proto = (window != null && window["Set"] !== undefined) ? Set.prototype : undefined;
+	var hasNativeSupport = window != null && isFunction(window["Set"]) && isFunction(proto.forEach) &&
 	    isFunction(proto.add) && isFunction(proto.clear) &&
 	    isFunction(proto.delete) && isFunction(proto.has);
 	/**
@@ -3485,8 +3491,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	function isFunction(o) {
 	    return typeof o === 'function';
 	}
-	var proto = window["Map"] !== undefined ? Map.prototype : undefined;
-	var hasNativeSupport = isFunction(window["Map"]) && isFunction(proto.forEach) &&
+	var proto = (window != null && window["Map"] !== undefined) ? Map.prototype : undefined;
+	var hasNativeSupport = window != null && isFunction(window["Map"]) && isFunction(proto.forEach) &&
 	    isFunction(proto.set) && isFunction(proto.clear) &&
 	    isFunction(proto.delete) && isFunction(proto.has);
 	/**
@@ -3510,7 +3516,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var WeakMap_1 = __webpack_require__(12);
 	"use strict";
 	var _window = window;
-	var userAgent = _window.navigator.userAgent;
+	var userAgent = _window != null ? _window.navigator.userAgent : null;
 	var parseVersion = function (matches) {
 	    if (matches) {
 	        return parseFloat(matches[1]);
@@ -3518,7 +3524,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return undefined;
 	};
 	// Detect Opera
-	if (_window.opera && _window.opera.version) {
+	if (_window != null && _window.opera && _window.opera.version) {
 	    exports.opera = { version: parseInt(_window.opera.version()) };
 	}
 	// Detect IE versions for bug workarounds (uses IE conditionals, not UA string, for robustness)
@@ -3575,7 +3581,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    (!exports.firefox || exports.firefox.version >= 5) &&
 	        hasES5;
 	// Special support for jQuery here because it's so commonly used.
-	exports.jQueryInstance = window["jQuery"];
+	exports.jQueryInstance = window != null ? window["jQuery"] : null;
 	if (exports.jQueryInstance && (typeof exports.jQueryInstance['cleanData'] === "function")) {
 	    exports.cleanExternalData = function (node) {
 	        // Many jQuery plugins (including jquery.tmpl) store data using jQuery's equivalent of domData
@@ -3887,11 +3893,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        });
 	    };
-	    ObservableList.prototype.removeAll = function (items) {
+	    ObservableList.prototype.removeAll = function (itemsOrSelector) {
 	        var _this = this;
-	        if (items == null) {
+	        if (itemsOrSelector == null) {
 	            Utils_1.throwError("items");
 	        }
+	        var items = Array.isArray(itemsOrSelector) ? itemsOrSelector : this.inner.filter(itemsOrSelector);
 	        var disp = this.isLengthAboveResetThreshold(items.length) ?
 	            this.suppressChangeNotifications() : Rx.Disposable.empty;
 	        Utils_1.using(disp, function () {
@@ -3899,6 +3906,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // accounting of the length
 	            items.forEach(function (x) { return _this.remove(x); });
 	        });
+	        return items;
 	    };
 	    ObservableList.prototype.removeRange = function (index, count) {
 	        var _this = this;
@@ -4247,8 +4255,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ObservableListProjection.prototype.insertRange = function (index, items) {
 	        Utils_1.throwError(this.readonlyExceptionMessage);
 	    };
-	    ObservableListProjection.prototype.removeAll = function (items) {
+	    ObservableListProjection.prototype.removeAll = function (itemsOrSelector) {
 	        Utils_1.throwError(this.readonlyExceptionMessage);
+	        return undefined;
 	    };
 	    ObservableListProjection.prototype.removeRange = function (index, count) {
 	        Utils_1.throwError(this.readonlyExceptionMessage);
@@ -5217,14 +5226,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
 	wrapMap.th = wrapMap.td;
 	var supportsCreateHTMLDocument = (function () {
-	    var doc = document.implementation.createHTMLDocument("");
-	    // Support: Node with jsdom<=1.5.0+
-	    // jsdom's document created via the above method doesn't contain the body
-	    if (!doc.body) {
+	    if (document) {
+	        var doc = document.implementation.createHTMLDocument("");
+	        // Support: Node with jsdom<=1.5.0+
+	        // jsdom's document created via the above method doesn't contain the body
+	        if (!doc.body) {
+	            return false;
+	        }
+	        doc.body.innerHTML = "<form></form><form></form>";
+	        return doc.body.childNodes.length === 2;
+	    }
+	    else {
 	        return false;
 	    }
-	    doc.body.innerHTML = "<form></form><form></form>";
-	    return doc.body.childNodes.length === 2;
 	})();
 	function merge(first, second) {
 	    var len = +second.length, j = 0, i = first.length;
@@ -5284,16 +5298,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function HtmlTemplateEngine() {
 	    }
 	    HtmlTemplateEngine.prototype.parse = function (data) {
-	        // document.implementation stops scripts or inline event handlers from being executed immediately
-	        var context = supportsCreateHTMLDocument ? document.implementation.createHTMLDocument("") : document;
-	        var parsed = rsingleTag.exec(data);
-	        // Single tag
-	        if (parsed) {
-	            return [context.createElement(parsed[1])];
+	        if (document) {
+	            // document.implementation stops scripts or inline event handlers from being executed immediately
+	            var context = supportsCreateHTMLDocument ? document.implementation.createHTMLDocument("") : document;
+	            var parsed = rsingleTag.exec(data);
+	            // Single tag
+	            if (parsed) {
+	                return [context.createElement(parsed[1])];
+	            }
+	            parsed = buildFragment([data], context);
+	            var result = merge([], parsed.childNodes);
+	            return result;
 	        }
-	        parsed = buildFragment([data], context);
-	        var result = merge([], parsed.childNodes);
-	        return result;
+	        else {
+	            return [];
+	        }
 	    };
 	    return HtmlTemplateEngine;
 	})();
@@ -8637,12 +8656,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	                app.defaultExceptionHandler.onNext(e);
 	            }
 	        });
-	        // monitor title changes
-	        app.title.changed.subscribe(function (x) {
-	            document.title = x;
-	            if (_this.current() != null)
-	                _this.replaceHistoryState(_this.current(), x);
-	        });
+	        if (document) {
+	            // monitor title changes
+	            app.title.changed.subscribe(function (x) {
+	                document.title = x;
+	                if (_this.current() != null)
+	                    _this.replaceHistoryState(_this.current(), x);
+	            });
+	        }
 	    }
 	    //////////////////////////////////
 	    // IRouter
@@ -8822,7 +8843,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var hs = {
 	            stateName: state.name,
 	            params: state.params,
-	            title: title != null ? title : document.title
+	            title: title != null ? title : document != null ? document.title : ''
 	        };
 	        this.app.history.pushState(hs, "", state.url);
 	    };
@@ -8830,7 +8851,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var hs = {
 	            stateName: state.name,
 	            params: state.params,
-	            title: title != null ? title : document.title
+	            title: title != null ? title : document != null ? document.title : ''
 	        };
 	        this.app.history.replaceState(hs, "", state.url);
 	    };
@@ -9382,7 +9403,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="./Interfaces.ts" />
-	var _this = this;
 	var Utils_1 = __webpack_require__(3);
 	var IID_1 = __webpack_require__(5);
 	var ScheduledSubject_1 = __webpack_require__(20);
@@ -9459,15 +9479,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return this.selectMany(function (_) { return obs; });
 	};
-	RxObsConstructor.prototype.invokeCommand = function (command) {
+	function invokeCommand(command) {
 	    // see the ReactiveUI project for the inspiration behind this function:
 	    // https://github.com/reactiveui/ReactiveUI/blob/master/ReactiveUI/ReactiveCommand.cs#L511
-	    return _this
-	        .debounce(function (x) { return command.canExecuteObservable.startWith(command.canExecute(x)).where(function (b) { return b; }).select(function (x) { return 0; }); })
-	        .select(function (x) { return command.executeAsync(x).catch(Rx.Observable.empty()); })
+	    return this
+	        .select(function (x) { return ({
+	        parameter: x,
+	        command: (command instanceof Function ? command() : command)
+	    }); })
+	        .debounce(function (x) { return x.command.canExecuteObservable.startWith(x.command.canExecute(x.parameter)).where(function (b) { return b; }).select(function (x) { return 0; }); })
+	        .select(function (x) { return x.command.executeAsync(x.parameter).catch(Rx.Observable.empty()); })
 	        .switch()
 	        .subscribe();
-	};
+	}
+	RxObsConstructor.prototype.invokeCommand = invokeCommand;
 	RxObsConstructor.startDeferred = function (action) {
 	    return Rx.Observable.defer(function () {
 	        return Rx.Observable.create(function (observer) {

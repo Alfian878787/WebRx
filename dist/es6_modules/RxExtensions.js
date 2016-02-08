@@ -75,15 +75,20 @@ RxObsConstructor.prototype.continueWith = function () {
     }
     return this.selectMany(_ => obs);
 };
-RxObsConstructor.prototype.invokeCommand = (command) => {
+function invokeCommand(command) {
     // see the ReactiveUI project for the inspiration behind this function:
     // https://github.com/reactiveui/ReactiveUI/blob/master/ReactiveUI/ReactiveCommand.cs#L511
     return this
-        .debounce(x => command.canExecuteObservable.startWith(command.canExecute(x)).where(b => b).select(x => 0))
-        .select(x => command.executeAsync(x).catch(Rx.Observable.empty()))
+        .select(x => ({
+        parameter: x,
+        command: (command instanceof Function ? command() : command)
+    }))
+        .debounce(x => x.command.canExecuteObservable.startWith(x.command.canExecute(x.parameter)).where(b => b).select(x => 0))
+        .select(x => x.command.executeAsync(x.parameter).catch(Rx.Observable.empty()))
         .switch()
         .subscribe();
-};
+}
+RxObsConstructor.prototype.invokeCommand = invokeCommand;
 RxObsConstructor.startDeferred = (action) => {
     return Rx.Observable.defer(() => {
         return Rx.Observable.create(observer => {

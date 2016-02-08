@@ -1,7 +1,7 @@
 import { createWeakMap } from "../Collections/WeakMap";
 "use strict";
 let _window = window;
-let userAgent = _window.navigator.userAgent;
+let userAgent = _window != null ? _window.navigator.userAgent : null;
 export var ie;
 export var opera;
 export var safari;
@@ -13,7 +13,7 @@ let parseVersion = matches => {
     return undefined;
 };
 // Detect Opera
-if (_window.opera && _window.opera.version) {
+if (_window != null && _window.opera && _window.opera.version) {
     opera = { version: parseInt(_window.opera.version()) };
 }
 // Detect IE versions for bug workarounds (uses IE conditionals, not UA string, for robustness)
@@ -70,7 +70,7 @@ export var isSupported = (!ie || ie.version >= 9) ||
     (!firefox || firefox.version >= 5) &&
         hasES5;
 // Special support for jQuery here because it's so commonly used.
-export var jQueryInstance = window["jQuery"];
+export var jQueryInstance = window != null ? window["jQuery"] : null;
 /**
 * Strips any external data associated with the node from it
 * @param {Node} node The node to clean

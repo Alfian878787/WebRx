@@ -195,10 +195,11 @@ export class ObservableList {
             }
         });
     }
-    removeAll(items) {
-        if (items == null) {
+    removeAll(itemsOrSelector) {
+        if (itemsOrSelector == null) {
             throwError("items");
         }
+        const items = Array.isArray(itemsOrSelector) ? itemsOrSelector : this.inner.filter(itemsOrSelector);
         let disp = this.isLengthAboveResetThreshold(items.length) ?
             this.suppressChangeNotifications() : Rx.Disposable.empty;
         using(disp, () => {
@@ -206,6 +207,7 @@ export class ObservableList {
             // accounting of the length
             items.forEach(x => this.remove(x));
         });
+        return items;
     }
     removeRange(index, count) {
         let disp = this.isLengthAboveResetThreshold(count) ? this.suppressChangeNotifications() : Rx.Disposable.empty;
@@ -534,8 +536,9 @@ class ObservableListProjection extends ObservableList {
     insertRange(index, items) {
         throwError(this.readonlyExceptionMessage);
     }
-    removeAll(items) {
+    removeAll(itemsOrSelector) {
         throwError(this.readonlyExceptionMessage);
+        return undefined;
     }
     removeRange(index, count) {
         throwError(this.readonlyExceptionMessage);

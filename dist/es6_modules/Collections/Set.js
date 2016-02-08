@@ -54,8 +54,8 @@ class SetEmulated {
 function isFunction(o) {
     return typeof o === 'function';
 }
-var proto = window["Set"] !== undefined ? Set.prototype : undefined;
-var hasNativeSupport = isFunction(window["Set"]) && isFunction(proto.forEach) &&
+var proto = (window != null && window["Set"] !== undefined) ? Set.prototype : undefined;
+var hasNativeSupport = window != null && isFunction(window["Set"]) && isFunction(proto.forEach) &&
     isFunction(proto.add) && isFunction(proto.clear) &&
     isFunction(proto.delete) && isFunction(proto.has);
 /**

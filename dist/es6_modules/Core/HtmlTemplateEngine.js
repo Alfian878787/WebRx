@@ -27,14 +27,19 @@ wrapMap.optgroup = wrapMap.option;
 wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
 wrapMap.th = wrapMap.td;
 let supportsCreateHTMLDocument = (() => {
-    let doc = document.implementation.createHTMLDocument("");
-    // Support: Node with jsdom<=1.5.0+
-    // jsdom's document created via the above method doesn't contain the body
-    if (!doc.body) {
+    if (document) {
+        let doc = document.implementation.createHTMLDocument("");
+        // Support: Node with jsdom<=1.5.0+
+        // jsdom's document created via the above method doesn't contain the body
+        if (!doc.body) {
+            return false;
+        }
+        doc.body.innerHTML = "<form></form><form></form>";
+        return doc.body.childNodes.length === 2;
+    }
+    else {
         return false;
     }
-    doc.body.innerHTML = "<form></form><form></form>";
-    return doc.body.childNodes.length === 2;
 })();
 function merge(first, second) {
     let len = +second.length, j = 0, i = first.length;
@@ -92,16 +97,21 @@ function buildFragment(elems, context) {
 }
 export default class HtmlTemplateEngine {
     parse(data) {
-        // document.implementation stops scripts or inline event handlers from being executed immediately
-        let context = supportsCreateHTMLDocument ? document.implementation.createHTMLDocument("") : document;
-        let parsed = rsingleTag.exec(data);
-        // Single tag
-        if (parsed) {
-            return [context.createElement(parsed[1])];
+        if (document) {
+            // document.implementation stops scripts or inline event handlers from being executed immediately
+            let context = supportsCreateHTMLDocument ? document.implementation.createHTMLDocument("") : document;
+            let parsed = rsingleTag.exec(data);
+            // Single tag
+            if (parsed) {
+                return [context.createElement(parsed[1])];
+            }
+            parsed = buildFragment([data], context);
+            let result = merge([], parsed.childNodes);
+            return result;
         }
-        parsed = buildFragment([data], context);
-        let result = merge([], parsed.childNodes);
-        return result;
+        else {
+            return [];
+        }
     }
 }
 //# sourceMappingURL=HtmlTemplateEngine.js.map

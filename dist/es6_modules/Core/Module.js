@@ -198,8 +198,8 @@ export class Module {
             }
             else if (options.select) {
                 // try both getElementById & querySelector
-                el = document.getElementById(options.select) ||
-                    document.querySelector(options.select);
+                el = document != null ? (document.getElementById(options.select) ||
+                    document.querySelector(options.select)) : null;
                 if (el != null) {
                     // only the nodes inside the specified element will be cloned for use as the component’s template
                     syncResult = this.app.templateEngine.parse(el.innerHTML);

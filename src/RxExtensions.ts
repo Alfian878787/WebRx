@@ -104,8 +104,8 @@ function invokeCommand<T, TResult>(command: () => wx.ICommand<TResult> | wx.ICom
     // see the ReactiveUI project for the inspiration behind this function:
     // https://github.com/reactiveui/ReactiveUI/blob/master/ReactiveUI/ReactiveCommand.cs#L511
     return (this as Rx.Observable<T>)
-        .select(x => ({ 
-            parameter: x, 
+        .select(x => ({
+            parameter: x,
             command: (command instanceof Function ? command() : command) as wx.ICommand<TResult>
         }))
         // debounce typings want the (incorrectly named) durationSelector to return a number here
