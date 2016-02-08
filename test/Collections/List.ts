@@ -1240,31 +1240,33 @@ function pagedTestImpl(fixturePostfix: string, isProjected: boolean, sourceTrans
             expect(eReplaced.from).toEqual(9);
         });
 
-        it("itemsMoved forEach-Binding edge-case test", () => {
-            loadFixtures('templates/Bindings/ForEach.html');
+        if (wx.applyBindings) {
+            it("itemsMoved forEach-Binding edge-case test", () => {
+                loadFixtures('templates/Bindings/ForEach.html');
 
-            let source = wx.list<number>();
-            source.addRange(Ix.Enumerable.range(1, 30).toArray());
+                let source = wx.list<number>();
+                source.addRange(Ix.Enumerable.range(1, 30).toArray());
 
-            let paged = sourceTransformer(source).page(10, 1);
+                let paged = sourceTransformer(source).page(10, 1);
 
-            const el = <HTMLElement> document.getElementById("foreach-list-scalar");
-            expect(() => wx.applyBindings({ src: paged }, el)).not.toThrowError();
+                const el = <HTMLElement> document.getElementById("foreach-list-scalar");
+                expect(() => wx.applyBindings({ src: paged }, el)).not.toThrowError();
 
-            expect($(el).children().map((index, node) => parseInt(node.textContent)).get()).toEqual(paged.toArray());
+                expect($(el).children().map((index, node) => parseInt(node.textContent)).get()).toEqual(paged.toArray());
 
-            // a move with both from- and and to-index inside it should result in a move
-            source.move(17, 19);
-            expect($(el).children().map((index, node) => parseInt(node.textContent)).get()).toEqual(paged.toArray());
+                // a move with both from- and and to-index inside it should result in a move
+                source.move(17, 19);
+                expect($(el).children().map((index, node) => parseInt(node.textContent)).get()).toEqual(paged.toArray());
 
-            // a move with a from-index inside the window and to-index below it should result in a remove followed by replace
-            source.move(17, 25);
-            expect($(el).children().map((index, node) => parseInt(node.textContent)).get()).toEqual(paged.toArray());
+                // a move with a from-index inside the window and to-index below it should result in a remove followed by replace
+                source.move(17, 25);
+                expect($(el).children().map((index, node) => parseInt(node.textContent)).get()).toEqual(paged.toArray());
 
-            // a move with a from-index at the bottom of the window and to-index below it should result in a replace for the last item
-            source.move(19, 25);
-            expect($(el).children().map((index, node) => parseInt(node.textContent)).get()).toEqual(paged.toArray());
-        });
+                // a move with a from-index at the bottom of the window and to-index below it should result in a replace for the last item
+                source.move(19, 25);
+                expect($(el).children().map((index, node) => parseInt(node.textContent)).get()).toEqual(paged.toArray());
+            });
+        }
     });
 }
 

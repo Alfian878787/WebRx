@@ -81,7 +81,7 @@ module.exports = function (grunt) {
         watch: {
             src: {
                 files: ["src/**/*.ts"],
-                tasks: ['shell:tsc_src_es5', "madge:src", "webpack:webrx"]
+                tasks: ['shell:tsc_src_es5', "madge:src", "webpack:webrx", "webpack:webrxlite"]
             },
             specs: {
                 files: ["test/**/*.ts", "!test/typings/*.ts"],
@@ -147,7 +147,7 @@ module.exports = function (grunt) {
         copy: {
             dist: {
                 files: [
-                    { expand: true, cwd: 'build/', src: ['web.rx.js*'], dest: 'dist/' },
+                    { expand: true, cwd: 'build/', src: ['web.rx.js*', 'web.rx.lite.js*'], dest: 'dist/' },
                     { expand: true, cwd: 'build/src/es6', src: ['**'], dest: 'dist/es6_modules' },
                     { expand: true, cwd: 'src/', src: ['web.rx.d.ts'], dest: 'dist/' },
                 ],
@@ -165,20 +165,21 @@ module.exports = function (grunt) {
                     archive: 'dist/web.rx.zip'
                 },
                 files: [
-                    { expand: true, cwd: "dist/", src: ['web.rx.js', 'web.rx.js.map', 'web.rx.min.js', 'web.rx.min.js.map', 'web.rx.d.ts', "es6_modules/**"] }
+                    { expand: true, cwd: "dist/", src: ['web.rx.js', 'web.rx.js.map', 'web.rx.min.js', 'web.rx.min.js.map', 'web.rx.lite.js', 'web.rx.lite.js.map', 'web.rx.lite.min.js', 'web.rx.lite.min.js.map', 'web.rx.d.ts', "es6_modules/**"] }
                 ]
             }
         },
         uglify: {
             dist: {
                 files: {
-                    'dist/web.rx.min.js': ['dist/web.rx.js']
+                    'dist/web.rx.min.js': ['dist/web.rx.js'],
+                    'dist/web.rx.lite.min.js': ['dist/web.rx.lite.js']
                 },
 
                 options: {
                     sourceMap: true,
                     sourceMapIncludeSources: true,
-                    sourceMapIn: "dist/web.rx.js.map"
+                    sourceMapIn: function(path) { return path + '.map'; }
                 }
             }
         },
@@ -235,8 +236,24 @@ module.exports = function (grunt) {
 
     var _ = require("lodash");
 
+    conf.webpack["webrxlite"] = _.cloneDeep(conf.webpack.webrx);
+    conf.webpack.webrxlite.entry = './build/src/es5/WebRx.Lite.js';
+    conf.webpack.webrxlite.output.filename = 'web.rx.lite.js';
+
     conf.jasmine["dist"] = _.cloneDeep(conf.jasmine.default);
     conf.jasmine.dist.options.vendor[10] = 'dist/web.rx.min.js';
+
+    conf.jasmine["lite"] = _.cloneDeep(conf.jasmine.default);
+    conf.jasmine.lite.options.vendor[10] = 'build/web.rx.lite.js';
+    conf.jasmine.lite.options.specs = [
+      'build/test/*.js',
+      'build/test/Collections/**/*.js',
+      'build/test/Core/**/*.js',
+      '!build/test/Core/VirtualChildNodes.js',
+      '!build/test/Core/DomManager.js',
+      '!build/test/Core/ExpressionCompiler.js',
+      '!build/test/Core/HtmlTemplateEngine.js',
+    ];
 
     grunt.initConfig(conf);
 
@@ -265,8 +282,10 @@ module.exports = function (grunt) {
 
     grunt.registerTask("default", ["clean:build", "trimtrailingspaces", "shell:tsc_src_es5"]);
     grunt.registerTask("test", ["trimtrailingspaces", "shell:tsc_src_es5", "madge:src", "webpack:webrx", "shell:tsc_specs", "jasmine:default"]);
+    grunt.registerTask("test-lite", ["trimtrailingspaces", "shell:tsc_src_es5", "madge:src", "webpack:webrxlite", "shell:tsc_specs", "jasmine:lite"]);
     grunt.registerTask("debug", ["trimtrailingspaces", "shell:tsc_src_es5", "madge:src", "webpack:webrx", "shell:tsc_specs", "jasmine:default:build", "connect", "watch"]);
-    grunt.registerTask("build-dist", ["gen-ver", "trimtrailingspaces", "clean:build", "shell:tsc_src_es5", "shell:tsc_src_es6", "madge:src", "webpack:webrx", "clean:dist", "copy:dist", "uglify:dist", "compress:dist"]);
+    grunt.registerTask("debug-lite", ["trimtrailingspaces", "shell:tsc_src_es5", "madge:src", "webpack:webrxlite", "shell:tsc_specs", "jasmine:lite:build", "connect", "watch"]);
+    grunt.registerTask("build-dist", ["gen-ver", "trimtrailingspaces", "clean:build", "shell:tsc_src_es5", "shell:tsc_src_es6", "madge:src", "webpack:webrx", "webpack:webrxlite", "clean:dist", "copy:dist", "uglify:dist", "compress:dist"]);
     grunt.registerTask("dist", ["build-dist", "shell:tsc_specs", "jasmine:dist"]);
     grunt.registerTask("xtest", ["gen-ver", "trimtrailingspaces", "shell:tsc_src_es5", "shell:tsc_specs", "jasmine:default:build", "connect", "saucelabs-jasmine"]);
 
