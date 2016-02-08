@@ -678,7 +678,7 @@ export class DomManager implements wx.IDomManager {
 * @param {Node} rootNode The node to be bound
 */
 export function applyBindings(model: any, node?: Node) {
-    injector.get<wx.IDomManager>(res.domManager).applyBindings(model, node || window.document.documentElement);
+    injector.get<wx.IDomManager>(res.domManager).applyBindings(model, node || (window != null ? window.document.documentElement : null));
 }
 /**
 * Removes and cleans up any binding-related state from the specified node and its descendants.

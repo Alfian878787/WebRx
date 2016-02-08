@@ -3,7 +3,7 @@
 "use strict";
 
 let _window = <any> window;
-let userAgent = _window.navigator.userAgent;
+let userAgent = _window != null ? _window.navigator.userAgent : null;
 
 export var ie: wx.IIEBrowserProperties;
 export var opera: wx.IBrowserProperties;
@@ -19,7 +19,7 @@ let parseVersion = matches => {
 }
 
 // Detect Opera
-if (_window.opera && _window.opera.version) {
+if (_window != null && _window.opera && _window.opera.version) {
     opera = { version: parseInt(_window.opera.version()) };
 }
 
@@ -91,7 +91,7 @@ export var isSupported = (!ie || ie.version >= 9) ||
     hasES5;
 
 // Special support for jQuery here because it's so commonly used.
-export var jQueryInstance = window["jQuery"];
+export var jQueryInstance = window != null ? window["jQuery"] : null;
 
 /**
 * Strips any external data associated with the node from it

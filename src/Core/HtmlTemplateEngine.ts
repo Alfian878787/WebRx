@@ -46,14 +46,18 @@ wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.the
 wrapMap.th = wrapMap.td;
 
 let supportsCreateHTMLDocument = (() => {
-    let doc = document.implementation.createHTMLDocument("");
-    // Support: Node with jsdom<=1.5.0+
-    // jsdom's document created via the above method doesn't contain the body
-    if (!doc.body) {
+    if (document) {
+        let doc = document.implementation.createHTMLDocument("");
+        // Support: Node with jsdom<=1.5.0+
+        // jsdom's document created via the above method doesn't contain the body
+        if (!doc.body) {
+            return false;
+        }
+        doc.body.innerHTML = "<form></form><form></form>";
+        return doc.body.childNodes.length === 2;
+    } else {
         return false;
     }
-    doc.body.innerHTML = "<form></form><form></form>";
-    return doc.body.childNodes.length === 2;
 })();
 
 function merge(first, second) {
@@ -140,18 +144,22 @@ function buildFragment(elems, context) {
 
 export default class HtmlTemplateEngine implements wx.ITemplateEngine {
     public parse(data: string): Node[] {
-        // document.implementation stops scripts or inline event handlers from being executed immediately
-        let context = supportsCreateHTMLDocument ? document.implementation.createHTMLDocument("") : document;
-        let parsed: any = rsingleTag.exec(data);
+        if (document) {
+            // document.implementation stops scripts or inline event handlers from being executed immediately
+            let context = supportsCreateHTMLDocument ? document.implementation.createHTMLDocument("") : document;
+            let parsed: any = rsingleTag.exec(data);
 
-        // Single tag
-        if (parsed) {
-            return [context.createElement(parsed[1])];
+            // Single tag
+            if (parsed) {
+                return [context.createElement(parsed[1])];
+            }
+
+            parsed = buildFragment([data], context);
+
+            let result = merge([], parsed.childNodes);
+            return result;
+        } else {
+            return [];
         }
-
-        parsed = buildFragment([data], context);
-
-        let result = merge([], parsed.childNodes);
-        return result;
     }
 }

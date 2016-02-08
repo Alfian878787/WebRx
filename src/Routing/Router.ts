@@ -49,14 +49,15 @@ export class Router implements wx.IRouter {
             }
         });
 
+        if (document) {
+            // monitor title changes
+            app.title.changed.subscribe(x => {
+                document.title = x;
 
-        // monitor title changes
-        app.title.changed.subscribe(x => {
-            document.title = x;
-
-            if(this.current() != null)
-                this.replaceHistoryState(this.current(), x);
-        });
+                if(this.current() != null)
+                    this.replaceHistoryState(this.current(), x);
+            });
+        }
     }
 
     //////////////////////////////////
@@ -292,7 +293,7 @@ export class Router implements wx.IRouter {
         let hs = <IHistoryState> {
             stateName: state.name,
             params: state.params,
-            title: title != null ? title : document.title
+            title: title != null ? title : document != null ? document.title : ''
         };
 
         this.app.history.pushState(hs, "", state.url);
@@ -302,7 +303,7 @@ export class Router implements wx.IRouter {
         let hs = <IHistoryState> {
             stateName: state.name,
             params: state.params,
-            title: title != null ? title : document.title
+            title: title != null ? title : document != null ? document.title : ''
         };
 
         this.app.history.replaceState(hs, "", state.url);

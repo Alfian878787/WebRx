@@ -71,9 +71,9 @@ function isFunction(o: any): boolean {
     return typeof o === 'function';
 }
 
-var proto: wx.ISet<any> = window["Set"] !== undefined ? <any> Set.prototype : undefined;
+var proto: wx.ISet<any> = (window != null && window["Set"] !== undefined) ? <any> Set.prototype : undefined;
 
-var hasNativeSupport = isFunction(window["Set"]) && isFunction(proto.forEach) &&
+var hasNativeSupport = window != null && isFunction(window["Set"]) && isFunction(proto.forEach) &&
     isFunction(proto.add) && isFunction(proto.clear) &&
     isFunction(proto.delete) && isFunction(proto.has);
 
