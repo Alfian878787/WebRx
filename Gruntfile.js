@@ -65,7 +65,7 @@ module.exports = function (grunt) {
                         "node_modules/jasmine-jquery/lib/jasmine-jquery.js",
                         "node_modules/URIjs/src/URI.js",
                         "build/test/TestUtils.js",
-                        "node_modules/rsvp/dist/rsvp.min.js",
+                        "node_modules/bluebird/js/browser/bluebird.min.js",
                         "node_modules/ix/l2o.js",
                         "node_modules/ix/ix.js",
                         'build/web.rx.js',  // must include this _before_ require.js or all hell breaks lose

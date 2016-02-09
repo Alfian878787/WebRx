@@ -21,9 +21,9 @@ if (window._phantom) {
     };
   }
   
-  // setup promises support using RSVP
+  // setup promises support using Bluebird
   if(typeof window.Promise === 'undefined')
-    window.Promise = RSVP.Promise
+    window.Promise = bluebird.Promise
 }
 
 requirejs.config({
