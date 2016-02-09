@@ -14,7 +14,7 @@ The framework is built on top of [ReactiveX for Javascript (RxJs)](http://reacti
 #### Features
 
 - [Documentation](http://webrxjs.org/docs)
-- Declarative Two-way [Data-Binding](http://webrxjs.org/docs/binding-syntax.html)
+- Declarative Two-way [Data-Binding](http://webrxjs.org/docs/binding-syntax.html) with many built-in Bindings and support for Custom-Bindings
 - Powerful [Collection-Processing](http://webrxjs.org/docs/observable-lists.html) including Filtering- and Re-ordering Projections and Paging
 - Supports self-contained and reusable [*Components*](http://webrxjs.org/docs/component-overview.html)
 - State-based [Router](http://webrxjs.org/docs/routing-overview.html)
