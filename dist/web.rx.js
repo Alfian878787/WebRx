@@ -979,6 +979,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var args = args2Array(arguments);
 	    // extract selector
 	    var selector = args.pop();
+	    // verify selector
+	    if (isProperty(selector) || isRxObservable(selector)) {
+	        args.push(selector);
+	        selector = function () {
+	            return args2Array(arguments);
+	        };
+	    }
 	    // transform args
 	    args = args.map(function (x) { return getObservable(x); });
 	    // finally append the selector

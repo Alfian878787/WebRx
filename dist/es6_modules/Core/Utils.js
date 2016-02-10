@@ -459,6 +459,13 @@ export function whenAny() {
     let args = args2Array(arguments);
     // extract selector
     let selector = args.pop();
+    // verify selector
+    if (isProperty(selector) || isRxObservable(selector)) {
+        args.push(selector);
+        selector = function () {
+            return args2Array(arguments);
+        };
+    }
     // transform args
     args = args.map(x => getObservable(x));
     // finally append the selector
