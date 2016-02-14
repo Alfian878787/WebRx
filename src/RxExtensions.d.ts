@@ -2,7 +2,7 @@
 
 declare module Rx {
     export interface Observable<T> extends IObservable<T> {
-        toProperty(initialValue?: T): wx.IObservableProperty<T>;
+        toProperty(initialValue?: T): wx.IObservableReadOnlyProperty<T>;
 
         continueWith(action: () => void): Observable<any>;
         continueWith<TResult>(action: (T) => TResult): Observable<TResult>;

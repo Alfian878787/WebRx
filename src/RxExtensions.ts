@@ -31,7 +31,7 @@ function toProperty(initialValue?: any, scheduler?: Rx.IScheduler) {
     // wx.IUnknown implementation
 
     accessor.queryInterface = (iid: string)=> {
-       return iid === IID.IObservableProperty || iid === IID.IDisposable;
+       return iid === IID.IObservableReadOnlyProperty || IID.IObservableProperty || iid === IID.IDisposable;
     }
 
     //////////////////////////////////
@@ -45,7 +45,7 @@ function toProperty(initialValue?: any, scheduler?: Rx.IScheduler) {
     };
 
     //////////////////////////////////
-    // IObservableProperty<T> implementation
+    // IObservableReadOnlyProperty<T> implementation
 
     accessor.value = initialValue;
 
@@ -58,6 +58,14 @@ function toProperty(initialValue?: any, scheduler?: Rx.IScheduler) {
 
     accessor.source = this;
     accessor.thrownExceptions = createScheduledSubject<Error>(scheduler, injector.get<wx.IWebRxApp>(res.app).defaultExceptionHandler);
+
+    accessor.catchExceptions = (onError: (error: Error) => void) => {
+      accessor.thrownExceptions.subscribe((e: Error) => {
+        onError(e);
+      });
+
+      return accessor;
+    };
 
     //////////////////////////////////
     // implementation
