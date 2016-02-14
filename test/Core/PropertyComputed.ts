@@ -14,6 +14,11 @@ describe("Output Properties", () => {
         expect(wx.queryInterface(prop, wx.IID.IObservableProperty)).toBeTruthy();
     });
 
+    it("implements IObservableReadOnlyProperty",() => {
+        let prop = Rx.Observable.never().toProperty();
+        expect(wx.queryInterface(prop, wx.IID.IObservableReadOnlyProperty)).toBeTruthy();
+    });
+
     it("observables are set up during creation",() => {
         let prop = Rx.Observable.never().toProperty();
         expect(prop.changing !== undefined && prop.changed !== undefined).toBeTruthy();
@@ -128,5 +133,26 @@ describe("Output Properties", () => {
         subject.onNext(2);
 
         expect(changedFiredCount).toEqual(2);
+    });
+
+    it("captures errors in the observable source", () => {
+        let subject = new Rx.Subject<number>();
+        let prop = subject.toProperty();
+        let errorCount = 0;
+
+        prop.thrownExceptions.subscribe(x => errorCount++);
+        subject.onError('error');
+
+        expect(errorCount).toEqual(1);
+    });
+
+    it("allows connecting an error handler at construction", () => {
+        let subject = new Rx.Subject<number>();
+        let errorCount = 0;
+        let prop = subject.toProperty().catchExceptions(x => errorCount++);
+
+        subject.onError('error');
+
+        expect(errorCount).toEqual(1);
     });
 });
