@@ -6,6 +6,7 @@
 export default class IID {
     static IDisposable = "IDisposable";
     static IObservableProperty = "IObservableProperty";
+    static IObservableReadOnlyProperty = "IObservableReadOnlyProperty";
     static IObservableList = "IObservableList";
     static ICommand = "ICommand";
     static IHandleObservableErrors = "IHandleObservableErrors";

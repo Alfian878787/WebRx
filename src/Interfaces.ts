@@ -81,6 +81,18 @@ module wx {
         source?: Rx.Observable<T>;
     }
 
+    /**
+    * IObservableReadOnlyProperty provides observable source and thrownExceptions
+    * members with the standard observable property base members
+    * @interface
+    **/
+    export interface IObservableReadOnlyProperty<T> extends IObservableProperty<T> {
+      source: Rx.Observable<T>;
+      thrownExceptions: Rx.Observable<Error>;
+
+      catchExceptions(onError: (error: Error) => void): IObservableReadOnlyProperty<T>;
+    }
+
     export interface IRangeInfo {
         from: number;
         to?: number;
