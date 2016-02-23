@@ -1,4 +1,4 @@
-[![Build Status](https://ci.appveyor.com/api/projects/status/hm6sojygo41lbiln?svg=true)](https://ci.appveyor.com/project/webrxjs/webrx)
+[![Build Status](https://travis-ci.org/oliverw/WebRx.png)](https://travis-ci.org/oliverw/WebRx)
 [![Bower version](https://img.shields.io/bower/v/WebRx.svg)](https://github.com/WebRxJS/WebRx)
 [![NPM version](https://img.shields.io/npm/v/webrx.svg)](https://www.npmjs.com/package/webrx)
 [![NuGet version](https://img.shields.io/nuget/v/WebRx.svg)](https://www.nuget.org/packages/WebRx/)
