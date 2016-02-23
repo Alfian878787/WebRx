@@ -55,10 +55,10 @@ export default class SimpleBinding {
                     }
                 }
                 if (isInit && isFunction(this.inner.init)) {
-                    this.inner.init(el, value, compiled, ctx, this.domManager, bindingState, state.cleanup, module);
+                    this.inner.init(el, value, ctx, this.domManager, bindingState, state.cleanup, module);
                     isInit = false;
                 }
-                this.inner.update(el, value, compiled, ctx, this.domManager, bindingState, state.cleanup, module);
+                this.inner.update(el, value, ctx, this.domManager, bindingState, state.cleanup, module);
             }
             catch (e) {
                 this.app.defaultExceptionHandler.onNext(e);

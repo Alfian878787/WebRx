@@ -15,14 +15,12 @@ describe('Bindings', () => {
     };
 
     let simpleTextBinding:wx.ISimpleBindingHandler = {
-        update:(el: HTMLElement, value: any, compiled: any, ctx: wx.IDataContext, domManager: wx.IDomManager,
+        update:(el: HTMLElement, value: any, ctx: wx.IDataContext, domManager: wx.IDomManager,
             state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule)=> {
             if(typeof el === 'undefined')
                 throw Error("el");
             if(typeof state === 'undefined')
                 throw Error("state");
-            if(typeof compiled === 'undefined')
-                throw Error("compiled");
             if(typeof ctx === 'undefined')
                 throw Error("ctx");
             if(typeof domManager === 'undefined')
@@ -40,14 +38,12 @@ describe('Bindings', () => {
     };
 
     let simpleTextBindingWithOptions:wx.ISimpleBindingHandler = {
-        update:(el: HTMLElement, value: any, compiled: any, ctx: wx.IDataContext, domManager: wx.IDomManager,
+        update:(el: HTMLElement, value: any, ctx: wx.IDataContext, domManager: wx.IDomManager,
             state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule)=> {
             if(typeof el === 'undefined')
                 throw Error("el");
             if(typeof state === 'undefined')
                 throw Error("state");
-            if(typeof compiled === 'undefined')
-                throw Error("compiled");
             if(typeof ctx === 'undefined')
                 throw Error("ctx");
             if(typeof domManager === 'undefined')
@@ -63,20 +59,18 @@ describe('Bindings', () => {
     };
 
     let simpleTextInput:wx.ISimpleBindingHandler = {
-        init: (el: HTMLElement, value: any, compiled: any, ctx: wx.IDataContext, domManager: wx.IDomManager,
+        init: (el: HTMLElement, value: any, ctx: wx.IDataContext, domManager: wx.IDomManager,
             state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule)=> {
             cleanup.add(Rx.Observable.fromEvent(el, "change").subscribe(x=> {
                 // update model
                 value((<HTMLInputElement> el).value);
             }));
-        }, update:(el: HTMLElement, value: any, compiled: any, ctx: wx.IDataContext, domManager: wx.IDomManager,
+        }, update:(el: HTMLElement, value: any, ctx: wx.IDataContext, domManager: wx.IDomManager,
             state: any, cleanup: Rx.CompositeDisposable, module: wx.IModule)=> {
             if(typeof el === 'undefined')
                 throw Error("el");
             if(typeof state === 'undefined')
                 throw Error("state");
-            if(typeof compiled === 'undefined')
-                throw Error("compiled");
             if(typeof ctx === 'undefined')
                 throw Error("ctx");
             if(typeof domManager === 'undefined')
