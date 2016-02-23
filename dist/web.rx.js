@@ -3980,15 +3980,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    ObservableList.prototype.reset = function (contents) {
 	        var _this = this;
-	        if (contents == null) {
-	            this.publishResetNotification();
-	        }
-	        else {
-	            Utils_1.using(this.suppressChangeNotifications(), function (suppress) {
-	                _this.clear();
+	        Utils_1.using(this.suppressChangeNotifications(), function (suppress) {
+	            _this.clear();
+	            if (contents)
 	                _this.addRange(contents);
-	            });
-	        }
+	        });
 	    };
 	    ObservableList.prototype.add = function (item) {
 	        this.insertItem(this.inner.length, item);
@@ -9468,7 +9464,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	"use strict";
-	exports.version = '1.4.4';
+	exports.version = '1.5.0';
 	//# sourceMappingURL=Version.js.map
 
 /***/ },

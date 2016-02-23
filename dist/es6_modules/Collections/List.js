@@ -243,15 +243,11 @@ export class ObservableList {
         return this.inner;
     }
     reset(contents) {
-        if (contents == null) {
-            this.publishResetNotification();
-        }
-        else {
-            using(this.suppressChangeNotifications(), (suppress) => {
-                this.clear();
+        using(this.suppressChangeNotifications(), (suppress) => {
+            this.clear();
+            if (contents)
                 this.addRange(contents);
-            });
-        }
+        });
     }
     add(item) {
         this.insertItem(this.inner.length, item);

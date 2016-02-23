@@ -1421,15 +1421,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    ObservableList.prototype.reset = function (contents) {
 	        var _this = this;
-	        if (contents == null) {
-	            this.publishResetNotification();
-	        }
-	        else {
-	            Utils_1.using(this.suppressChangeNotifications(), function (suppress) {
-	                _this.clear();
+	        Utils_1.using(this.suppressChangeNotifications(), function (suppress) {
+	            _this.clear();
+	            if (contents)
 	                _this.addRange(contents);
-	            });
-	        }
+	        });
 	    };
 	    ObservableList.prototype.add = function (item) {
 	        this.insertItem(this.inner.length, item);
