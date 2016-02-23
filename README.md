@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/WebRxJS/WebRx.svg)](https://travis-ci.org/webrxjs/WebRx)
+[![Build Status](https://travis-ci.org/WebRxJS/WebRx.svg)](https://travis-ci.org/WebRxJS/WebRx)
 [![Bower version](https://img.shields.io/bower/v/WebRx.svg)](https://github.com/WebRxJS/WebRx)
 [![NPM version](https://img.shields.io/npm/v/webrx.svg)](https://www.npmjs.com/package/webrx)
 [![NuGet version](https://img.shields.io/nuget/v/WebRx.svg)](https://www.nuget.org/packages/WebRx/)
