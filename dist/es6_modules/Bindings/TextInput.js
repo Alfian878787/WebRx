@@ -1,5 +1,5 @@
 /// <reference path="../Interfaces.ts" />
-import { throwError, isProperty } from "../Core/Utils";
+import { throwError, isProperty, isReadOnlyProperty } from "../Core/Utils";
 import * as env from "../Core/Environment";
 import { emitPropRefHint } from "./BindingSupport";
 "use strict";
@@ -10,7 +10,7 @@ export default class TextInputBinding {
         this.app = app;
     }
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
     applyBinding(node, options, ctx, state, module) {
         if (node.nodeType !== 1)
             throwError("textInput-binding only operates on elements!");
@@ -64,7 +64,7 @@ export default class TextInputBinding {
                     // initial update
                     updateElement(prop());
                     // don't attempt to updated computed properties
-                    if (!prop.source) {
+                    if (!isReadOnlyProperty(prop)) {
                         // wire change-events depending on browser and version
                         let events = this.getTextInputEventObservables(el, isTextArea);
                         eventSubscription = Rx.Observable.merge(events).subscribe(e => {

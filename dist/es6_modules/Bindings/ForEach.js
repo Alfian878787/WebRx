@@ -18,7 +18,7 @@ export default class ForEachBinding {
         });
     }
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
     applyBinding(node, options, ctx, state, module) {
         if (node.nodeType !== 1)
             throwError("forEach binding only operates on elements!");

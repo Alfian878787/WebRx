@@ -25,7 +25,7 @@ export function property(initialValue) {
         }
     };
     //////////////////////////////////
-    // wx.IUnknown implementation
+    // IUnknown implementation
     accessor.queryInterface = (iid) => {
         return iid === IID.IObservableProperty || iid === IID.IDisposable;
     };

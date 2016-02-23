@@ -1,5 +1,5 @@
 /// <reference path="../Interfaces.ts" />
-import { throwError, isProperty } from "../Core/Utils";
+import { throwError, isProperty, isReadOnlyProperty } from "../Core/Utils";
 import { emitPropRefHint } from "./BindingSupport";
 "use strict";
 export default class HasFocusBinding {
@@ -9,7 +9,7 @@ export default class HasFocusBinding {
         this.app = app;
     }
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
     applyBinding(node, options, ctx, state, module) {
         if (node.nodeType !== 1)
             throwError("hasFocus-binding only operates on elements!");
@@ -93,7 +93,7 @@ export default class HasFocusBinding {
                     // initial update
                     updateElement(prop());
                     // don't attempt to updated computed properties
-                    if (!prop.source) {
+                    if (!isReadOnlyProperty(prop)) {
                         cleanup.add(Rx.Observable.merge(this.getFocusEventObservables(el)).subscribe(hasFocus => {
                             handleElementFocusChange(hasFocus);
                         }));

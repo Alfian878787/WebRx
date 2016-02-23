@@ -55,6 +55,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="./Interfaces.ts" />
+	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
@@ -112,6 +113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Events_1 = __webpack_require__(2);
 	var IID_1 = __webpack_require__(3);
 	/*
@@ -187,6 +189,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return queryInterface(target, IID_1.default.IObservableProperty);
 	}
 	exports.isProperty = isProperty;
+	/**
+	* Determines if target is an instance of a IObservableProperty
+	* @param {any} target
+	*/
+	function isReadOnlyProperty(target) {
+	    if (target == null)
+	        return false;
+	    return queryInterface(target, IID_1.default.IObservableReadOnlyProperty);
+	}
+	exports.isReadOnlyProperty = isReadOnlyProperty;
 	/**
 	* Determines if target is an instance of a Rx.Scheduler
 	* @param {any} target
@@ -305,7 +317,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.propertyName = propertyName;
 	    }
 	    return PropertyInfo;
-	})();
+	}());
 	exports.PropertyInfo = PropertyInfo;
 	/**
 	* Toggles one ore more css classes on the specified DOM element
@@ -320,8 +332,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    if (classNames) {
 	        var currentClassNames = node.className.match(regexCssClassName) || [];
-	        var index;
-	        var className;
+	        var index = void 0;
+	        var className = void 0;
 	        if (shouldHaveClass) {
 	            for (var i = 0; i < classNames.length; i++) {
 	                className = classNames[i];
@@ -478,7 +490,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    else {
 	        // Deep compare objects.
-	        var keys = Object.keys(a), key;
+	        var keys = Object.keys(a), key = void 0;
 	        length = keys.length;
 	        // Ensure that both objects contain the same number of properties before comparing deep equality.
 	        if (Object.keys(b).length !== length)
@@ -657,7 +669,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.sender = sender;
 	    }
 	    return PropertyChangedEventArgs;
-	})();
+	}());
 	exports.PropertyChangedEventArgs = PropertyChangedEventArgs;
 	//# sourceMappingURL=Events.js.map
 
@@ -674,11 +686,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    IID.IDisposable = "IDisposable";
 	    IID.IObservableProperty = "IObservableProperty";
+	    IID.IObservableReadOnlyProperty = "IObservableReadOnlyProperty";
 	    IID.IObservableList = "IObservableList";
 	    IID.ICommand = "ICommand";
 	    IID.IHandleObservableErrors = "IHandleObservableErrors";
 	    return IID;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = IID;
 	//# sourceMappingURL=IID.js.map
@@ -688,6 +701,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var IID_1 = __webpack_require__(3);
 	// NOTE: The factory method approach is necessary because it is
 	// currently impossible to implement a Typescript interface
@@ -714,7 +728,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    //////////////////////////////////
-	    // wx.IUnknown implementation
+	    // IUnknown implementation
 	    accessor.queryInterface = function (iid) {
 	        return iid === IID_1.default.IObservableProperty || iid === IID_1.default.IDisposable;
 	    };
@@ -741,6 +755,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var IID_1 = __webpack_require__(3);
 	var Utils_1 = __webpack_require__(1);
 	var Injector_1 = __webpack_require__(6);
@@ -781,7 +796,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            .subscribe(Injector_1.injector.get(res.app).defaultExceptionHandler);
 	    }
 	    //////////////////////////////////
-	    // wx.IUnknown implementation
+	    // IUnknown implementation
 	    Command.prototype.queryInterface = function (iid) {
 	        return iid === IID_1.default.ICommand || iid === IID_1.default.IDisposable;
 	    };
@@ -838,7 +853,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            .refCount();
 	    };
 	    return Command;
-	})();
+	}());
 	exports.Command = Command;
 	var internal;
 	(function (internal) {
@@ -920,6 +935,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(1);
 	var res = __webpack_require__(7);
 	"use strict";
@@ -948,11 +964,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // first overload
 	            // array assumed to be inline array notation with constructor
 	            var self_1 = this;
-	            var ctor = val.pop();
-	            var dependencies = val;
+	            var ctor_1 = val.pop();
+	            var dependencies_1 = val;
 	            factory = function (args, deps) {
 	                // resolve dependencies
-	                var resolved = dependencies.map(function (x) {
+	                var resolved = dependencies_1.map(function (x) {
 	                    try {
 	                        return self_1.get(x, undefined, deps);
 	                    }
@@ -962,7 +978,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                });
 	                // invoke constructor
 	                var _args = [null].concat(resolved).concat(args);
-	                var ctorFunc = ctor.bind.apply(ctor, _args);
+	                var ctorFunc = ctor_1.bind.apply(ctor_1, _args);
 	                return new ctorFunc();
 	            };
 	        }
@@ -1016,7 +1032,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return new ctorFunc();
 	    };
 	    return Injector;
-	})();
+	}());
 	exports.injector = new Injector();
 	exports.injector.register(res.injector, function () { return new Injector(); });
 	//# sourceMappingURL=Injector.js.map
@@ -1079,6 +1095,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var __extends = (this && this.__extends) || function (d, b) {
 	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	    function __() { this.constructor = d; }
@@ -1666,7 +1683,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return toChangeLength / this.inner.length > this.resetChangeThreshold && toChangeLength > 10;
 	    };
 	    return ObservableList;
-	})();
+	}());
 	exports.ObservableList = ObservableList;
 	/**
 	* Creates a new observable list with optional default contents
@@ -2147,7 +2164,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return result;
 	    };
 	    return ObservableListProjection;
-	})(ObservableList);
+	}(ObservableList));
 	//# sourceMappingURL=List.js.map
 
 /***/ },
@@ -2175,7 +2192,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        configurable: true
 	    });
 	    return Lazy;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = Lazy;
 	//# sourceMappingURL=Lazy.js.map
@@ -2184,6 +2201,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
 	var Utils_1 = __webpack_require__(1);
 	"use strict";
 	var ScheduledSubject = (function () {
@@ -2225,7 +2243,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }));
 	    };
 	    return ScheduledSubject;
-	})();
+	}());
 	function createScheduledSubject(scheduler, defaultObserver, defaultSubject) {
 	    var scheduled = new ScheduledSubject(scheduler, defaultObserver, defaultSubject);
 	    var result = Utils_1.extend(scheduled, new Rx.Subject(), true);
@@ -2260,7 +2278,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.release();
 	    };
 	    return RefCountDisposeWrapper;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = RefCountDisposeWrapper;
 	//# sourceMappingURL=RefCountDisposeWrapper.js.map
@@ -2269,6 +2287,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
 	var Utils_1 = __webpack_require__(1);
 	"use strict";
 	exports.hintEnable = false;
@@ -2342,6 +2361,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(1);
 	var IID_1 = __webpack_require__(3);
 	var Lazy_1 = __webpack_require__(10);
@@ -2720,7 +2740,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.itemReplacedSubject.value.onNext(er);
 	    };
 	    return PagedObservableListProjection;
-	})();
+	}());
 	exports.PagedObservableListProjection = PagedObservableListProjection;
 	//# sourceMappingURL=ListPaged.js.map
 
@@ -2729,6 +2749,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var List_1 = __webpack_require__(9);
 	var ListPaged_1 = __webpack_require__(14);
 	"use strict";
@@ -2751,6 +2772,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/// <reference path="../../node_modules/typescript/lib/lib.es6.d.ts" />
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	"use strict";
 	/**
 	* ES6 Map Shim
@@ -2841,7 +2863,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return -1;
 	    };
 	    return MapEmulated;
-	})();
+	}());
 	function isFunction(o) {
 	    return typeof o === 'function';
 	}
@@ -2869,6 +2891,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/// <reference path="../../node_modules/typescript/lib/lib.es6.d.ts" />
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Oid_1 = __webpack_require__(8);
 	"use strict";
 	/**
@@ -2928,7 +2951,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        configurable: true
 	    });
 	    return SetEmulated;
-	})();
+	}());
 	function isFunction(o) {
 	    return typeof o === 'function';
 	}
@@ -2965,6 +2988,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/// <reference path="../../node_modules/typescript/lib/lib.es6.d.ts" />
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Oid_1 = __webpack_require__(8);
 	"use strict";
 	/**
@@ -3005,7 +3029,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        configurable: true
 	    });
 	    return WeakMapEmulated;
-	})();
+	}());
 	function isFunction(o) {
 	    return typeof o === 'function';
 	}
@@ -3179,7 +3203,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        promise: function (fn) { return new Promise(fn); }
 	    };
 	    return HttpClient;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = HttpClient;
 	/**
@@ -3196,6 +3220,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="./Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(1);
 	var IID_1 = __webpack_require__(3);
 	var ScheduledSubject_1 = __webpack_require__(11);
@@ -3218,9 +3243,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return accessor.value;
 	    };
 	    //////////////////////////////////
-	    // wx.IUnknown implementation
+	    // IUnknown implementation
 	    accessor.queryInterface = function (iid) {
-	        return iid === IID_1.default.IObservableProperty || iid === IID_1.default.IDisposable;
+	        return iid === IID_1.default.IObservableReadOnlyProperty || IID_1.default.IObservableProperty || iid === IID_1.default.IDisposable;
 	    };
 	    //////////////////////////////////
 	    // IDisposable implementation
@@ -3231,7 +3256,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    //////////////////////////////////
-	    // IObservableProperty<T> implementation
+	    // IObservableReadOnlyProperty<T> implementation
 	    accessor.value = initialValue;
 	    // setup observables
 	    accessor.changedSubject = new Rx.Subject();
@@ -3240,6 +3265,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    accessor.changing = accessor.changingSubject.asObservable();
 	    accessor.source = this;
 	    accessor.thrownExceptions = ScheduledSubject_1.createScheduledSubject(scheduler, Injector_1.injector.get(res.app).defaultExceptionHandler);
+	    accessor.catchExceptions = function (onError) {
+	        accessor.thrownExceptions.subscribe(function (e) {
+	            onError(e);
+	        });
+	        return accessor;
+	    };
 	    //////////////////////////////////
 	    // implementation
 	    var firedInitial = false;
@@ -3309,6 +3340,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var ScheduledSubject_1 = __webpack_require__(11);
 	// ReactiveUI's MessageBus
 	"use strict";
@@ -3349,7 +3381,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return scheduler || Rx.Scheduler.currentThread;
 	    };
 	    return MessageBus;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = MessageBus;
 	//# sourceMappingURL=MessageBus.js.map

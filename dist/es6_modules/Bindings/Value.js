@@ -1,5 +1,5 @@
 /// <reference path="../Interfaces.ts" />
-import { throwError, isProperty } from "../Core/Utils";
+import { throwError, isProperty, isReadOnlyProperty } from "../Core/Utils";
 import * as res from "../Core/Resources";
 "use strict";
 export default class ValueBinding {
@@ -9,7 +9,7 @@ export default class ValueBinding {
         this.app = app;
     }
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
     applyBinding(node, options, ctx, state, module) {
         if (node.nodeType !== 1)
             throwError("value-binding only operates on elements!");
@@ -56,7 +56,7 @@ export default class ValueBinding {
                     // initial update
                     updateElement(this.domManager, prop());
                     // don't attempt to updated computed properties
-                    if (!prop.source) {
+                    if (!isReadOnlyProperty(prop)) {
                         cleanup.add(Rx.Observable.fromEvent(el, 'change').subscribe(e => {
                             try {
                                 if (storeValueInNodeState)

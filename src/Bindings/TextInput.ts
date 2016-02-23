@@ -1,7 +1,7 @@
 /// <reference path="../Interfaces.ts" />
 
 import IID from "../IID"
-import { extend, isInUnitTest, args2Array, isFunction, throwError, using, formatString, unwrapProperty, isProperty, toggleCssClass } from "../Core/Utils"
+import { extend, isInUnitTest, args2Array, isFunction, throwError, using, formatString, unwrapProperty, isProperty, isReadOnlyProperty, toggleCssClass } from "../Core/Utils"
 import * as env from "../Core/Environment"
 import { emitPropRefHint } from "./BindingSupport"
 
@@ -14,7 +14,7 @@ export default class TextInputBinding implements wx.IBindingHandler {
     }
 
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
 
     public applyBinding(node: Node, options: string, ctx: wx.IDataContext, state: wx.INodeState, module: wx.IModule): void {
          if (node.nodeType !== 1)
@@ -82,7 +82,7 @@ export default class TextInputBinding implements wx.IBindingHandler {
                     updateElement(prop());
 
                     // don't attempt to updated computed properties
-                    if (!prop.source) {
+                    if (!isReadOnlyProperty(prop)) {
                         // wire change-events depending on browser and version
                         let events = this.getTextInputEventObservables(el, isTextArea);
                         eventSubscription = Rx.Observable.merge(events).subscribe(e => {

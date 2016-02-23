@@ -10,7 +10,7 @@ export default class ViewBinding {
         this.app = app;
     }
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
     applyBinding(node, options, ctx, state, module) {
         if (node.nodeType !== 1)
             throwError("view-binding only operates on elements!");

@@ -28,7 +28,7 @@ function toProperty(initialValue?: any, scheduler?: Rx.IScheduler) {
     };
 
     //////////////////////////////////
-    // wx.IUnknown implementation
+    // IUnknown implementation
 
     accessor.queryInterface = (iid: string)=> {
        return iid === IID.IObservableReadOnlyProperty || IID.IObservableProperty || iid === IID.IDisposable;

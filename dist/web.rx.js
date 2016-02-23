@@ -54,6 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
@@ -119,6 +120,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="./Interfaces.ts" />
+	"use strict";
 	var __extends = (this && this.__extends) || function (d, b) {
 	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	    function __() { this.constructor = d; }
@@ -361,7 +363,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        Module_1.modules["app"] = { instance: this };
 	    };
 	    return App;
-	})(Module_1.Module);
+	}(Module_1.Module));
 	var _app = new App();
 	exports.app = _app;
 	_app.register();
@@ -374,6 +376,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	var res = __webpack_require__(6);
 	"use strict";
@@ -402,11 +405,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // first overload
 	            // array assumed to be inline array notation with constructor
 	            var self_1 = this;
-	            var ctor = val.pop();
-	            var dependencies = val;
+	            var ctor_1 = val.pop();
+	            var dependencies_1 = val;
 	            factory = function (args, deps) {
 	                // resolve dependencies
-	                var resolved = dependencies.map(function (x) {
+	                var resolved = dependencies_1.map(function (x) {
 	                    try {
 	                        return self_1.get(x, undefined, deps);
 	                    }
@@ -416,7 +419,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                });
 	                // invoke constructor
 	                var _args = [null].concat(resolved).concat(args);
-	                var ctorFunc = ctor.bind.apply(ctor, _args);
+	                var ctorFunc = ctor_1.bind.apply(ctor_1, _args);
 	                return new ctorFunc();
 	            };
 	        }
@@ -470,7 +473,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return new ctorFunc();
 	    };
 	    return Injector;
-	})();
+	}());
 	exports.injector = new Injector();
 	exports.injector.register(res.injector, function () { return new Injector(); });
 	//# sourceMappingURL=Injector.js.map
@@ -480,6 +483,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Events_1 = __webpack_require__(4);
 	var IID_1 = __webpack_require__(5);
 	/*
@@ -555,6 +559,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return queryInterface(target, IID_1.default.IObservableProperty);
 	}
 	exports.isProperty = isProperty;
+	/**
+	* Determines if target is an instance of a IObservableProperty
+	* @param {any} target
+	*/
+	function isReadOnlyProperty(target) {
+	    if (target == null)
+	        return false;
+	    return queryInterface(target, IID_1.default.IObservableReadOnlyProperty);
+	}
+	exports.isReadOnlyProperty = isReadOnlyProperty;
 	/**
 	* Determines if target is an instance of a Rx.Scheduler
 	* @param {any} target
@@ -673,7 +687,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.propertyName = propertyName;
 	    }
 	    return PropertyInfo;
-	})();
+	}());
 	exports.PropertyInfo = PropertyInfo;
 	/**
 	* Toggles one ore more css classes on the specified DOM element
@@ -688,8 +702,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    if (classNames) {
 	        var currentClassNames = node.className.match(regexCssClassName) || [];
-	        var index;
-	        var className;
+	        var index = void 0;
+	        var className = void 0;
 	        if (shouldHaveClass) {
 	            for (var i = 0; i < classNames.length; i++) {
 	                className = classNames[i];
@@ -846,7 +860,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    else {
 	        // Deep compare objects.
-	        var keys = Object.keys(a), key;
+	        var keys = Object.keys(a), key = void 0;
 	        length = keys.length;
 	        // Ensure that both objects contain the same number of properties before comparing deep equality.
 	        if (Object.keys(b).length !== length)
@@ -1025,7 +1039,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.sender = sender;
 	    }
 	    return PropertyChangedEventArgs;
-	})();
+	}());
 	exports.PropertyChangedEventArgs = PropertyChangedEventArgs;
 	//# sourceMappingURL=Events.js.map
 
@@ -1042,11 +1056,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    IID.IDisposable = "IDisposable";
 	    IID.IObservableProperty = "IObservableProperty";
+	    IID.IObservableReadOnlyProperty = "IObservableReadOnlyProperty";
 	    IID.IObservableList = "IObservableList";
 	    IID.ICommand = "ICommand";
 	    IID.IHandleObservableErrors = "IHandleObservableErrors";
 	    return IID;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = IID;
 	//# sourceMappingURL=IID.js.map
@@ -1073,6 +1088,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	"use strict";
 	exports.hintEnable = false;
@@ -1146,6 +1162,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var IID_1 = __webpack_require__(5);
 	// NOTE: The factory method approach is necessary because it is
 	// currently impossible to implement a Typescript interface
@@ -1172,7 +1189,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    //////////////////////////////////
-	    // wx.IUnknown implementation
+	    // IUnknown implementation
 	    accessor.queryInterface = function (iid) {
 	        return iid === IID_1.default.IObservableProperty || iid === IID_1.default.IDisposable;
 	    };
@@ -1199,6 +1216,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Injector_1 = __webpack_require__(2);
 	var Utils_1 = __webpack_require__(3);
 	var res = __webpack_require__(6);
@@ -1214,7 +1232,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.name = name;
 	    }
 	    //////////////////////////////////
-	    // wx.IModule
+	    // IModule
 	    Module.prototype.merge = function (other) {
 	        var _other = other;
 	        Utils_1.extend(_other.components, this.components);
@@ -1455,7 +1473,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        Utils_1.throwError("invalid view-model descriptor");
 	    };
 	    return Module;
-	})();
+	}());
 	exports.Module = Module;
 	exports.modules = {};
 	/**
@@ -1525,6 +1543,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	"use strict";
 	/**
@@ -1929,9 +1948,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            token.json = OPERATORS[ident];
 	        }
 	        else {
-	            var getter = getterFn(ident, this.options, this.text);
+	            var getter_1 = getterFn(ident, this.options, this.text);
 	            token.fn = extend(function (self, locals) {
-	                return (getter(self, locals));
+	                return (getter_1(self, locals));
 	            }, {
 	                assign: function (self, value, locals) {
 	                    return setter(self, ident, value, parser.text, parser.options, locals);
@@ -2004,7 +2023,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.throwError("Unterminated quote", start);
 	    };
 	    return Lexer;
-	})();
+	}());
 	/**
 	* @constructor
 	*/
@@ -2405,7 +2424,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    };
 	    return Parser;
-	})();
+	}());
 	function ZERO() { return 0; }
 	;
 	//////////////////////////////////////////////////
@@ -2645,6 +2664,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var WeakMap_1 = __webpack_require__(12);
 	var Set_1 = __webpack_require__(14);
 	var Map_1 = __webpack_require__(15);
@@ -2730,7 +2750,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (this.isObjectLiteralString(value)) {
 	            var result = {};
 	            var tokens = this.compiler.parseObjectLiteral(value);
-	            var token;
+	            var token = void 0;
 	            for (var i = 0; i < tokens.length; i++) {
 	                token = tokens[i];
 	                result[token.key] = this.compileBindingOptions(token.value, module);
@@ -2964,7 +2984,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (module.hasComponent(tagName) || this.app.hasComponent(tagName)) {
 	            // when a component is referenced as custom-element, apply a virtual 'component' binding
 	            var params = el.getAttribute(DomManager.paramsAttributename);
-	            var componentReference;
+	            var componentReference = void 0;
 	            if (params)
 	                componentReference = "{ name: '" + tagName + "', params: { " + el.getAttribute(DomManager.paramsAttributename) + " }}";
 	            else
@@ -3180,7 +3200,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    DomManager.bindingAttributeName = "data-bind";
 	    DomManager.paramsAttributename = "params";
 	    return DomManager;
-	})();
+	}());
 	exports.DomManager = DomManager;
 	/**
 	* Applies bindings to the specified node and all of its children using the specified data context.
@@ -3207,6 +3227,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/// <reference path="../../node_modules/typescript/lib/lib.es6.d.ts" />
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Oid_1 = __webpack_require__(13);
 	"use strict";
 	/**
@@ -3247,7 +3268,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        configurable: true
 	    });
 	    return WeakMapEmulated;
-	})();
+	}());
 	function isFunction(o) {
 	    return typeof o === 'function';
 	}
@@ -3310,6 +3331,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/// <reference path="../../node_modules/typescript/lib/lib.es6.d.ts" />
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Oid_1 = __webpack_require__(13);
 	"use strict";
 	/**
@@ -3369,7 +3391,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        configurable: true
 	    });
 	    return SetEmulated;
-	})();
+	}());
 	function isFunction(o) {
 	    return typeof o === 'function';
 	}
@@ -3406,6 +3428,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/// <reference path="../../node_modules/typescript/lib/lib.es6.d.ts" />
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	"use strict";
 	/**
 	* ES6 Map Shim
@@ -3496,7 +3519,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return -1;
 	    };
 	    return MapEmulated;
-	})();
+	}());
 	function isFunction(o) {
 	    return typeof o === 'function';
 	}
@@ -3522,6 +3545,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
 	var WeakMap_1 = __webpack_require__(12);
 	"use strict";
 	var _window = window;
@@ -3551,10 +3575,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (version < 10) {
 	        // for IE9 and lower, provide an accessor for document scoped
 	        // observables which allow monitoring the selectionchange event
-	        var map = WeakMap_1.createWeakMap();
+	        var map_1 = WeakMap_1.createWeakMap();
 	        exports.ie.getSelectionChangeObservable = function (el) {
 	            var doc = el.ownerDocument;
-	            var result = map.get(doc);
+	            var result = map_1.get(doc);
 	            if (result)
 	                return result;
 	            result = Rx.Observable.defer(function () {
@@ -3563,7 +3587,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                .select(function (x) { return doc; })
 	                .publish()
 	                .refCount();
-	            map.set(doc, result);
+	            map_1.set(doc, result);
 	            return result;
 	        };
 	    }
@@ -3608,6 +3632,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var List_1 = __webpack_require__(18);
 	var ListPaged_1 = __webpack_require__(22);
 	"use strict";
@@ -3629,6 +3654,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var __extends = (this && this.__extends) || function (d, b) {
 	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	    function __() { this.constructor = d; }
@@ -4216,7 +4242,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return toChangeLength / this.inner.length > this.resetChangeThreshold && toChangeLength > 10;
 	    };
 	    return ObservableList;
-	})();
+	}());
 	exports.ObservableList = ObservableList;
 	/**
 	* Creates a new observable list with optional default contents
@@ -4697,7 +4723,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return result;
 	    };
 	    return ObservableListProjection;
-	})(ObservableList);
+	}(ObservableList));
 	//# sourceMappingURL=List.js.map
 
 /***/ },
@@ -4725,7 +4751,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        configurable: true
 	    });
 	    return Lazy;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = Lazy;
 	//# sourceMappingURL=Lazy.js.map
@@ -4734,6 +4760,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	"use strict";
 	var ScheduledSubject = (function () {
@@ -4775,7 +4802,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }));
 	    };
 	    return ScheduledSubject;
-	})();
+	}());
 	function createScheduledSubject(scheduler, defaultObserver, defaultSubject) {
 	    var scheduled = new ScheduledSubject(scheduler, defaultObserver, defaultSubject);
 	    var result = Utils_1.extend(scheduled, new Rx.Subject(), true);
@@ -4810,7 +4837,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.release();
 	    };
 	    return RefCountDisposeWrapper;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = RefCountDisposeWrapper;
 	//# sourceMappingURL=RefCountDisposeWrapper.js.map
@@ -4820,6 +4847,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	var IID_1 = __webpack_require__(5);
 	var Lazy_1 = __webpack_require__(19);
@@ -5198,7 +5226,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.itemReplacedSubject.value.onNext(er);
 	    };
 	    return PagedObservableListProjection;
-	})();
+	}());
 	exports.PagedObservableListProjection = PagedObservableListProjection;
 	//# sourceMappingURL=ListPaged.js.map
 
@@ -5324,7 +5352,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    return HtmlTemplateEngine;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = HtmlTemplateEngine;
 	//# sourceMappingURL=HtmlTemplateEngine.js.map
@@ -5334,6 +5362,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	var Command_1 = __webpack_require__(25);
 	"use strict";
@@ -5344,7 +5373,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    CommandBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -5434,7 +5463,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // intentionally left blank
 	    };
 	    return CommandBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = CommandBinding;
 	//# sourceMappingURL=Command.js.map
@@ -5444,6 +5473,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var IID_1 = __webpack_require__(5);
 	var Utils_1 = __webpack_require__(3);
 	var Injector_1 = __webpack_require__(2);
@@ -5484,7 +5514,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            .subscribe(Injector_1.injector.get(res.app).defaultExceptionHandler);
 	    }
 	    //////////////////////////////////
-	    // wx.IUnknown implementation
+	    // IUnknown implementation
 	    Command.prototype.queryInterface = function (iid) {
 	        return iid === IID_1.default.ICommand || iid === IID_1.default.IDisposable;
 	    };
@@ -5541,7 +5571,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            .refCount();
 	    };
 	    return Command;
-	})();
+	}());
 	exports.Command = Command;
 	var internal;
 	(function (internal) {
@@ -5623,6 +5653,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	var Module_1 = __webpack_require__(9);
 	"use strict";
@@ -5634,7 +5665,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    ModuleBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -5661,25 +5692,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	                doCleanup();
 	                cleanup = new Rx.CompositeDisposable();
 	                var value = Utils_1.unwrapProperty(x);
-	                var moduleNames;
+	                var moduleNames_1;
 	                var disp = undefined;
 	                // split names
 	                if (value) {
 	                    value = value.trim();
-	                    moduleNames = value.split(" ").filter(function (x) { return x; });
+	                    moduleNames_1 = value.split(" ").filter(function (x) { return x; });
 	                }
-	                if (moduleNames.length > 0) {
-	                    var observables = moduleNames.map(function (x) { return Module_1.loadModule(x); });
+	                if (moduleNames_1.length > 0) {
+	                    var observables = moduleNames_1.map(function (x) { return Module_1.loadModule(x); });
 	                    disp = Rx.Observable.combineLatest(observables, function (_) { return Utils_1.args2Array(arguments); }).subscribe(function (modules) {
 	                        try {
 	                            // create intermediate module
-	                            var moduleName = (module || _this.app).name + "+" + moduleNames.join("+");
-	                            var merged = new Module_1.Module(moduleName);
+	                            var moduleName = (module || _this.app).name + "+" + moduleNames_1.join("+");
+	                            var merged_1 = new Module_1.Module(moduleName);
 	                            // merge modules into intermediate
-	                            merged.merge(module || _this.app);
-	                            modules.forEach(function (x) { return merged.merge(x); });
+	                            merged_1.merge(module || _this.app);
+	                            modules.forEach(function (x) { return merged_1.merge(x); });
 	                            // done
-	                            self.applyValue(el, merged, template, ctx, state, initialApply);
+	                            self.applyValue(el, merged_1, template, ctx, state, initialApply);
 	                            initialApply = false;
 	                        }
 	                        catch (e) {
@@ -5731,7 +5762,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.domManager.applyBindingsToDescendants(ctx, el);
 	    };
 	    return ModuleBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = ModuleBinding;
 	//# sourceMappingURL=Module.js.map
@@ -5741,6 +5772,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var __extends = (this && this.__extends) || function (d, b) {
 	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	    function __() { this.constructor = d; }
@@ -5759,7 +5791,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    IfBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -5868,38 +5900,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        }
 	        if (value) {
-	            var nodes = template.map(function (x) { return x.cloneNode(true); });
+	            var nodes_1 = template.map(function (x) { return x.cloneNode(true); });
 	            if (obs) {
 	                obs = obs.continueWith(function () {
 	                    if (enterAnimation)
-	                        enterAnimation.prepare(nodes);
+	                        enterAnimation.prepare(nodes_1);
 	                    for (var i = 0; i < template.length; i++) {
-	                        el.appendChild(nodes[i]);
+	                        el.appendChild(nodes_1[i]);
 	                    }
 	                    _this.domManager.applyBindingsToDescendants(ctx, el);
 	                });
 	                if (enterAnimation) {
-	                    obs = enterAnimation.run(nodes)
-	                        .continueWith(function () { return enterAnimation.complete(nodes); });
+	                    obs = enterAnimation.run(nodes_1)
+	                        .continueWith(function () { return enterAnimation.complete(nodes_1); });
 	                }
 	            }
 	            else {
 	                if (enterAnimation)
-	                    enterAnimation.prepare(nodes);
+	                    enterAnimation.prepare(nodes_1);
 	                for (var i = 0; i < template.length; i++) {
-	                    el.appendChild(nodes[i]);
+	                    el.appendChild(nodes_1[i]);
 	                }
 	                this.domManager.applyBindingsToDescendants(ctx, el);
 	                if (enterAnimation) {
-	                    obs = enterAnimation.run(nodes)
-	                        .continueWith(function () { return enterAnimation.complete(nodes); });
+	                    obs = enterAnimation.run(nodes_1)
+	                        .continueWith(function () { return enterAnimation.complete(nodes_1); });
 	                }
 	            }
 	        }
 	        return obs ? (obs.subscribe() || Rx.Disposable.empty) : Rx.Disposable.empty;
 	    };
 	    return IfBinding;
-	})();
+	}());
 	exports.IfBinding = IfBinding;
 	var NotIfBinding = (function (_super) {
 	    __extends(NotIfBinding, _super);
@@ -5908,7 +5940,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.inverse = true;
 	    }
 	    return NotIfBinding;
-	})(IfBinding);
+	}(IfBinding));
 	exports.NotIfBinding = NotIfBinding;
 	//# sourceMappingURL=If.js.map
 
@@ -5917,6 +5949,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var __extends = (this && this.__extends) || function (d, b) {
 	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	    function __() { this.constructor = d; }
@@ -5955,7 +5988,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    return CssBinding;
-	})(BindingBase_1.MultiOneWayBindingBase);
+	}(BindingBase_1.MultiOneWayBindingBase));
 	exports.CssBinding = CssBinding;
 	var AttrBinding = (function (_super) {
 	    __extends(AttrBinding, _super);
@@ -5975,7 +6008,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    return AttrBinding;
-	})(BindingBase_1.MultiOneWayBindingBase);
+	}(BindingBase_1.MultiOneWayBindingBase));
 	exports.AttrBinding = AttrBinding;
 	var StyleBinding = (function (_super) {
 	    __extends(StyleBinding, _super);
@@ -5990,7 +6023,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        el.style[key] = value;
 	    };
 	    return StyleBinding;
-	})(BindingBase_1.MultiOneWayBindingBase);
+	}(BindingBase_1.MultiOneWayBindingBase));
 	exports.StyleBinding = StyleBinding;
 	//# sourceMappingURL=MultiOneWay.js.map
 
@@ -5999,6 +6032,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	"use strict";
 	/**
@@ -6012,7 +6046,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBinding
 	    SingleOneWayBindingBase.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -6052,7 +6086,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        Utils_1.throwError("you need to override this method!");
 	    };
 	    return SingleOneWayBindingBase;
-	})();
+	}());
 	exports.SingleOneWayBindingBase = SingleOneWayBindingBase;
 	/**
 	* Base class for one-way bindings that take multiple expressions defined as object literal and apply the result to one or more target elements
@@ -6068,7 +6102,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.supportsDynamicValues = supportsDynamicValues;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    MultiOneWayBindingBase.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        if (node.nodeType !== 1)
 	            Utils_1.throwError("binding only operates on elements!");
@@ -6133,7 +6167,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        Utils_1.throwError("you need to override this method!");
 	    };
 	    return MultiOneWayBindingBase;
-	})();
+	}());
 	exports.MultiOneWayBindingBase = MultiOneWayBindingBase;
 	//# sourceMappingURL=BindingBase.js.map
 
@@ -6142,6 +6176,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var __extends = (this && this.__extends) || function (d, b) {
 	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	    function __() { this.constructor = d; }
@@ -6163,7 +6198,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        el.textContent = value;
 	    };
 	    return TextBinding;
-	})(BindingBase_1.SingleOneWayBindingBase);
+	}(BindingBase_1.SingleOneWayBindingBase));
 	exports.TextBinding = TextBinding;
 	var VisibleBinding = (function (_super) {
 	    __extends(VisibleBinding, _super);
@@ -6195,7 +6230,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    return VisibleBinding;
-	})(BindingBase_1.SingleOneWayBindingBase);
+	}(BindingBase_1.SingleOneWayBindingBase));
 	exports.VisibleBinding = VisibleBinding;
 	var HiddenBinding = (function (_super) {
 	    __extends(HiddenBinding, _super);
@@ -6204,7 +6239,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.inverse = true;
 	    }
 	    return HiddenBinding;
-	})(VisibleBinding);
+	}(VisibleBinding));
 	exports.HiddenBinding = HiddenBinding;
 	var HtmlBinding = (function (_super) {
 	    __extends(HtmlBinding, _super);
@@ -6217,7 +6252,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        el.innerHTML = value;
 	    };
 	    return HtmlBinding;
-	})(BindingBase_1.SingleOneWayBindingBase);
+	}(BindingBase_1.SingleOneWayBindingBase));
 	exports.HtmlBinding = HtmlBinding;
 	var DisableBinding = (function (_super) {
 	    __extends(DisableBinding, _super);
@@ -6235,7 +6270,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    return DisableBinding;
-	})(BindingBase_1.SingleOneWayBindingBase);
+	}(BindingBase_1.SingleOneWayBindingBase));
 	exports.DisableBinding = DisableBinding;
 	var EnableBinding = (function (_super) {
 	    __extends(EnableBinding, _super);
@@ -6244,7 +6279,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.inverse = true;
 	    }
 	    return EnableBinding;
-	})(DisableBinding);
+	}(DisableBinding));
 	exports.EnableBinding = EnableBinding;
 	//# sourceMappingURL=SingleOneWay.js.map
 
@@ -6253,6 +6288,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../RxExtensions.d.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	var VirtualChildNodes_1 = __webpack_require__(32);
 	var RefCountDisposeWrapper_1 = __webpack_require__(21);
@@ -6272,7 +6308,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    ForEachBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -6404,11 +6440,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                hooks.afterAdd(nodes, item, index);
 	        }
 	        if (enterAnimation) {
-	            var disp = enterAnimation.run(nodes)
+	            var disp_1 = enterAnimation.run(nodes)
 	                .continueWith(function () { return enterAnimation.complete(nodes); })
 	                .subscribe(function (x) {
-	                if (disp != null)
-	                    disp.dispose();
+	                if (disp_1 != null)
+	                    disp_1.dispose();
 	            });
 	        }
 	    };
@@ -6431,11 +6467,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                hooks.afterAdd(nodes, item, index);
 	        }
 	        if (enterAnimation) {
-	            var disp = enterAnimation.run(nodes)
+	            var disp_2 = enterAnimation.run(nodes)
 	                .continueWith(function () { return enterAnimation.complete(nodes); })
 	                .subscribe(function (x) {
-	                if (disp != null)
-	                    disp.dispose();
+	                if (disp_2 != null)
+	                    disp_2.dispose();
 	            });
 	        }
 	    };
@@ -6455,12 +6491,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        else {
 	            if (leaveAnimation != null) {
 	                leaveAnimation.prepare(nodes);
-	                var disp = leaveAnimation.run(nodes)
+	                var disp_3 = leaveAnimation.run(nodes)
 	                    .continueWith(function () { return leaveAnimation.complete(nodes); })
 	                    .continueWith(removeNodes)
 	                    .subscribe(function (x) {
-	                    if (disp != null)
-	                        disp.dispose();
+	                    if (disp_3 != null)
+	                        disp_3.dispose();
 	                });
 	            }
 	            else {
@@ -6652,7 +6688,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    return ForEachBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = ForEachBinding;
 	//# sourceMappingURL=ForEach.js.map
@@ -6752,7 +6788,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.childNodes = [];
 	    };
 	    return VirtualChildNodes;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = VirtualChildNodes;
 	//# sourceMappingURL=VirtualChildNodes.js.map
@@ -6762,6 +6798,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	var Command_1 = __webpack_require__(25);
 	"use strict";
@@ -6772,7 +6809,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    EventBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -6807,23 +6844,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var commandParameter = undefined;
 	        var obs = Rx.Observable.fromEvent(el, eventName);
 	        if (typeof exp === "function") {
-	            var handler = this.domManager.evaluateExpression(exp, ctx);
-	            handler = Utils_1.unwrapProperty(handler);
-	            if (Utils_1.isFunction(handler)) {
+	            var handler_1 = this.domManager.evaluateExpression(exp, ctx);
+	            handler_1 = Utils_1.unwrapProperty(handler_1);
+	            if (Utils_1.isFunction(handler_1)) {
 	                state.cleanup.add(obs.subscribe(function (e) {
-	                    handler.apply(ctx.$data, [ctx, e]);
+	                    handler_1.apply(ctx.$data, [ctx, e]);
 	                }));
 	            }
 	            else {
-	                if (Command_1.isCommand(handler)) {
-	                    command = handler;
+	                if (Command_1.isCommand(handler_1)) {
+	                    command = handler_1;
 	                    state.cleanup.add(obs.subscribe(function (_) {
 	                        command.execute(undefined);
 	                    }));
 	                }
 	                else {
 	                    // assumed to be an Rx.Observer
-	                    var observer = handler;
+	                    var observer = handler_1;
 	                    // subscribe event directly to observer
 	                    state.cleanup.add(obs.subscribe(observer));
 	                }
@@ -6849,7 +6886,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    return EventBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = EventBinding;
 	//# sourceMappingURL=Event.js.map
@@ -6859,6 +6896,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	var res = __webpack_require__(6);
 	"use strict";
@@ -6869,7 +6907,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    ValueBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -6917,7 +6955,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    // initial update
 	                    updateElement(_this.domManager, prop());
 	                    // don't attempt to updated computed properties
-	                    if (!prop.source) {
+	                    if (!Utils_1.isReadOnlyProperty(prop)) {
 	                        cleanup.add(Rx.Observable.fromEvent(el, 'change').subscribe(function (e) {
 	                            try {
 	                                if (storeValueInNodeState)
@@ -6953,7 +6991,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // intentionally left blank
 	    };
 	    return ValueBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = ValueBinding;
 	/**
@@ -7013,6 +7051,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	var BindingSupport_1 = __webpack_require__(36);
 	"use strict";
@@ -7023,7 +7062,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    HasFocusBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -7058,7 +7097,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // as this avoids phantom focus/blur events raised when changing tabs in modern browsers.
 	            var ownerDoc = el.ownerDocument;
 	            if ("activeElement" in ownerDoc) {
-	                var active;
+	                var active = void 0;
 	                try {
 	                    active = ownerDoc.activeElement;
 	                }
@@ -7108,7 +7147,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    // initial update
 	                    updateElement(prop());
 	                    // don't attempt to updated computed properties
-	                    if (!prop.source) {
+	                    if (!Utils_1.isReadOnlyProperty(prop)) {
 	                        cleanup.add(Rx.Observable.merge(_this.getFocusEventObservables(el)).subscribe(function (hasFocus) {
 	                            handleElementFocusChange(hasFocus);
 	                        }));
@@ -7144,7 +7183,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return result;
 	    };
 	    return HasFocusBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = HasFocusBinding;
 	//# sourceMappingURL=HasFocus.js.map
@@ -7154,6 +7193,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var log = __webpack_require__(7);
 	"use strict";
 	function emitPropRefHint(bindingName, bindingString) {
@@ -7168,6 +7208,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	"use strict";
 	var WithBinding = (function () {
@@ -7178,7 +7219,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    WithBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -7222,7 +7263,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.domManager.applyBindingsToDescendants(ctx, el);
 	    };
 	    return WithBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = WithBinding;
 	//# sourceMappingURL=With.js.map
@@ -7232,6 +7273,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	var BindingSupport_1 = __webpack_require__(36);
 	"use strict";
@@ -7242,7 +7284,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    CheckedBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -7285,7 +7327,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    // initial update
 	                    updateElement(prop());
 	                    // don't attempt to updated computed properties
-	                    if (!prop.source) {
+	                    if (!Utils_1.isReadOnlyProperty(prop)) {
 	                        // wire change-events depending on browser and version
 	                        var events = _this.getCheckedEventObservables(el);
 	                        cleanup.add(Rx.Observable.merge(events).subscribe(function (e) {
@@ -7326,7 +7368,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return result;
 	    };
 	    return CheckedBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = CheckedBinding;
 	//# sourceMappingURL=Checked.js.map
@@ -7336,6 +7378,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	var Command_1 = __webpack_require__(25);
 	"use strict";
@@ -7363,7 +7406,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    KeyPressBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -7441,12 +7484,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var command;
 	        var commandParameter = undefined;
 	        if (typeof exp === "function") {
-	            var handler = this.domManager.evaluateExpression(exp, ctx);
-	            handler = Utils_1.unwrapProperty(handler);
-	            if (!Command_1.isCommand(handler)) {
+	            var handler_1 = this.domManager.evaluateExpression(exp, ctx);
+	            handler_1 = Utils_1.unwrapProperty(handler_1);
+	            if (!Command_1.isCommand(handler_1)) {
 	                state.cleanup.add(obs.where(function (e) { return _this.testCombinations(combinations, e); }).subscribe(function (e) {
 	                    try {
-	                        handler.apply(ctx.$data, [ctx]);
+	                        handler_1.apply(ctx.$data, [ctx]);
 	                        e.preventDefault();
 	                    }
 	                    catch (e) {
@@ -7455,7 +7498,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }));
 	            }
 	            else {
-	                command = handler;
+	                command = handler_1;
 	                state.cleanup.add(obs.where(function (e) { return _this.testCombinations(combinations, e); }).subscribe(function (e) {
 	                    try {
 	                        command.execute(undefined);
@@ -7487,7 +7530,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    return KeyPressBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = KeyPressBinding;
 	//# sourceMappingURL=KeyPress.js.map
@@ -7497,6 +7540,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	var env = __webpack_require__(16);
 	var BindingSupport_1 = __webpack_require__(36);
@@ -7508,7 +7552,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    TextInputBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -7563,7 +7607,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    // initial update
 	                    updateElement(prop());
 	                    // don't attempt to updated computed properties
-	                    if (!prop.source) {
+	                    if (!Utils_1.isReadOnlyProperty(prop)) {
 	                        // wire change-events depending on browser and version
 	                        var events = _this.getTextInputEventObservables(el, isTextArea);
 	                        eventSubscription = Rx.Observable.merge(events).subscribe(function (e) {
@@ -7642,7 +7686,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return result;
 	    };
 	    return TextInputBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = TextInputBinding;
 	//# sourceMappingURL=TextInput.js.map
@@ -7652,6 +7696,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	var Value_1 = __webpack_require__(34);
 	var ListSupport_1 = __webpack_require__(17);
@@ -7688,7 +7733,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    return RadioSingleSelectionImpl;
-	})();
+	}());
 	var OptionSingleSelectionImpl = (function () {
 	    function OptionSingleSelectionImpl(domManager) {
 	        this.domManager = domManager;
@@ -7733,7 +7778,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        model(value);
 	    };
 	    return OptionSingleSelectionImpl;
-	})();
+	}());
 	var SelectedValueBinding = (function () {
 	    function SelectedValueBinding(domManager, app) {
 	        this.priority = 0;
@@ -7743,7 +7788,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        impls.push(new OptionSingleSelectionImpl(domManager));
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    SelectedValueBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -7822,7 +7867,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // intentionally left blank
 	    };
 	    return SelectedValueBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = SelectedValueBinding;
 	//# sourceMappingURL=SelectedValue.js.map
@@ -7832,6 +7877,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	"use strict";
 	var ComponentBinding = (function () {
@@ -7842,7 +7888,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    ComponentBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -7892,14 +7938,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	                cleanup = new Rx.CompositeDisposable();
 	                // lookup component
 	                var obs = module.loadComponent(componentName, componentParams);
-	                var disp = undefined;
+	                var disp_1 = undefined;
 	                if (obs == null)
 	                    Utils_1.throwError("component '{0}' is not registered with current module-context", componentName);
-	                disp = obs.subscribe(function (component) {
+	                disp_1 = obs.subscribe(function (component) {
 	                    // loader cleanup
-	                    if (disp != null) {
-	                        disp.dispose();
-	                        disp = undefined;
+	                    if (disp_1 != null) {
+	                        disp_1.dispose();
+	                        disp_1 = undefined;
 	                    }
 	                    // auto-dispose view-model
 	                    if (component.viewModel) {
@@ -7910,8 +7956,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    // done
 	                    _this.applyTemplate(component, el, ctx, state, component.template, component.viewModel);
 	                });
-	                if (disp != null)
-	                    cleanup.add(disp);
+	                if (disp_1 != null)
+	                    cleanup.add(disp_1);
 	            }
 	            catch (e) {
 	                _this.app.defaultExceptionHandler.onNext(e);
@@ -7962,7 +8008,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    return ComponentBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = ComponentBinding;
 	//# sourceMappingURL=Component.js.map
@@ -7972,6 +8018,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	"use strict";
 	var StateActiveBinding = (function () {
@@ -7982,7 +8029,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    StateActiveBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -8059,7 +8106,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // intentionally left blank
 	    };
 	    return StateActiveBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = StateActiveBinding;
 	//# sourceMappingURL=StateActive.js.map
@@ -8069,6 +8116,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	"use strict";
 	var ViewBinding = (function () {
@@ -8080,7 +8128,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    ViewBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -8163,19 +8211,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        // construct leave-observable
 	        if (oldElements.length > 0) {
-	            var leaveAnimation;
+	            var leaveAnimation_1;
 	            if (animations && animations.leave) {
 	                if (typeof animations.leave === "string") {
-	                    leaveAnimation = module.animation(animations.leave);
+	                    leaveAnimation_1 = module.animation(animations.leave);
 	                }
 	                else {
-	                    leaveAnimation = animations.leave;
+	                    leaveAnimation_1 = animations.leave;
 	                }
 	            }
-	            if (leaveAnimation) {
-	                leaveAnimation.prepare(oldElements);
-	                obs = leaveAnimation.run(oldElements)
-	                    .continueWith(function () { return leaveAnimation.complete(oldElements); })
+	            if (leaveAnimation_1) {
+	                leaveAnimation_1.prepare(oldElements);
+	                obs = leaveAnimation_1.run(oldElements)
+	                    .continueWith(function () { return leaveAnimation_1.complete(oldElements); })
 	                    .continueWith(removeOldElements);
 	            }
 	            else {
@@ -8185,19 +8233,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        // construct enter-observable
 	        if (componentName != null) {
-	            var enterAnimation;
+	            var enterAnimation_1;
 	            if (animations && animations.enter) {
 	                if (typeof animations.enter === "string") {
-	                    enterAnimation = module.animation(animations.enter);
+	                    enterAnimation_1 = module.animation(animations.enter);
 	                }
 	                else {
-	                    enterAnimation = animations.enter;
+	                    enterAnimation_1 = animations.enter;
 	                }
 	            }
-	            obs = Rx.Observable.startDeferred(function () { return instantiateComponent(enterAnimation); });
-	            if (enterAnimation) {
-	                obs = obs.continueWith(enterAnimation.run(el.childNodes))
-	                    .continueWith(function () { return enterAnimation.complete(el.childNodes); });
+	            obs = Rx.Observable.startDeferred(function () { return instantiateComponent(enterAnimation_1); });
+	            if (enterAnimation_1) {
+	                obs = obs.continueWith(enterAnimation_1.run(el.childNodes))
+	                    .continueWith(function () { return enterAnimation_1.complete(el.childNodes); });
 	            }
 	            // notify world
 	            obs = obs.continueWith(function () {
@@ -8222,7 +8270,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return obs ? (obs.subscribe() || Rx.Disposable.empty) : Rx.Disposable.empty;
 	    };
 	    return ViewBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = ViewBinding;
 	//# sourceMappingURL=View.js.map
@@ -8232,6 +8280,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	"use strict";
 	var StateRefBinding = (function () {
@@ -8242,7 +8291,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    StateRefBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -8318,7 +8367,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // intentionally left blank
 	    };
 	    return StateRefBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = StateRefBinding;
 	//# sourceMappingURL=StateRef.js.map
@@ -8328,6 +8377,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	"use strict";
 	/**
@@ -8341,7 +8391,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.app = app;
 	    }
 	    ////////////////////
-	    // wx.IBinding
+	    // IBindingHandler
 	    SimpleBinding.prototype.applyBinding = function (node, options, ctx, state, module) {
 	        var _this = this;
 	        if (node.nodeType !== 1)
@@ -8372,7 +8422,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            try {
 	                cleanup = new Rx.CompositeDisposable();
 	                // construct current value
-	                var value;
+	                var value = void 0;
 	                if (typeof compiled === "function") {
 	                    value = allValues[0];
 	                }
@@ -8413,7 +8463,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // intentionally left blank
 	    };
 	    return SimpleBinding;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = SimpleBinding;
 	//# sourceMappingURL=Simple.js.map
@@ -8423,6 +8473,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	"use strict";
 	var templateCache = {};
@@ -8529,7 +8580,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return nodes;
 	    };
 	    return SelectComponent;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = SelectComponent;
 	//# sourceMappingURL=Select.js.map
@@ -8539,6 +8590,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	"use strict";
 	var groupId = 0;
@@ -8624,7 +8676,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return nodes;
 	    };
 	    return RadioGroupComponent;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = RadioGroupComponent;
 	//# sourceMappingURL=RadioGroup.js.map
@@ -8634,6 +8686,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	var Property_1 = __webpack_require__(8);
 	var RouteMatcher_1 = __webpack_require__(50);
@@ -8797,7 +8850,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var result = undefined;
 	        if (_current.views != null) {
 	            var component = _current.views[viewName];
-	            var stateParams = {};
+	            var stateParams_1 = {};
 	            if (component != null) {
 	                result = {};
 	                if (typeof component === "object") {
@@ -8814,11 +8867,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var parameterNames = this.getViewParameterNamesFromStateConfig(viewName, result.component);
 	                parameterNames.forEach(function (x) {
 	                    if (_current.params.hasOwnProperty(x)) {
-	                        stateParams[x] = _current.params[x];
+	                        stateParams_1[x] = _current.params[x];
 	                    }
 	                });
 	                // merge state params into component params
-	                result.params = Utils_1.extend(stateParams, result.params);
+	                result.params = Utils_1.extend(stateParams_1, result.params);
 	            }
 	        }
 	        return result;
@@ -8828,12 +8881,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var parts = state.name.split(this.pathSeparator);
 	        if (state.name !== this.rootStateName) {
 	            // validate name
-	            if (parts.forEach(function (path) {
+	            parts.forEach(function (path) {
 	                if (!_this.validPathRegExp.test(path)) {
 	                    Utils_1.throwError("invalid state-path '{0}' (a state-path must start with a character, optionally followed by one or more alphanumeric characters, dashes or underscores)");
 	                }
-	            }))
-	                ;
+	            });
 	        }
 	        // wrap and store
 	        state = Utils_1.extend(state, {});
@@ -9033,7 +9085,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return result;
 	    };
 	    return Router;
-	})();
+	}());
 	exports.Router = Router;
 	//# sourceMappingURL=Router.js.map
 
@@ -9042,6 +9094,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	/*
 	 * JavaScript Route Matcher
@@ -9186,7 +9239,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return type === "R" ? rule.test(value) : type === "F" ? rule(value) : rule == value;
 	    };
 	    return RouteMatcher;
-	})();
+	}());
 	exports.RouteMatcher = RouteMatcher;
 	function route(route, rules) {
 	    return new RouteMatcher(route, rules);
@@ -9199,6 +9252,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var ScheduledSubject_1 = __webpack_require__(20);
 	// ReactiveUI's MessageBus
 	"use strict";
@@ -9239,7 +9293,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return scheduler || Rx.Scheduler.currentThread;
 	    };
 	    return MessageBus;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = MessageBus;
 	//# sourceMappingURL=MessageBus.js.map
@@ -9396,7 +9450,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        promise: function (fn) { return new Promise(fn); }
 	    };
 	    return HttpClient;
-	})();
+	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = HttpClient;
 	/**
@@ -9412,6 +9466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 53 */
 /***/ function(module, exports) {
 
+	"use strict";
 	exports.version = '1.4.4';
 	//# sourceMappingURL=Version.js.map
 
@@ -9420,6 +9475,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="./Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	var IID_1 = __webpack_require__(5);
 	var ScheduledSubject_1 = __webpack_require__(20);
@@ -9442,9 +9498,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return accessor.value;
 	    };
 	    //////////////////////////////////
-	    // wx.IUnknown implementation
+	    // IUnknown implementation
 	    accessor.queryInterface = function (iid) {
-	        return iid === IID_1.default.IObservableProperty || iid === IID_1.default.IDisposable;
+	        return iid === IID_1.default.IObservableReadOnlyProperty || IID_1.default.IObservableProperty || iid === IID_1.default.IDisposable;
 	    };
 	    //////////////////////////////////
 	    // IDisposable implementation
@@ -9455,7 +9511,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    //////////////////////////////////
-	    // IObservableProperty<T> implementation
+	    // IObservableReadOnlyProperty<T> implementation
 	    accessor.value = initialValue;
 	    // setup observables
 	    accessor.changedSubject = new Rx.Subject();
@@ -9464,6 +9520,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    accessor.changing = accessor.changingSubject.asObservable();
 	    accessor.source = this;
 	    accessor.thrownExceptions = ScheduledSubject_1.createScheduledSubject(scheduler, Injector_1.injector.get(res.app).defaultExceptionHandler);
+	    accessor.catchExceptions = function (onError) {
+	        accessor.thrownExceptions.subscribe(function (e) {
+	            onError(e);
+	        });
+	        return accessor;
+	    };
 	    //////////////////////////////////
 	    // implementation
 	    var firedInitial = false;
@@ -9533,6 +9595,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="../Interfaces.ts" />
+	"use strict";
 	var Utils_1 = __webpack_require__(3);
 	"use strict";
 	function toElementList(element) {
@@ -9623,7 +9686,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var completeToAdd;
 	    var completeToRemove;
 	    if (prepare) {
-	        var prepIns;
+	        var prepIns = void 0;
 	        if (typeof prepare === "string") {
 	            prepare = prepare.split(/\s+/).map(function (x) { return x.trim(); }).filter(function (x) { return x; });
 	        }

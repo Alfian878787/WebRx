@@ -14,7 +14,7 @@ export class Module {
         this.name = name;
     }
     //////////////////////////////////
-    // wx.IModule
+    // IModule
     merge(other) {
         let _other = other;
         extend(_other.components, this.components);

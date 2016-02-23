@@ -42,7 +42,7 @@ export class Command<T> implements wx.ICommand<T>, wx.IUnknown {
     }
 
     //////////////////////////////////
-    // wx.IUnknown implementation
+    // IUnknown implementation
 
     public queryInterface(iid: string): boolean {
        return iid === IID.ICommand || iid === IID.IDisposable;
@@ -59,7 +59,7 @@ export class Command<T> implements wx.ICommand<T>, wx.IUnknown {
     }
 
     ////////////////////
-    /// wx.ICommand
+    /// ICommand
 
     public canExecuteObservable: Rx.Observable<boolean>;
 

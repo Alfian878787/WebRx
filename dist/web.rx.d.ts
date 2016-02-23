@@ -51,6 +51,7 @@ declare module wx {
         size: number;
         isEmulated: boolean;
     }
+
     /**
     /* IObservableProperty combines a function signature for value setting and getting with
     /* observables for monitoring value changes
@@ -61,7 +62,18 @@ declare module wx {
         (): T;
         changing: Rx.Observable<T>;
         changed: Rx.Observable<T>;
-        source?: Rx.Observable<T>;
+    }
+
+    /**
+    * IObservableReadOnlyProperty provides observable source and exception
+    * handling members with the standard observable property members
+    * @interface
+    **/
+    interface IObservableReadOnlyProperty<T> extends IObservableProperty<T> {
+      source: Rx.Observable<T>;
+      thrownExceptions: Rx.Observable<Error>;
+
+      catchExceptions(onError: (error: Error) => void): IObservableReadOnlyProperty<T>;
     }
 
     export interface IRangeInfo {
@@ -1033,6 +1045,7 @@ declare module wx {
     class IID {
         static IDisposable: string;
         static IObservableProperty: string;
+        static IObservableReadOnlyProperty: string;
         static IObservableList: string;
         static ICommand: string;
         static IHandleObservableErrors: string;
@@ -1557,6 +1570,6 @@ declare module wx {
 
 declare module Rx {
     export interface Observable<T> extends IObservable<T> {
-        toProperty(initialValue?: T): wx.IObservableProperty<T>;
+        toProperty(initialValue?: T): wx.IObservableReadOnlyProperty<T>;
     }
 }

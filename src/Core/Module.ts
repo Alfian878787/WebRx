@@ -20,7 +20,7 @@ export class Module implements wx.IModule {
     }
 
     //////////////////////////////////
-    // wx.IModule
+    // IModule
 
     public merge(other: wx.IModule): wx.IModule {
         let _other = <Module> other;

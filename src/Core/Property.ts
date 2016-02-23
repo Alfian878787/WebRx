@@ -29,7 +29,7 @@ export function property<T>(initialValue?: T): wx.IObservableProperty<T> {
     };
 
     //////////////////////////////////
-    // wx.IUnknown implementation
+    // IUnknown implementation
 
     accessor.queryInterface = (iid: string)=> {
        return iid === IID.IObservableProperty || iid === IID.IDisposable;

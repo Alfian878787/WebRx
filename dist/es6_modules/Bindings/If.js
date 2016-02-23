@@ -12,7 +12,7 @@ export class IfBinding {
         this.app = app;
     }
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
     applyBinding(node, options, ctx, state, module) {
         if (node.nodeType !== 1)
             throwError("if-binding only operates on elements!");

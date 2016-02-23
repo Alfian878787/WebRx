@@ -13,7 +13,7 @@ export default class ModuleBinding implements wx.IBindingHandler {
     }
 
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
 
     public applyBinding(node: Node, options: string, ctx: wx.IDataContext, state: wx.INodeState, module: wx.IModule): void {
         if (node.nodeType !== 1)

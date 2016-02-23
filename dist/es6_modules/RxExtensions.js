@@ -21,9 +21,9 @@ function toProperty(initialValue, scheduler) {
         return accessor.value;
     };
     //////////////////////////////////
-    // wx.IUnknown implementation
+    // IUnknown implementation
     accessor.queryInterface = (iid) => {
-        return iid === IID.IObservableProperty || iid === IID.IDisposable;
+        return iid === IID.IObservableReadOnlyProperty || IID.IObservableProperty || iid === IID.IDisposable;
     };
     //////////////////////////////////
     // IDisposable implementation
@@ -34,7 +34,7 @@ function toProperty(initialValue, scheduler) {
         }
     };
     //////////////////////////////////
-    // IObservableProperty<T> implementation
+    // IObservableReadOnlyProperty<T> implementation
     accessor.value = initialValue;
     // setup observables
     accessor.changedSubject = new Rx.Subject();
@@ -43,6 +43,12 @@ function toProperty(initialValue, scheduler) {
     accessor.changing = accessor.changingSubject.asObservable();
     accessor.source = this;
     accessor.thrownExceptions = createScheduledSubject(scheduler, injector.get(res.app).defaultExceptionHandler);
+    accessor.catchExceptions = (onError) => {
+        accessor.thrownExceptions.subscribe((e) => {
+            onError(e);
+        });
+        return accessor;
+    };
     //////////////////////////////////
     // implementation
     let firedInitial = false;

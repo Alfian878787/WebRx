@@ -15,8 +15,8 @@ export class SingleOneWayBindingBase implements wx.IBindingHandler {
         this.app = app;
     }
 
-  ////////////////////
-    // wx.IBinding
+    ////////////////////
+    // IBinding
 
     public applyBinding(node: Node, options: string, ctx: wx.IDataContext, state: wx.INodeState, module: wx.IModule): void {
         if (node.nodeType !== 1)
@@ -82,8 +82,8 @@ export class MultiOneWayBindingBase implements wx.IBindingHandler {
         this.supportsDynamicValues = supportsDynamicValues;
     }
 
-   ////////////////////
-    // wx.IBinding
+    ////////////////////
+    // IBindingHandler
 
     public applyBinding(node: Node, options: string, ctx: wx.IDataContext, state: wx.INodeState, module: wx.IModule): void {
         if (node.nodeType !== 1)

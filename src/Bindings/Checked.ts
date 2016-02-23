@@ -1,7 +1,7 @@
 /// <reference path="../Interfaces.ts" />
 
 import IID from "../IID"
-import { extend, isInUnitTest, args2Array, isFunction, throwError, formatString, cloneNodeArray, elementCanBeDisabled, isProperty } from "../Core/Utils"
+import { extend, isInUnitTest, args2Array, isFunction, throwError, formatString, cloneNodeArray, elementCanBeDisabled, isProperty, isReadOnlyProperty } from "../Core/Utils"
 import * as log from "../Core/Log"
 import { emitPropRefHint } from "./BindingSupport"
 
@@ -14,7 +14,7 @@ export default class CheckedBinding implements wx.IBindingHandler {
     }
 
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
 
     public applyBinding(node: Node, options: string, ctx: wx.IDataContext, state: wx.INodeState, module: wx.IModule): void {
         if (node.nodeType !== 1)
@@ -68,7 +68,7 @@ export default class CheckedBinding implements wx.IBindingHandler {
                     updateElement(prop());
 
                     // don't attempt to updated computed properties
-                    if (!prop.source) {
+                    if (!isReadOnlyProperty(prop)) {
                         // wire change-events depending on browser and version
                         let events = this.getCheckedEventObservables(el);
                         cleanup.add(Rx.Observable.merge(events).subscribe(e => {

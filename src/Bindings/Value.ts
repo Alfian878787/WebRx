@@ -1,7 +1,7 @@
 /// <reference path="../Interfaces.ts" />
 
 import IID from "../IID"
-import { extend, isInUnitTest, args2Array, isFunction, throwError, using, formatString, unwrapProperty, isProperty, toggleCssClass } from "../Core/Utils"
+import { extend, isInUnitTest, args2Array, isFunction, throwError, using, formatString, unwrapProperty, isProperty, isReadOnlyProperty, toggleCssClass } from "../Core/Utils"
 import * as res from "../Core/Resources"
 import { emitPropRefHint } from "./BindingSupport"
 
@@ -14,7 +14,7 @@ export default class ValueBinding implements wx.IBindingHandler {
     }
 
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
 
     public applyBinding(node: Node, options: string, ctx: wx.IDataContext, state: wx.INodeState, module: wx.IModule): void {
         if (node.nodeType !== 1)
@@ -73,7 +73,7 @@ export default class ValueBinding implements wx.IBindingHandler {
                     updateElement(this.domManager, prop());
 
                     // don't attempt to updated computed properties
-                    if (!prop.source) {
+                    if (!isReadOnlyProperty(prop)) {
                         cleanup.add(Rx.Observable.fromEvent(el, 'change').subscribe(e => {
                             try {
                                 if (storeValueInNodeState)

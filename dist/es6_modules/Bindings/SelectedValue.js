@@ -88,7 +88,7 @@ export default class SelectedValueBinding {
         impls.push(new OptionSingleSelectionImpl(domManager));
     }
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
     applyBinding(node, options, ctx, state, module) {
         if (node.nodeType !== 1)
             throwError("selectedValue-binding only operates on elements!");

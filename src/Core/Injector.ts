@@ -13,7 +13,7 @@ import { property } from "./Property"
 */
 class Injector implements wx.IInjector {
     //////////////////////////////////
-    // wx.IInjector implementation
+    // IInjector implementation
 
     public register(key: string, factory: Array<any>, singleton: boolean): wx.IInjector;
     public register(key: string, factory: () => any, singleton: boolean): wx.IInjector;

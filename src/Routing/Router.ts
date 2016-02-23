@@ -258,11 +258,11 @@ export class Router implements wx.IRouter {
 
         if (state.name !== this.rootStateName) {
             // validate name
-            if (parts.forEach(path => {
+            parts.forEach(path => {
                 if (!this.validPathRegExp.test(path)) {
                     throwError("invalid state-path '{0}' (a state-path must start with a character, optionally followed by one or more alphanumeric characters, dashes or underscores)");
                 }
-            }));
+            });
         }
 
         // wrap and store

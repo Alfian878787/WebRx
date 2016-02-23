@@ -31,6 +31,11 @@ export declare function disposeMembers<T>(target: any): void;
 */
 export declare function isProperty(target: any): boolean;
 /**
+* Determines if target is an instance of a IObservableProperty
+* @param {any} target
+*/
+export declare function isReadOnlyProperty(target: any): boolean;
+/**
 * Determines if target is an instance of a Rx.Scheduler
 * @param {any} target
 */

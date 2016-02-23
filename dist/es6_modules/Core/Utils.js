@@ -69,6 +69,15 @@ export function isProperty(target) {
     return queryInterface(target, IID.IObservableProperty);
 }
 /**
+* Determines if target is an instance of a IObservableProperty
+* @param {any} target
+*/
+export function isReadOnlyProperty(target) {
+    if (target == null)
+        return false;
+    return queryInterface(target, IID.IObservableReadOnlyProperty);
+}
+/**
 * Determines if target is an instance of a Rx.Scheduler
 * @param {any} target
 */

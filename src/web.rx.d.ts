@@ -62,7 +62,6 @@ declare module wx {
         (): T;
         changing: Rx.Observable<T>;
         changed: Rx.Observable<T>;
-        source?: Rx.Observable<T>;
     }
 
     /**

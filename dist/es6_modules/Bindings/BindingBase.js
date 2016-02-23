@@ -12,7 +12,7 @@ export class SingleOneWayBindingBase {
         this.app = app;
     }
     ////////////////////
-    // wx.IBinding
+    // IBinding
     applyBinding(node, options, ctx, state, module) {
         if (node.nodeType !== 1)
             throwError("binding only operates on elements!");
@@ -64,7 +64,7 @@ export class MultiOneWayBindingBase {
         this.supportsDynamicValues = supportsDynamicValues;
     }
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
     applyBinding(node, options, ctx, state, module) {
         if (node.nodeType !== 1)
             throwError("binding only operates on elements!");

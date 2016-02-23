@@ -9,7 +9,7 @@
   "bugs": "https://github.com/WebRxJS/WebRx/issues",
   "browser": "dist/web.rx.js",
   "devDependencies": {
-    "bluebird": "^3.2.2",
+    "bluebird": "^3.3.1",
     "bower": "^1.7.7",
     "browser-jquery": "^1.10.2",
     "grunt": "^0.4.5",
@@ -26,7 +26,7 @@
     "grunt-release": "^0.12.0",
     "grunt-saucelabs": "^8.6.2",
     "grunt-shell": "^1.1.2",
-    "grunt-trimtrailingspaces": "^2.0.0",
+    "grunt-trimtrailingspaces": "^2.1.0",
     "grunt-ts": "^3.0.0",
     "grunt-typedoc": "^0.2.2",
     "grunt-webpack": "^1.0.8",
@@ -39,10 +39,10 @@
     "phantomjs-prebuilt": "^2.1.4",
     "requirejs": "^2.1.22",
     "requirejs-text": "^2.0.12",
-    "rx": "^4.0.7",
-    "typescript": "~1.6.2",
+    "rx": "^4.0.8",
+    "typescript": "^1.8.2",
     "urijs": "^1.17.0",
-    "webpack": "^1.12.13",
+    "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {}

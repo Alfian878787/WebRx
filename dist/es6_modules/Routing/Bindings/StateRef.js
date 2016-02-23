@@ -9,7 +9,7 @@ export default class StateRefBinding {
         this.app = app;
     }
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
     applyBinding(node, options, ctx, state, module) {
         if (node.nodeType !== 1)
             throwError("stateRef-binding only operates on elements!");

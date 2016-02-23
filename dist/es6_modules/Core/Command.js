@@ -38,7 +38,7 @@ export class Command {
             .subscribe(injector.get(res.app).defaultExceptionHandler);
     }
     //////////////////////////////////
-    // wx.IUnknown implementation
+    // IUnknown implementation
     queryInterface(iid) {
         return iid === IID.ICommand || iid === IID.IDisposable;
     }

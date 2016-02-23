@@ -6,6 +6,7 @@ export default class IID {
 }
 IID.IDisposable = "IDisposable";
 IID.IObservableProperty = "IObservableProperty";
+IID.IObservableReadOnlyProperty = "IObservableReadOnlyProperty";
 IID.IObservableList = "IObservableList";
 IID.ICommand = "ICommand";
 IID.IHandleObservableErrors = "IHandleObservableErrors";

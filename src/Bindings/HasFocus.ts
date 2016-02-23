@@ -1,7 +1,7 @@
 /// <reference path="../Interfaces.ts" />
 
 import IID from "../IID"
-import { extend, isInUnitTest, args2Array, isFunction, throwError, using, formatString, isProperty } from "../Core/Utils"
+import { extend, isInUnitTest, args2Array, isFunction, throwError, using, formatString, isProperty, isReadOnlyProperty } from "../Core/Utils"
 import { emitPropRefHint } from "./BindingSupport"
 
 "use strict";
@@ -13,7 +13,7 @@ export default class HasFocusBinding implements wx.IBindingHandler {
     }
 
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
 
     public applyBinding(node: Node, options: string, ctx: wx.IDataContext, state: wx.INodeState, module: wx.IModule): void {
         if (node.nodeType !== 1)
@@ -111,7 +111,7 @@ export default class HasFocusBinding implements wx.IBindingHandler {
                     updateElement(prop());
 
                     // don't attempt to updated computed properties
-                    if (!prop.source) {
+                    if (!isReadOnlyProperty(prop)) {
                         cleanup.add(Rx.Observable.merge(this.getFocusEventObservables(el)).subscribe(hasFocus => {
                             handleElementFocusChange(hasFocus);
                         }));

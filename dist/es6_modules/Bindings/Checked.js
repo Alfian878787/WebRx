@@ -1,5 +1,5 @@
 /// <reference path="../Interfaces.ts" />
-import { throwError, isProperty } from "../Core/Utils";
+import { throwError, isProperty, isReadOnlyProperty } from "../Core/Utils";
 import { emitPropRefHint } from "./BindingSupport";
 "use strict";
 export default class CheckedBinding {
@@ -9,7 +9,7 @@ export default class CheckedBinding {
         this.app = app;
     }
     ////////////////////
-    // wx.IBinding
+    // IBindingHandler
     applyBinding(node, options, ctx, state, module) {
         if (node.nodeType !== 1)
             throwError("checked-binding only operates on elements!");
@@ -51,7 +51,7 @@ export default class CheckedBinding {
                     // initial update
                     updateElement(prop());
                     // don't attempt to updated computed properties
-                    if (!prop.source) {
+                    if (!isReadOnlyProperty(prop)) {
                         // wire change-events depending on browser and version
                         let events = this.getCheckedEventObservables(el);
                         cleanup.add(Rx.Observable.merge(events).subscribe(e => {
