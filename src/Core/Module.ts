@@ -272,7 +272,7 @@ export class Module implements wx.IModule {
             }
         }
 
-        throwError("invalid template descriptor");
+        return throwError("invalid template descriptor");
     }
 
     protected loadComponentViewModel(vm: any, componentParams: Object): Rx.Observable<any> {
@@ -302,7 +302,7 @@ export class Module implements wx.IModule {
             }
         }
 
-        throwError("invalid view-model descriptor");
+        return throwError("invalid view-model descriptor");
     }
 }
 

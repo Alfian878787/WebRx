@@ -4,11 +4,12 @@
         "declaration": true,
         "removeComments": false,
         "preserveConstEnums": true,
+        "noImplicitReturns": true,
         "rootDir": "../src",
         "target": "ES5",
         "sourceMap": true
     },
-    
+
     "exclude": [
         "web.rx.d.ts"
     ]

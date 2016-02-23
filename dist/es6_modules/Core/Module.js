@@ -212,7 +212,7 @@ export class Module {
                 return Rx.Observable.return(syncResult);
             }
         }
-        throwError("invalid template descriptor");
+        return throwError("invalid template descriptor");
     }
     loadComponentViewModel(vm, componentParams) {
         let syncResult;
@@ -244,7 +244,7 @@ export class Module {
                 return Rx.Observable.return(options.instance);
             }
         }
-        throwError("invalid view-model descriptor");
+        return throwError("invalid view-model descriptor");
     }
 }
 export var modules = {};

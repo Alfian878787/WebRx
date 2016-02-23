@@ -152,7 +152,7 @@ export function getObservable<T>(o: any): Rx.Observable<T> {
     if(isRxObservable(o))
         return o;
 
-    throwError(`getObservable: '${o}' is neither observable property nor observable`);
+    return throwError(`getObservable: '${o}' is neither observable property nor observable`);
 }
 
 /**
@@ -636,7 +636,7 @@ export function whenAny<TRet>(): Rx.Observable<TRet> {
 * FOR INTERNAL USE ONLY
 * Throw an error containing the specified description
 */
-export function throwError(fmt: string, ...args: any[]): void {
+export function throwError(fmt: string, ...args: any[]): any {
     let msg = "WebRx: " + formatString(fmt, args);
     throw new Error(msg);
 }

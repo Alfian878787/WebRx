@@ -246,7 +246,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    if (isRxObservable(o))
 	        return o;
-	    throwError("getObservable: '" + o + "' is neither observable property nor observable");
+	    return throwError("getObservable: '" + o + "' is neither observable property nor observable");
 	}
 	exports.getObservable = getObservable;
 	/**
@@ -721,6 +721,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                accessor.value = newVal;
 	                accessor.changedSubject.onNext(newVal);
 	            }
+	            return undefined;
 	        }
 	        else {
 	            // get
@@ -973,7 +974,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        return self_1.get(x, undefined, deps);
 	                    }
 	                    catch (e) {
-	                        Utils_1.throwError("Error resolving dependency '{0}' for '{1}': {2}", x, key, e);
+	                        return Utils_1.throwError("Error resolving dependency '{0}' for '{1}': {2}", x, key, e);
 	                    }
 	                });
 	                // invoke constructor
@@ -1023,7 +1024,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return self.get(x, undefined, iaa);
 	            }
 	            catch (e) {
-	                Utils_1.throwError("Error resolving dependency '{0}' for '{1}': {2}", x, Object.getPrototypeOf(ctor), e);
+	                return Utils_1.throwError("Error resolving dependency '{0}' for '{1}': {2}", x, Object.getPrototypeOf(ctor), e);
 	            }
 	        });
 	        // invoke constructor

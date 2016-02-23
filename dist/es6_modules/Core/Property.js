@@ -18,6 +18,7 @@ export function property(initialValue) {
                 accessor.value = newVal;
                 accessor.changedSubject.onNext(newVal);
             }
+            return undefined;
         }
         else {
             // get

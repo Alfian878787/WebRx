@@ -45,7 +45,7 @@ class Injector implements wx.IInjector {
                     try {
                         return self.get(x, undefined, deps);
                     } catch (e) {
-                        throwError("Error resolving dependency '{0}' for '{1}': {2}", x, key, e);
+                        return throwError("Error resolving dependency '{0}' for '{1}': {2}", x, key, e);
                     }
                 });
 
@@ -106,7 +106,7 @@ class Injector implements wx.IInjector {
             try {
                 return self.get(x, undefined, iaa);
             } catch (e) {
-                throwError("Error resolving dependency '{0}' for '{1}': {2}", x, Object.getPrototypeOf(ctor), e);
+                return throwError("Error resolving dependency '{0}' for '{1}': {2}", x, Object.getPrototypeOf(ctor), e);
             }
         });
 

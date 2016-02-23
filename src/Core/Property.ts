@@ -22,6 +22,8 @@ export function property<T>(initialValue?: T): wx.IObservableProperty<T> {
                 accessor.value = newVal;
                 accessor.changedSubject.onNext(newVal);
             }
+
+            return undefined;
         } else {
             // get
             return accessor.value;

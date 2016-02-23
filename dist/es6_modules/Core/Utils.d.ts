@@ -166,4 +166,4 @@ export declare function whenAny(...args: Array<wx.ObservableOrProperty<any>>): R
 * FOR INTERNAL USE ONLY
 * Throw an error containing the specified description
 */
-export declare function throwError(fmt: string, ...args: any[]): void;
+export declare function throwError(fmt: string, ...args: any[]): any;

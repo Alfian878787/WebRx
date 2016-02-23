@@ -120,7 +120,7 @@ export function getObservable(o) {
     }
     if (isRxObservable(o))
         return o;
-    throwError(`getObservable: '${o}' is neither observable property nor observable`);
+    return throwError(`getObservable: '${o}' is neither observable property nor observable`);
 }
 /**
 * Returns true if a Unit-Testing environment is detected
