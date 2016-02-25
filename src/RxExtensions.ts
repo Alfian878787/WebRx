@@ -108,7 +108,7 @@ RxObsConstructor.prototype.continueWith = function() {
     return this.selectMany(_ => obs);
 }
 
-function invokeCommand<T, TResult>(command: () => wx.ICommand<TResult> | wx.ICommand<TResult>) {
+function invokeCommand<T, TResult>(command: (x: T) => wx.ICommand<TResult> | wx.ICommand<TResult>) {
     // see the ReactiveUI project for the inspiration behind this function:
     // https://github.com/reactiveui/ReactiveUI/blob/master/ReactiveUI/ReactiveCommand.cs#L524
     return (this as Rx.Observable<T>)

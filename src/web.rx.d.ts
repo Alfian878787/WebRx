@@ -1573,6 +1573,6 @@ declare module Rx {
         toProperty(initialValue?: T): wx.IObservableReadOnlyProperty<T>;
         
         invokeCommand<TResult>(command: wx.ICommand<TResult>): Rx.IDisposable;
-        invokeCommand<TResult>(commandSelector: (x: any) => wx.ICommand<TResult>): Rx.IDisposable;
+        invokeCommand<TResult>(commandSelector: (x: T) => wx.ICommand<TResult>): Rx.IDisposable;
     }
 }
