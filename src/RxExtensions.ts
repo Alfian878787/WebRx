@@ -110,16 +110,13 @@ RxObsConstructor.prototype.continueWith = function() {
 
 function invokeCommand<T, TResult>(command: () => wx.ICommand<TResult> | wx.ICommand<TResult>) {
     // see the ReactiveUI project for the inspiration behind this function:
-    // https://github.com/reactiveui/ReactiveUI/blob/master/ReactiveUI/ReactiveCommand.cs#L511
+    // https://github.com/reactiveui/ReactiveUI/blob/master/ReactiveUI/ReactiveCommand.cs#L524
     return (this as Rx.Observable<T>)
         .select(x => ({
             parameter: x,
-            command: (command instanceof Function ? command() : command) as wx.ICommand<TResult>
+            command: (command instanceof Function ? command(x) : command) as wx.ICommand<TResult>
         }))
-        // debounce typings want the (incorrectly named) durationSelector to return a number here
-        // this is why there is a .select(x => 0) at the end
-        // the 0 doesn't get used, as the debounce occurs on the observable not the values it produces
-        .debounce(x => x.command.canExecuteObservable.startWith(x.command.canExecute(x.parameter)).where(b => b).select(x => 0))
+        .debounce(x => x.command.canExecuteObservable.startWith(x.command.canExecute(x.parameter)).where(b => b))
         .select(x => x.command.executeAsync(x.parameter).catch(Rx.Observable.empty<TResult>()))
         .switch()
         .subscribe();
