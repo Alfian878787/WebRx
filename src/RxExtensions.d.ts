@@ -9,7 +9,7 @@ declare module Rx {
         continueWith<TOther>(obs: Rx.Observable<TOther>): Observable<TOther>;
 
         invokeCommand<TResult>(command: wx.ICommand<TResult>): Rx.IDisposable;
-        invokeCommand<TResult>(commandSelector: () => wx.ICommand<TResult>): Rx.IDisposable;
+        invokeCommand<TResult>(commandSelector: (x: T) => wx.ICommand<TResult>): Rx.IDisposable;
     }
 
     export interface ObservableStatic {

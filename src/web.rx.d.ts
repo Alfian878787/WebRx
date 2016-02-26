@@ -1571,5 +1571,8 @@ declare module wx {
 declare module Rx {
     export interface Observable<T> extends IObservable<T> {
         toProperty(initialValue?: T): wx.IObservableReadOnlyProperty<T>;
+        
+        invokeCommand<TResult>(command: wx.ICommand<TResult>): Rx.IDisposable;
+        invokeCommand<TResult>(commandSelector: (x: T) => wx.ICommand<TResult>): Rx.IDisposable;
     }
 }
