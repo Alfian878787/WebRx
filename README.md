@@ -5,6 +5,8 @@
 [![Downloads](https://img.shields.io/npm/dm/webrx.svg)](https://www.npmjs.com/package/webrx)
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/WebRxJS/WebRxJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+**Note:** This repository is no longer maintained. We recommend giving [Vue.js](https://vuejs.org) a try.
+
 # <img src="http://webrxjs.org/images/Logo.png" height="32" /> WebRx
 
 WebRx is a browser-based MVVM-Framework that combines Functional-Reactive-Programming with declarative Data-Binding, Templating and Client-Side Routing.
